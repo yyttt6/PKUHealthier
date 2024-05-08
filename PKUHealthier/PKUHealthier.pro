@@ -9,14 +9,35 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp
+    backend/cafeteria.cpp \
+    backend/dish.cpp \
+    backend/man.cpp \
+    frontend/achievement.cpp \
+    frontend/login.cpp \
+    frontend/menu.cpp \
+    frontend/recommenddishes.cpp \
+    frontend/signup.cpp \
+    frontend/sport.cpp \
+    main.cpp
 
 HEADERS += \
-    mainwindow.h
+    backend/cafeteria.h \
+    backend/dish.h \
+    backend/man.h \
+    frontend/achievement.h \
+    frontend/login.h \
+    frontend/menu.h \
+    frontend/recommenddishes.h \
+    frontend/signup.h \
+    frontend/sport.h
 
 FORMS += \
-    mainwindow.ui
+    frontend/achievement.ui \
+    frontend/login.ui \
+    frontend/menu.ui \
+    frontend/recommenddishes.ui \
+    frontend/signup.ui \
+    frontend/sport.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
