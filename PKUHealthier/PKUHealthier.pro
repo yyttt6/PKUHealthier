@@ -13,6 +13,7 @@ SOURCES += \
     backend/dish.cpp \
     backend/man.cpp \
     frontend/achievement.cpp \
+    frontend/achievementwall.cpp \
     frontend/login.cpp \
     frontend/menu.cpp \
     frontend/recommenddishes.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     backend/dish.h \
     backend/man.h \
     frontend/achievement.h \
+    frontend/achievementwall.h \
     frontend/login.h \
     frontend/menu.h \
     frontend/recommenddishes.h \
@@ -32,7 +34,7 @@ HEADERS += \
     frontend/sport.h
 
 FORMS += \
-    frontend/achievement.ui \
+    frontend/achievementwall.ui \
     frontend/login.ui \
     frontend/menu.ui \
     frontend/recommenddishes.ui \

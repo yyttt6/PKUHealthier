@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>achievement</class>
- <widget class="QWidget" name="achievement">
+ <class>AchievementWall</class>
+ <widget class="QWidget" name="AchievementWall">
   <property name="geometry">
    <rect>
     <x>0</x>

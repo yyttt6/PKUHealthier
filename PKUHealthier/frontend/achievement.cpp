@@ -1,3 +1,5 @@
 #include "achievement.h"
 
-Achievement::Achievement() {}
+Achievement::Achievement() {
+
+}
