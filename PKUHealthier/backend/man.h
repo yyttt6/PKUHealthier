@@ -15,8 +15,8 @@ public:
     double BMI;
     QString name;
     QString password;
-    int target; //0:均衡 1:减重 2:增肌
-    int preference[5]; //0少糖1适中2多糖，0少辣1正常2多辣，0保守1默认2探索，保留，保留
+    int preference;     //0-1位：0均衡1减重2增肌 2-3位：0少糖1适中2多糖 4-5位：0少辣1正常2多辣 6-7位：0保守1默认2探索 8-9位：0经济1正常
+                        //为了节约内存（推送菜品时会复制许多份），使用位操作
     //内部类，存储运动记录
     class SportRecord{
     public:
