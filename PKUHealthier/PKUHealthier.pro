@@ -12,6 +12,7 @@ SOURCES += \
     backend/cafeteria.cpp \
     backend/dish.cpp \
     backend/man.cpp \
+    backend/meal.cpp \
     frontend/achievement.cpp \
     frontend/achievementwall.cpp \
     frontend/login.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     backend/cafeteria.h \
     backend/dish.h \
     backend/man.h \
+    backend/meal.h \
     frontend/achievement.h \
     frontend/achievementwall.h \
     frontend/login.h \
