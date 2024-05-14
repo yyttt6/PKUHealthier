@@ -29,7 +29,7 @@ public:
     void load(int id);
     //随机选择一个食堂，然后推荐菜品,前端会直接调用这个函数获取菜品
     //pname:输入时为NULL，返回时被指向推送的食堂名
-    QVector<Meal*> recommend(const Man &m,int seed,QString *pname);
+    QVector<Meal> recommend(const Man &m,int seed,QString *pname);
 };
 
 #endif // CAFETERIA_H

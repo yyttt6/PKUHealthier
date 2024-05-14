@@ -3,7 +3,7 @@
 #include <QQueue>
 #include <QHash>
 #include "dish.h"
-#include "../frontend/achievement.h""
+#include "../frontend/achievement.h"
 #ifndef MAN_H
 #define MAN_H
 
@@ -11,12 +11,26 @@ class Man
 {
 public:
     Man();
-    double weight;
-    double BMI;
+    ///////////////////////////////////////////////////////////
+    //在注册界面需要的信息,前端直接修改
+    double weight=0;    //kg
+    double height=0;    //cm
+    int age=0;
+    int gender=0;       //0女性1男性
     QString name;
     QString password;
-    int preference;     //0-1位：0均衡1减重2增肌 2-3位：0少糖1适中2多糖 4-5位：0少辣1正常2多辣 6-7位：0保守1默认2探索 8-9位：0经济1正常
-                        //为了节约内存（推送菜品时会复制许多份），使用位操作
+    int target=0;       //0减重;1平衡不锻炼;2平衡适度锻炼;3增肌中度锻炼;4增肌高强度锻炼;
+    int preference[4]={0};
+                        //0少糖1适中2多糖 0少辣1正常2多辣 0保守1默认2探索 0经济1正常
+                        //4个数代表五个喜好
+    //在注册面需要的信息完毕
+    //注册页修改完后，手动调用init();
+    ////////////////////////////////////////////////////////////
+    double basic_energy=0;
+    double energy_need=0;
+    double protein_need=0;
+    double fat_need=0;
+    double weight_vector[8]={1,1,0.5,0,0,0,0,1};//默认权重向量
     //内部类，存储运动记录
     class SportRecord{
     public:
