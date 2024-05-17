@@ -13,13 +13,16 @@ SOURCES += \
     backend/dish.cpp \
     backend/man.cpp \
     backend/meal.cpp \
-    frontend/achievement.cpp \
+    backend/achievement.cpp \
     frontend/achievementwall.cpp \
     frontend/login.cpp \
+    frontend/mainwindow.cpp \
+    frontend/home.cpp \
     frontend/menu.cpp \
-    frontend/recommenddishes.cpp \
-    frontend/signup.cpp \
-    frontend/sport.cpp \
+    frontend/profile.cpp \
+    frontend/recommend.cpp \
+    frontend/records.cpp \
+    frontend/sports.cpp \
     main.cpp
 
 HEADERS += \
@@ -27,23 +30,23 @@ HEADERS += \
     backend/dish.h \
     backend/man.h \
     backend/meal.h \
-    frontend/achievement.h \
+    backend/achievement.h \
     frontend/achievementwall.h \
     frontend/login.h \
+    frontend/mainwindow.h \
+    frontend/home.h \
     frontend/menu.h \
-    frontend/recommenddishes.h \
-    frontend/signup.h \
-    frontend/sport.h
+    frontend/profile.h \
+    frontend/recommend.h \
+    frontend/records.h \
+    frontend/sports.h
 
-FORMS += \
-    frontend/achievementwall.ui \
-    frontend/login.ui \
-    frontend/menu.ui \
-    frontend/recommenddishes.ui \
-    frontend/signup.ui \
-    frontend/sport.ui
+FORMS +=
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources/mainwindow.qrc

@@ -3,7 +3,7 @@
 #include <QQueue>
 #include <QHash>
 #include "dish.h"
-#include "../frontend/achievement.h"
+#include "achievement.h"
 #ifndef MAN_H
 #define MAN_H
 

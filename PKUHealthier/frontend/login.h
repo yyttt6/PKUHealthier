@@ -2,21 +2,21 @@
 #define LOGIN_H
 
 #include <QWidget>
+#include <QVBoxLayout>
+#include <QPushButton>
 
-namespace Ui {
-class login;
-}
-
-class login : public QWidget
+class Login : public QWidget
 {
     Q_OBJECT
-
 public:
-    explicit login(QWidget *parent = nullptr);
-    ~login();
+    explicit Login(QWidget *parent = nullptr);
+    QVBoxLayout* finalLayout=new QVBoxLayout(this);
+    QPushButton* button=new QPushButton("Click me!  sign up and log in",this);
 
-private:
-    Ui::login *ui;
+public slots:
+    void loginsuccess();
+
+signals:
 };
 
 #endif // LOGIN_H

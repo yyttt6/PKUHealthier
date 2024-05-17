@@ -1,19 +1,18 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef PROFILE_H
+#define PROFILE_H
 
 #include <QWidget>
 #include <QVBoxLayout>
-#include <QGridLayout>
 
-class Menu : public QWidget
+class Profile : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Menu(QWidget *parent = nullptr);
+    explicit Profile(QWidget *parent = nullptr);
     QVBoxLayout* finalLayout=new QVBoxLayout(this);
     void refresh();
 
 signals:
 };
 
-#endif // MENU_H
+#endif // PROFILE_H
