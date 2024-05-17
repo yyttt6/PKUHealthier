@@ -22,7 +22,7 @@ public:
     int target=0;       //0减重;1平衡不锻炼;2平衡适度锻炼;3增肌中度锻炼;4增肌高强度锻炼;
     int preference[4]={0};
                         //0少糖1适中2多糖 0少辣1正常2多辣 0保守1默认2探索 0经济1正常
-                        //4个数代表五个喜好
+                        //4个数代表4个喜好
     //在注册面需要的信息完毕
     //注册页修改完后，手动调用init();
     ////////////////////////////////////////////////////////////
@@ -30,7 +30,7 @@ public:
     double energy_need=0;
     double protein_need=0;
     double fat_need=0;
-    double weight_vector[8]={1,1,0.5,0,0,0,0,1};//默认权重向量
+    double weight_vector[9]={1,1,0.5,0,0,0,0,1,1};//默认权重向量
     //内部类，存储运动记录
     class SportRecord{
     public:
