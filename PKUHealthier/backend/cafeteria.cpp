@@ -224,6 +224,7 @@ void Cafeteria::load(int id)
         Q_ASSERT(infos.size()==10);
         dishes.append(Dish(infos));
     }
+    file.close();
 }
 
 class saveWorker : public QRunnable{
@@ -252,5 +253,6 @@ bool Cafeteria::save(int id)
     pool.waitForDone();
     QTextStream output(&file);
     for(auto str : infos) output<<str;
+    file.close();
     return true;
 }
