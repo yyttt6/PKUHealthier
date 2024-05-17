@@ -19,8 +19,11 @@ public:
     int all_veg=0;    //是不是全素
     double money=0;   //价格
     double value=0;
+    double scores=0;
     void get_value(const Man &man,int seed);
     void init();
 };
+
+
 
 #endif // MEAL_H

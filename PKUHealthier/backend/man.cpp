@@ -21,6 +21,8 @@ void Man::init()
     if(preference[1]==0) weight_vector[4]-=5;
     if(preference[1]==2) weight_vector[4]+=5;
     if(preference[3]==0) weight_vector[6]-=0.5;
-    if(preference[2]==0) weight_vector[7]=0;
-    if(preference[2]==2) weight_vector[7]+=10;
+    if(preference[2]==0) weight_vector[7]=1.5;
+    if(preference[2]==0) weight_vector[8]=0.5;
+    if(preference[2]==2) weight_vector[7]=0.5;
+    if(preference[2]==2) weight_vector[8]=1.5;
 }

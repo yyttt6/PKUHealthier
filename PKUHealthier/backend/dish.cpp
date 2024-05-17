@@ -34,3 +34,11 @@ QString Dish::save() const{
     encodedInfo += QString::number(scores)+"\n";
     return encodedInfo;
 }
+
+void Dish::update(int user_score)
+{
+    scores+= (user_score-3)*2;
+    if(scores<0) scores=0;
+    else if(scores>10) scores=10;
+    return;
+}
