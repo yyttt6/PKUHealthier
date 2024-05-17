@@ -12,6 +12,10 @@
 #include "man.h"
 Cafeteria::Cafeteria() {}
 
+bool Meal_cmp(Meal a,Meal b){
+    return a.value < b.value;
+}
+
 class combineWorker : public QRunnable{
 public:
     int mode;

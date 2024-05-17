@@ -24,8 +24,4 @@ public:
     void init();
 };
 
-bool Meal_cmp(Meal a,Meal b){
-    return a.value < b.value;
-}
-
 #endif // MEAL_H

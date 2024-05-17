@@ -10,7 +10,7 @@
 //代表所有的食堂
 class Cafeteria
 {
-private:
+public:
     Cafeteria();
     QString names[15] = {"家园食堂一层","家园食堂二层","家园食堂三层","学一食堂","燕南食堂",
         "松林食堂","勺园食堂一层","勺园食堂二层","学五食堂","农园食堂一层","农园食堂二层","佟园食堂"};
@@ -22,7 +22,7 @@ private:
     QVector<Dish*> setmeal;//所有套餐，用过立即清理
     QList< QVector<Meal> > multi_meals;//所有组合起来的食谱，用过立即清理
     QVector<Meal> meals; //真正用于排序的meals，用过立即清理
-public:
+
     QVector<Dish>  dishes;//一个食堂全部菜品，保存一段时间
     bool save(int id);//成功返回1，失败返回0
     //推送时随机到哪一个食堂就读取哪一个食堂的菜品，避免爆内存

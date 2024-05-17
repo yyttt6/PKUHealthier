@@ -1,14 +1,11 @@
 #include "achievementwall.h"
-#include "ui_achievementwall.h"
 
 AchievementWall::AchievementWall(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::AchievementWall)
+    : QWidget{parent}
 {
-    ui->setupUi(this);
+    setLayout(finalLayout);
 }
 
-AchievementWall::~AchievementWall()
-{
-    delete ui;
+void AchievementWall::refresh(){
+
 }

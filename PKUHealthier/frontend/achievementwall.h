@@ -2,21 +2,18 @@
 #define ACHIEVEMENTWALL_H
 
 #include <QWidget>
-
-namespace Ui {
-class AchievementWall;
-}
+#include <QFormLayout>
+#include <QVBoxLayout>
 
 class AchievementWall : public QWidget
 {
     Q_OBJECT
-
 public:
     explicit AchievementWall(QWidget *parent = nullptr);
-    ~AchievementWall();
+    QVBoxLayout* finalLayout=new QVBoxLayout(this);
+    void refresh();
 
-private:
-    Ui::AchievementWall *ui;
+signals:
 };
 
 #endif // ACHIEVEMENTWALL_H

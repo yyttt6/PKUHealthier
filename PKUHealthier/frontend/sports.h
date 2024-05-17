@@ -1,19 +1,18 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef SPORTS_H
+#define SPORTS_H
 
 #include <QWidget>
 #include <QVBoxLayout>
-#include <QGridLayout>
 
-class Menu : public QWidget
+class Sports : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Menu(QWidget *parent = nullptr);
+    explicit Sports(QWidget *parent = nullptr);
     QVBoxLayout* finalLayout=new QVBoxLayout(this);
     void refresh();
 
 signals:
 };
 
-#endif // MENU_H
+#endif // SPORTS_H
