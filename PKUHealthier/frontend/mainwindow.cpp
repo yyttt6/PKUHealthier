@@ -5,6 +5,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QWidget{parent}
 {
+    QWidget::setAttribute(Qt::WA_Hover, true);
     resize(900,600);
     setMinimumSize(700,500);
     setStyleSheet("background:rgb(242,243,244);");

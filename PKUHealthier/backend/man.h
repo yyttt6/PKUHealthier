@@ -31,9 +31,10 @@ public:
     double protein_need=0;
     double fat_need=0;
     double weight_vector[9]={1,1,0.5,0,0,0,0,1,1};//默认权重向量
+    //内部类，存储运动记录
     class SportRecord{
     public:
-        SportRecord(){};
+        SportRecord();
         //累计时长/里程
         double badminton_time;      //羽毛球爱好者->羽毛球大师
         double pingpong_time;       //乒乓球爱好者->乒乓球大师
@@ -57,13 +58,10 @@ public:
         double week_Riding_mileage;
         double week_climbing_mileage;
         void reset(); //每周更新
-        QString get_str() const;
-        static SportRecord load(QTextStream& input);
-    }sptRec;
+    };
     //内部类，存储饮食记录
     class FoodRecord{
-    public:
-        FoodRecord(){};
+        FoodRecord();
         long long number; //累计吃了多少顿饭            干饭小将->干饭大师->古希腊掌管干饭的神😋
         long long veg_number; //累计吃了多少素菜        素食主义者->极端素食主义者->牛马
         long long hot_number; //累计吃了多少辣菜        吃辣小将->吃辣大师
@@ -73,23 +71,18 @@ public:
         int best_dish_score;
           //目前就想到这么多，大家想到别的可以加，但是所有的调用函数和save&load也要跟着变
 
-        QVector<Dish> week_record; //一周的饮食记录，每个指针指向一餐的内容
+        QVector<Dish*> week_record; //一周的饮食记录，每个指针指向一餐的内容
         void reset(); //每周更新，记得delete掉week_record里面指针指向的内容，避免内存泄露
-        QString get_str() const;
-        static FoodRecord load(QTextStream& input);
-    }foodRec;
+    };
     //内部类，存储成就
     class AchievementRecord{
     public:
-        AchievementRecord(){};
         //成就名称  --->  0:未获得 1:一级/获得 2:二级 3:三级
         //QString可以存储中文，所有成就选取第一个名称
         QHash<QString,int> achievement_map;
         //长度固定，就先暂定5个吧，进一个出一个，用于实现最近成就
         QQueue<QString> qu;
-        QString get_str() const;
-        static AchievementRecord load(QTextStream& input);
-    }achRec;
+    };
 
     //检查有没有触发新的成就，成就触发标准待定
     bool check_achievement();
