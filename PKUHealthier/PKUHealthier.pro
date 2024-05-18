@@ -22,6 +22,7 @@ SOURCES += \
     frontend/profile.cpp \
     frontend/recommend.cpp \
     frontend/records.cpp \
+    frontend/signup.cpp \
     frontend/sports.cpp \
     main.cpp
 
@@ -39,6 +40,7 @@ HEADERS += \
     frontend/profile.h \
     frontend/recommend.h \
     frontend/records.h \
+    frontend/signup.h \
     frontend/sports.h
 
 FORMS +=
@@ -49,4 +51,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resources/mainwindow.qrc
+    resources/mainwindow.qrc \
+    resources/signup.qrc
