@@ -1,5 +1,6 @@
 #include "login.h"
 #include "signup.h"
+#include "backend/man.h"
 
 Signup::Signup(QWidget *parent)
     : QWidget{parent}
@@ -63,8 +64,8 @@ Signup::Signup(QWidget *parent)
     ageEdit->setRange(0, 200);
     ageEdit->setMinimumSize(QSize(100, 30));
     ageEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    genderEdit->addItem(tr("男"));
     genderEdit->addItem(tr("女"));
+    genderEdit->addItem(tr("男"));
     genderEdit->addItem(tr("其他"));
     genderEdit->setMinimumSize(QSize(100, 30));
     genderEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -76,23 +77,23 @@ Signup::Signup(QWidget *parent)
     goalEdit->setMinimumSize(QSize(100, 30));
     goalEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-    sugarEdit->addItem(tr("少糖"));
     sugarEdit->addItem(tr("适中"));
+    sugarEdit->addItem(tr("少糖"));
     sugarEdit->addItem(tr("多糖"));
     sugarEdit->setMinimumSize(QSize(100, 30));
     sugarEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    pepperEdit->addItem(tr("少辣"));
     pepperEdit->addItem(tr("适中"));
+    pepperEdit->addItem(tr("少辣"));
     pepperEdit->addItem(tr("多辣"));
     pepperEdit->setMinimumSize(QSize(100, 30));
     pepperEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    exploreEdit->addItem(tr("保守"));
     exploreEdit->addItem(tr("默认"));
+    exploreEdit->addItem(tr("保守"));
     exploreEdit->addItem(tr("探索"));
     exploreEdit->setMinimumSize(QSize(100, 30));
     exploreEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    moneyEdit->addItem(tr("经济"));
     moneyEdit->addItem(tr("正常"));
+    moneyEdit->addItem(tr("经济"));
     moneyEdit->setMinimumSize(QSize(100, 30));
     moneyEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
@@ -139,6 +140,41 @@ Signup::Signup(QWidget *parent)
 
 void Signup::corrected()
 {
+    QString usrname = usrNameEdit->text();
+    QString password = pswdEdit->text();
+    if (usrname == "" || password == "") {
+        QMessageBox::critical(this, tr("提示"), tr("用户名或密码不能为空！"));
+        return;
+    }
+    QString crctpswd = correctPswdEdit->text();
+    if (password != crctpswd) {
+        QMessageBox::critical(this, tr("提示"), tr("密码与确认密码不一致！"));
+        return;
+    }
+    if (password.size() < 6) {
+        QMessageBox::critical(this, tr("提示"), tr("密码不能少于6位！"));
+        return;
+    }
+
+    Man* User = new Man;
+    User->name = usrname;
+    User->password = password;
+    User->weight = weightEdit->value();
+    User->height = heightEdit->value();
+    User->age = ageEdit->value();
+    User->gender = genderEdit->currentIndex();
+    User->target = goalEdit->currentIndex();
+    User->preference[0] = sugarEdit->currentIndex();
+    User->preference[1] = pepperEdit->currentIndex();
+    User->preference[2] = exploreEdit->currentIndex();
+    User->preference[3] = moneyEdit->currentIndex();
+
+    User->init();
+    bool saveCheck = User->save();
+    if (!saveCheck) {
+        QMessageBox::information(this, tr("提示"), tr("用户信息保存失败，请重试！"));
+        return;
+    }
     this->close();
     QMessageBox::information(this, tr("提示"), tr("注册成功！即将返回登录界面"));
     Login* login = new Login;

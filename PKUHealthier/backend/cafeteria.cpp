@@ -202,7 +202,7 @@ QVector<Meal> Cafeteria::recommend(const Man &m,int seed,QString *pname)
             ans.append(meals[1]);
             ans.append(meals[2]);
             meals.clear();
-            QString cafe_name = names[idx];
+            *pname = names[idx];
         }
     }while(flag==0);//在非极端的情况下，只会执行一遍
     return ans;
@@ -224,6 +224,7 @@ void Cafeteria::load(int id)
         Q_ASSERT(infos.size()==10);
         dishes.append(Dish(infos));
     }
+    file.close();
 }
 
 class saveWorker : public QRunnable{
@@ -234,8 +235,13 @@ public:
     void run() {my_str = my_dish.save();}
 };
 
-bool Cafeteria::save(int id)
+bool Cafeteria::save(QString cname)
 {
+    int id=0;
+    for(id=0;id<=15;id++)
+    {
+        if(names[id]==cname) break;
+    }
     QFile file(filenames[id]);
     if(!file.open(QIODevice::WriteOnly|QIODevice::Text)){
         qDebug()<<"文件打开失败";
@@ -252,5 +258,6 @@ bool Cafeteria::save(int id)
     pool.waitForDone();
     QTextStream output(&file);
     for(auto str : infos) output<<str;
+    file.close();
     return true;
 }
