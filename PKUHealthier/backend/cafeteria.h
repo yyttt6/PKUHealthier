@@ -24,7 +24,7 @@ public:
     QVector<Meal> meals; //真正用于排序的meals，用过立即清理
 
     QVector<Dish>  dishes;//一个食堂全部菜品，保存一段时间
-    bool save(int id);//成功返回1，失败返回0
+    bool save(QString cname);//成功返回1，失败返回0
     //推送时随机到哪一个食堂就读取哪一个食堂的菜品，避免爆内存
     void load(int id);
     //随机选择一个食堂，然后推荐菜品,前端会直接调用这个函数获取菜品
