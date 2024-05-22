@@ -155,7 +155,8 @@ QVector<Meal> Cafeteria::recommend(const Man &m,int seed,QString *pname)
     QRandomGenerator prng(seed);
     do{
         int idx = prng.generate()%12;
-        load(idx);
+        bool flag = load(idx);
+        if(flag == 0) return ans;
         for(auto dish : dishes)
         {
             if(dish.type==0) staple.append(&dish);
@@ -208,12 +209,13 @@ QVector<Meal> Cafeteria::recommend(const Man &m,int seed,QString *pname)
     return ans;
 }
 
-void Cafeteria::load(int id)
+bool Cafeteria::load(int id)
 {
     dishes.clear();
     QFile file("../../data/"+filenames[id]);
     if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
-        qDebug()<<"文件打开失败";
+        qDebug()<<"食堂文件打开失败";
+        return 0;
     }
     QTextStream input(&file);
     QString line;
@@ -225,6 +227,7 @@ void Cafeteria::load(int id)
         dishes.append(Dish(infos));
     }
     file.close();
+    return 1;
 }
 
 class saveWorker : public QRunnable{

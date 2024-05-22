@@ -26,7 +26,7 @@ public:
     QVector<Dish>  dishes;//一个食堂全部菜品，保存一段时间
     bool save(QString cname);//成功返回1，失败返回0
     //推送时随机到哪一个食堂就读取哪一个食堂的菜品，避免爆内存
-    void load(int id);
+    bool load(int id);
     //随机选择一个食堂，然后推荐菜品,前端会直接调用这个函数获取菜品
     //pname:输入时为NULL，返回时被指向推送的食堂名
     QVector<Meal> recommend(const Man &m,int seed,QString *pname);

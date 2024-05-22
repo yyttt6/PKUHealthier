@@ -59,6 +59,8 @@ Man::SportRecord Man::SportRecord::load(QTextStream& input) {
     Man::SportRecord record;
     QString str ;
     input>>str;
+    assert(str[0]=='%');
+    input>>str;
     QStringList parts = str.split(',');
     record.badminton_time = parts[0].toDouble();
     record.pingpong_time = parts[1].toDouble();
@@ -73,14 +75,14 @@ Man::SportRecord Man::SportRecord::load(QTextStream& input) {
     input>>str;
     parts = str.split(',');
     record.week_badminton_time = parts[0].toDouble();
-    record.week_pingpong_time = parts[0].toDouble();
-    record.week_tennis_time = parts[0].toDouble();
-    record.week_basketball_time = parts[0].toDouble();
-    record.week_volleyball_time = parts[0].toDouble();
-    record.week_football_time = parts[0].toDouble();
-    record.week_Running_mileage = parts[0].toDouble();
-    record.week_Riding_mileage = parts[0].toDouble();
-    record.week_climbing_mileage = parts[0].toDouble();
+    record.week_pingpong_time = parts[1].toDouble();
+    record.week_tennis_time = parts[2].toDouble();
+    record.week_basketball_time = parts[3].toDouble();
+    record.week_volleyball_time = parts[4].toDouble();
+    record.week_football_time = parts[5].toDouble();
+    record.week_Running_mileage = parts[6].toDouble();
+    record.week_Riding_mileage = parts[7].toDouble();
+    record.week_climbing_mileage = parts[8].toDouble();
     return record;
 }
 
@@ -102,6 +104,8 @@ QString Man::FoodRecord::get_str() const{
 Man::FoodRecord Man::FoodRecord::load(QTextStream& input) {
     QString str;
     Man::FoodRecord record;
+    input >> str;
+    assert(str[0]=='%');
     input >> str;
     QStringList parts = str.split(',');
     record.number = parts[0].toInt();
@@ -169,8 +173,8 @@ bool Man::save(){
     output<<weight<<','<<height<<','<<age<<','<<gender<<','<<name<<','
            <<password<<','<<target<<',';
     for(auto i:preference) output<<i<<',';
-    output<<'\n';
-    output<<sptRec.get_str()<<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+    output<<"\n%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+    output<<sptRec.get_str()<<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";;
     output<<foodRec.get_str()<<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
     output<<achRec.get_str()<<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
     file.close();
@@ -185,9 +189,20 @@ bool Man::load()
         return 0;
     }
     QTextStream input(&file);
-    QChar c;
-    input>>weight>>c>>height>>c>>age>>c>>gender>>c>>name>>c>>password>>c>>target>>c;
-    for(int i=0;i<4;i++) input >> preference[i] >> c;
+    QString str;
+    input >> str;
+    QStringList parts = str.split(',');
+    weight = parts[0].toDouble();
+    height = parts[1].toDouble();
+    age = parts[2].toInt();
+    gender = parts[3].toInt();
+    name = parts[4];
+    password = parts[5];
+    target = parts[6].toInt();
+    preference[0] = parts[7].toInt();
+    preference[1] = parts[8].toInt();
+    preference[2] = parts[9].toInt();
+    preference[3] = parts[10].toInt();
     sptRec = SportRecord::load(input);
     foodRec = FoodRecord::load(input);
     achRec = AchievementRecord::load(input);
