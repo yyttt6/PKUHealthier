@@ -30,7 +30,7 @@ public:
     double energy_need=0;
     double protein_need=0;
     double fat_need=0;
-    double weight_vector[9]={1,1,0.5,0,0,0,0,1,1};//默认权重向量
+    double weight_vector[9]={1,1,1,0,0,0,0,1,2};//默认权重向量
     class SportRecord{
     public:
         SportRecord(){};
