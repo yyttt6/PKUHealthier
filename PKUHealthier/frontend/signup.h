@@ -23,7 +23,8 @@ class Signup : public QWidget
 public:
     explicit Signup(QWidget *parent = nullptr);
 
-    QPixmap* photo = new QPixmap(":/signup/default_photo.png"); // 用户头像
+    QString photoFile = ":/signup/default_photo.png";
+    QPixmap* photo = new QPixmap(photoFile); // 用户头像
     QLabel* usrPhoto = new QLabel;
     QHBoxLayout* photoLayout = new QHBoxLayout(); // 头像和修改按钮
 
