@@ -20,13 +20,13 @@ void Man::init()
         if(target<=1) weight_vector[0]+=1;
     }
     if(target>=3) weight_vector[1]+=0.5;
-    if(preference[0]==0) weight_vector[3]-=100;
+    if(preference[0]==1) weight_vector[3]-=100;
     if(preference[0]==2) weight_vector[3]+=10;
-    if(preference[1]==0) weight_vector[4]-=100;
+    if(preference[1]==1) weight_vector[4]-=100;
     if(preference[1]==2) weight_vector[4]+=10;
-    if(preference[3]==0) weight_vector[6]-=1;
-    if(preference[2]==0) weight_vector[7]=2;
-    if(preference[2]==0) weight_vector[8]=0.5;
+    if(preference[3]==1) weight_vector[6]-=1;
+    if(preference[2]==1) weight_vector[7]=2;
+    if(preference[2]==1) weight_vector[8]=0.5;
     if(preference[2]==2) weight_vector[7]=0.5;
     if(preference[2]==2) weight_vector[8]=2;
 }
