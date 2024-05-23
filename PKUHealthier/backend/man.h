@@ -20,7 +20,7 @@ public:
     QString name = "NULL";
     QString password = "NULL";
     int target=0;       //0减重;1平衡不锻炼;2平衡适度锻炼;3增肌中度锻炼;4增肌高强度锻炼;
-    int preference[4]={0, 0, 0, 0};
+    int preference[4]={0};
                         //0适中1少糖2多糖 0正常1少辣2多辣 0默认1保守2探索 0正常1经济
                         //4个数代表4个喜好
     //在注册面需要的信息完毕

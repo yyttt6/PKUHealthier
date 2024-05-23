@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QtCharts/QtCharts>
 
+
 class Home : public QWidget
 {
     Q_OBJECT
