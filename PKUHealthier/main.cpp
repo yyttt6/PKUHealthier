@@ -1,6 +1,6 @@
 #include <QApplication>
 #include <frontend/login.cpp>
-#include "./backend/cafeteria.h""
+#include "./backend/cafeteria.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
