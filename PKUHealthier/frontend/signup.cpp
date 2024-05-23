@@ -156,6 +156,14 @@ void Signup::corrected()
         return;
     }
 
+    QFile savePhoto(photoFile), targetFile("../../data/photo.png");
+    if (targetFile.exists()) targetFile.remove();
+    bool photoCheck = savePhoto.copy("../../data/photo.png");
+    if (!photoCheck) {
+        QMessageBox::critical(this, tr("提示"), tr("头像保存失败，请重试！"));
+        return;
+    }
+
     Man* User = new Man;
     User->name = usrname;
     User->password = password;
@@ -171,6 +179,7 @@ void Signup::corrected()
 
     User->init();
     bool saveCheck = User->save();
+    delete User;
     if (!saveCheck) {
         QMessageBox::information(this, tr("提示"), tr("用户信息保存失败，请重试！"));
         return;
@@ -198,4 +207,5 @@ void Signup::changePhoto()
         return;
     }
     usrPhoto->setPixmap(*photo);
+    photoFile = fileName;
 }

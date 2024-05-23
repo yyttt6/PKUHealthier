@@ -3,7 +3,7 @@
 Home::Home(QWidget *parent)
     : QWidget{parent}
 {
-    finalLayout->addWidget(temp);
+    finalLayout->addWidget(n);
     setLayout(finalLayout);
 }
 

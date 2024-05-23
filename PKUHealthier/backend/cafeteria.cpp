@@ -6,6 +6,8 @@
 #include <QtCore>
 #include <QThread>
 #include <QThreadPool>
+#include <QDateTime>
+#include <QRandomGenerator>
 #include "cafeteria.h"
 #include "dish.h"
 #include "meal.h"
@@ -13,7 +15,7 @@
 Cafeteria::Cafeteria() {}
 
 bool Meal_cmp(Meal a,Meal b){
-    return a.value < b.value;
+    return a.value > b.value;
 }
 
 class combineWorker : public QRunnable{
@@ -55,9 +57,15 @@ public:
                 delete p;
             }
         }else if(mode==4){
-            for(auto dish1 : cafe.recipe){
-                for(auto dish2 : cafe.recipe){
-                    if(dish2==dish1) continue;
+            int l = cafe.recipe.size();
+            Dish *dish1,*dish2;
+            for(int i=0;i<l;i++)
+            {
+                dish1 = cafe.recipe[i];
+                for(int j=i+1;j<l;j++)
+                {
+                    dish2 = cafe.recipe[j];
+                    if(dish2->id==dish1->id) continue;
                     Meal* p = new Meal();
                     p->elements.append(cafe.staple[staple_idx]);
                     p->elements.append(dish1);
@@ -68,12 +76,20 @@ public:
                 }
             }
         }else if(mode==5){
-            for(auto dish3:cafe.recipe){
-                for(auto dish1 : cafe.recipe){
-                    for(auto dish2 : cafe.recipe){
-                        if(dish1==dish2) continue;
-                        if(dish1==dish3) continue;
-                        if(dish2==dish3) continue;
+            int l = cafe.recipe.size();
+            Dish *dish1,*dish2,*dish3;
+            for(int i=0;i<l;i++)
+            {
+                dish1 = cafe.recipe[i];
+                for(int j=i+1;j<l;j++)
+                {
+                    dish2 = cafe.recipe[j];
+                    for(int k=j+1;k<l;k++)
+                    {
+                        dish3 = cafe.recipe[k];
+                        if(dish1->id==dish2->id) continue;
+                        if(dish1->id==dish3->id) continue;
+                        if(dish2->id==dish3->id) continue;
                         Meal* p = new Meal();
                         p->elements.append(cafe.staple[staple_idx]);
                         p->elements.append(dish1);
@@ -98,10 +114,16 @@ public:
                 }
             }
         }else if(mode==7){
+            int l = cafe.recipe.size();
+            Dish *dish1,*dish2;
             for(auto dish3 : cafe.dessert){
-                for(auto dish1 : cafe.recipe){
-                    for(auto dish2 : cafe.recipe){
-                        if(dish2==dish1) continue;
+                for(int i=0;i<l;i++)
+                {
+                    dish1 = cafe.recipe[i];
+                    for(int j=i+1;j<l;j++)
+                    {
+                        dish2 = cafe.recipe[j];
+                        if(dish2->id==dish1->id) continue;
                         Meal* p = new Meal();
                         p->elements.append(cafe.staple[staple_idx]);
                         p->elements.append(dish1);
@@ -114,13 +136,21 @@ public:
                 }
             }
         }else if(mode==8){
+            int l = cafe.recipe.size();
+            Dish *dish1,*dish2,*dish3;
             for(auto dish4:cafe.dessert){
-                for(auto dish3:cafe.recipe){
-                    for(auto dish1 : cafe.recipe){
-                        for(auto dish2 : cafe.recipe){
-                            if(dish1==dish2) continue;
-                            if(dish1==dish3) continue;
-                            if(dish2==dish3) continue;
+                for(int i=0;i<l;i++)
+                {
+                    dish1 = cafe.recipe[i];
+                    for(int j=i+1;j<l;j++)
+                    {
+                        dish2 = cafe.recipe[j];
+                        for(int k=j+1;k<l;k++)
+                        {
+                            dish3 = cafe.recipe[k];
+                            if(dish1->id==dish2->id) continue;
+                            if(dish1->id==dish3->id) continue;
+                            if(dish2->id==dish3->id) continue;
                             Meal* p = new Meal();
                             p->elements.append(cafe.staple[staple_idx]);
                             p->elements.append(dish1);
@@ -142,26 +172,30 @@ class scoreWorker : public QRunnable{
 public:
     const Man& man;
     Meal &my_meal;
-    int seed;
-    scoreWorker(Meal &meal,const Man &man,int seed):my_meal(meal),man(man),seed(seed){};
-    void run(){my_meal.get_value(man,seed);}
+    int rand;
+    scoreWorker(Meal &meal,const Man &man,int rand):my_meal(meal),man(man),rand(rand){};
+    void run(){my_meal.get_value(man,rand);}
 };
 
-QVector<Meal> Cafeteria::recommend(const Man &m,int seed,QString *pname)
+QVector<Meal> Cafeteria::recommend(const Man &m,int seed,int *pint)
 {
-    pname = NULL;
     QVector<Meal> ans;
     bool flag = 0; //用于判断在一个食堂中有没有找到合法菜品
     QRandomGenerator prng(seed);
     do{
         int idx = prng.generate()%12;
-        load(idx);
-        for(auto dish : dishes)
+        /////////////////////////////////////////////////////
+        idx = 0;
+        /////////////////////////////////////////////////////
+        bool load_flag = load(idx);
+        if(load_flag == 0) return ans;
+        for(int i=0;i<dishes.size();i++)
         {
-            if(dish.type==0) staple.append(&dish);
-            else if(dish.type==1) recipe.append(&dish);
-            else if(dish.type==2) dessert.append(&dish);
-            else if(dish.type==3) setmeal.append(&dish);
+            Dish *pdish = &dishes[i];
+            if(pdish->type==0) staple.append(pdish);
+            else if(pdish->type==1) recipe.append(pdish);
+            else if(pdish->type==2) dessert.append(pdish);
+            else if(pdish->type==3) setmeal.append(pdish);
         }
 
         multi_meals.resize(6*staple.size()+2);
@@ -187,11 +221,12 @@ QVector<Meal> Cafeteria::recommend(const Man &m,int seed,QString *pname)
             meals += multi_meals[i];
             multi_meals[i].clear();
         }
-
         QThreadPool spool;
+        qint64 timestamp = QDateTime::currentMSecsSinceEpoch();
+        QRandomGenerator qrand(timestamp);
         for(int i=0;i<meals.size();i++)
         {
-            scoreWorker *pworker = new scoreWorker(meals[i],m,i);
+            scoreWorker *pworker = new scoreWorker(meals[i],m,qrand.bounded(100));
             spool.start(pworker);
         }
         spool.waitForDone();
@@ -202,29 +237,30 @@ QVector<Meal> Cafeteria::recommend(const Man &m,int seed,QString *pname)
             ans.append(meals[1]);
             ans.append(meals[2]);
             meals.clear();
-            *pname = names[idx];
+            *pint = idx;
         }
     }while(flag==0);//在非极端的情况下，只会执行一遍
     return ans;
 }
 
-void Cafeteria::load(int id)
+bool Cafeteria::load(int id)
 {
     dishes.clear();
-    QFile file(filenames[id]);
+    QFile file("../../data/"+filenames[id]);
     if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
-        qDebug()<<"文件打开失败";
+        qDebug()<<"食堂文件打开失败";
+        return 0;
     }
     QTextStream input(&file);
-    QString line;
+    QString line = input.readLine();
     while(!input.atEnd())
     {
         line = input.readLine();
         QStringList infos = line.split(',');
-        Q_ASSERT(infos.size()==10);
         dishes.append(Dish(infos));
     }
     file.close();
+    return 1;
 }
 
 class saveWorker : public QRunnable{
@@ -235,14 +271,9 @@ public:
     void run() {my_str = my_dish.save();}
 };
 
-bool Cafeteria::save(QString cname)
+bool Cafeteria::save(int id)
 {
-    int id=0;
-    for(id=0;id<=15;id++)
-    {
-        if(names[id]==cname) break;
-    }
-    QFile file(filenames[id]);
+    QFile file("../../data/"+filenames[id]);
     if(!file.open(QIODevice::WriteOnly|QIODevice::Text)){
         qDebug()<<"文件打开失败";
         return 0;

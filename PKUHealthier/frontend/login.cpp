@@ -1,6 +1,7 @@
 #include "login.h"
 #include "mainwindow.h"
 #include "signup.h"
+#include "backend/man.h"
 
 Login::Login(QWidget *parent)
     : QWidget{parent}
@@ -38,6 +39,23 @@ Login::Login(QWidget *parent)
 
 void Login::loginsuccess()
 {
+    QString username = usrNameEdit->text();
+    QString password = pswdEdit->text();
+
+    Man* User = new Man;
+    User->load();
+    if (username != User->name) {
+        QMessageBox::critical(this, tr("提示"), tr("用户不存在！"));
+        delete User;
+        return;
+    }
+    if (password != User->password) {
+        QMessageBox::critical(this, tr("提示"), tr("密码错误！"));
+        delete User;
+        return;
+    }
+    delete User;
+
     this->close();
     MainWindow* mainwindow=new MainWindow;
     mainwindow->show();
