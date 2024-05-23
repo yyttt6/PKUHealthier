@@ -11,8 +11,8 @@ void Man::init()
 {
     assert(weight>0&&height>0);
     basic_energy = 10*weight + 6.25*height -5*age -161 + 166*gender;
-    energy_need = basic_energy * exercise_level[target] *(2/5);
-    protein_need = weight * protein_rate[target] *(2/5);
+    energy_need = basic_energy * exercise_level[target] * 2/5;
+    protein_need = weight * protein_rate[target] *2/5;
     if(gender==0) protein_need *= 0.85;
     fat_need = (energy_need/45)*2/5;
     if(target<=1){

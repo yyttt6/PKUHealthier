@@ -279,11 +279,12 @@ bool Cafeteria::save(int id)
         return 0;
     }
     int l = dishes.size();
-    QVector<QString> infos(l);
+    QVector<QString> infos(l+1);
+    infos[0]="id,name,type,energy,protein,fat,sugar,pepper,all_veg,money,scores\n";
     QThreadPool pool;
     for(int i=0;i<l;i++)
     {
-        saveWorker* psaver = new saveWorker(dishes[i],infos[i]);
+        saveWorker* psaver = new saveWorker(dishes[i],infos[i+1]);
         pool.start(psaver);
     }
     pool.waitForDone();
