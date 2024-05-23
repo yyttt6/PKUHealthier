@@ -23,13 +23,13 @@ public:
     QHBoxLayout* finalLayout=new QHBoxLayout(this);
 
     QListWidget* leftlist=new QListWidget(this);
-    QListWidgetItem *icon0 = new QListWidgetItem(QIcon(":/mainwindow/icon1.png"),"");
-    QListWidgetItem *icon1 = new QListWidgetItem(QIcon(":/mainwindow/icon1.png"),"");
-    QListWidgetItem *icon2 = new QListWidgetItem(QIcon(":/mainwindow/icon1.png"),"");
-    QListWidgetItem *icon3 = new QListWidgetItem(QIcon(":/mainwindow/icon1.png"),"");
-    QListWidgetItem *icon4 = new QListWidgetItem(QIcon(":/mainwindow/icon1.png"),"");
-    QListWidgetItem *icon5 = new QListWidgetItem(QIcon(":/mainwindow/icon1.png"),"");
-    QListWidgetItem *icon6 = new QListWidgetItem(QIcon(":/mainwindow/icon1.png"),"");
+    QListWidgetItem *icon0 = new QListWidgetItem(QIcon(":/mainwindow/home_icon.png"),"");
+    QListWidgetItem *icon1 = new QListWidgetItem(QIcon(":/mainwindow/recommend_icon.png"),"");
+    QListWidgetItem *icon2 = new QListWidgetItem(QIcon(":/mainwindow/dish_icon.png"),"");
+    QListWidgetItem *icon3 = new QListWidgetItem(QIcon(":/mainwindow/sport_icon.png"),"");
+    QListWidgetItem *icon4 = new QListWidgetItem(QIcon(":/mainwindow/record_icon.png"),"");
+    QListWidgetItem *icon5 = new QListWidgetItem(QIcon(":/mainwindow/achive_icon.png"),"");
+    QListWidgetItem *icon6 = new QListWidgetItem(QIcon(":/mainwindow/profile_icon.png"),"");
 
     QStackedWidget* rightpage=new QStackedWidget(this);
     Home* w0=new Home(this);  // 主页

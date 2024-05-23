@@ -4,6 +4,9 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QLabel>
+#include <QtCharts/QtCharts>
+
 
 class Home : public QWidget
 {
@@ -11,7 +14,7 @@ class Home : public QWidget
 public:
     explicit Home(QWidget *parent = nullptr);
     QVBoxLayout* finalLayout=new QVBoxLayout(this);
-    QPushButton* temp=new QPushButton("test! home",this);
+    QLabel* n = new QLabel("hh");
     void refresh();
 
 signals:

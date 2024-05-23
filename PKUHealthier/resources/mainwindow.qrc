@@ -1,5 +1,11 @@
 <RCC>
     <qresource prefix="/">
-        <file>mainwindow/icon1.png</file>
+        <file>mainwindow/dish_icon.png</file>
+        <file>mainwindow/profile_icon.png</file>
+        <file>mainwindow/recommend_icon.png</file>
+        <file>mainwindow/record_icon.png</file>
+        <file>mainwindow/sport_icon.png</file>
+        <file>mainwindow/achive_icon.png</file>
+        <file>mainwindow/home_icon.png</file>
     </qresource>
 </RCC>
