@@ -31,6 +31,17 @@ void Man::init()
     if(preference[2]==2) weight_vector[8]=2;
 }
 
+const double Man::SportRecord::badminton_cal=6.126;
+const double Man::SportRecord::pingpong_cal=4.9;
+const double Man::SportRecord::tennis_cal=9.8;
+const double Man::SportRecord::basketball_cal=7.35;
+const double Man::SportRecord::volleyball_cal=4.9;
+const double Man::SportRecord::football_cal=9.8;
+const double Man::SportRecord::Running_cal=12.25;
+const double Man::SportRecord::Riding_cal=9.8;
+const double Man::SportRecord::climbing_cal=9.8;
+const double Man::SportRecord::swimming_cal=8.6;
+
 QString Man::SportRecord::get_str() const{
     QString str;
     str += QString::number(badminton_time,'f',2)+',';
@@ -39,9 +50,9 @@ QString Man::SportRecord::get_str() const{
     str += QString::number(basketball_time,'f',2)+',';
     str += QString::number(volleyball_time,'f',2)+',';
     str += QString::number(football_time,'f',2)+',';
-    str += QString::number(Running_mileage,'f',2)+',';
-    str += QString::number(Riding_mileage,'f',2)+',';
-    str += QString::number(climbing_mileage,'f',2)+',';
+    str += QString::number(Running_time,'f',2)+',';
+    str += QString::number(Riding_time,'f',2)+',';
+    str += QString::number(climbing_time,'f',2)+',';
     str += QString::number(swimming_time,'f',2)+',';
     str += '\n';
     str += QString::number(week_badminton_time,'f',2)+',';
@@ -50,9 +61,9 @@ QString Man::SportRecord::get_str() const{
     str += QString::number(week_basketball_time,'f',2)+',';
     str += QString::number(week_volleyball_time,'f',2)+',';
     str += QString::number(week_football_time,'f',2)+',';
-    str += QString::number(week_Running_mileage,'f',2)+',';
-    str += QString::number(week_Riding_mileage,'f',2)+',';
-    str += QString::number(week_climbing_mileage,'f',2)+',';
+    str += QString::number(week_Running_time,'f',2)+',';
+    str += QString::number(week_Riding_time,'f',2)+',';
+    str += QString::number(week_climbing_time,'f',2)+',';
     str += '\n';
     return str;
 }
@@ -70,9 +81,9 @@ Man::SportRecord Man::SportRecord::load(QTextStream& input) {
     record.basketball_time = parts[3].toDouble();
     record.volleyball_time = parts[4].toDouble();
     record.football_time = parts[5].toDouble();
-    record.Running_mileage = parts[6].toDouble();
-    record.Riding_mileage = parts[7].toDouble();
-    record.climbing_mileage = parts[8].toDouble();
+    record.Running_time = parts[6].toDouble();
+    record.Riding_time = parts[7].toDouble();
+    record.climbing_time = parts[8].toDouble();
     record.swimming_time = parts[9].toDouble();
     input>>str;
     parts = str.split(',');
@@ -82,9 +93,9 @@ Man::SportRecord Man::SportRecord::load(QTextStream& input) {
     record.week_basketball_time = parts[3].toDouble();
     record.week_volleyball_time = parts[4].toDouble();
     record.week_football_time = parts[5].toDouble();
-    record.week_Running_mileage = parts[6].toDouble();
-    record.week_Riding_mileage = parts[7].toDouble();
-    record.week_climbing_mileage = parts[8].toDouble();
+    record.week_Running_time = parts[6].toDouble();
+    record.week_Riding_time = parts[7].toDouble();
+    record.week_climbing_time = parts[8].toDouble();
     return record;
 }
 
@@ -276,31 +287,31 @@ void Man::AchievementRecord::check_achievement(SportRecord sr,FoodRecord fr)
         qu.enqueue("足球");
     }
     flag = fmin(flag,achievement_map["足球"]);
-    if(sr.Running_mileage>=100 && achievement_map["跑步"]<=1)
+    if(sr.Running_time>=600 && achievement_map["跑步"]<=1)
     {
         achievement_map["跑步"]=2;
         qu.enqueue("跑步");
-    }else if(sr.Running_mileage>=20 && achievement_map["跑步"]<=0)
+    }else if(sr.Running_time>=180 && achievement_map["跑步"]<=0)
     {
         achievement_map["跑步"]=1;
         qu.enqueue("跑步");
     }
     flag = fmin(flag,achievement_map["跑步"]);
-    if(sr.Riding_mileage>=500 && achievement_map["骑行"]<=1)
+    if(sr.Riding_time>=600 && achievement_map["骑行"]<=1)
     {
         achievement_map["骑行"]=2;
         qu.enqueue("骑行");
-    }else if(sr.Riding_mileage>=100 && achievement_map["骑行"]<=0)
+    }else if(sr.Riding_time>=180 && achievement_map["骑行"]<=0)
     {
         achievement_map["骑行"]=1;
         qu.enqueue("骑行");
     }
     flag = fmin(flag,achievement_map["骑行"]);
-    if(sr.climbing_mileage>=500 && achievement_map["登山"]<=1)
+    if(sr.climbing_time>=600 && achievement_map["登山"]<=1)
     {
         achievement_map["登山"]=2;
         qu.enqueue("登山");
-    }else if(sr.climbing_mileage>=100 && achievement_map["登山"]<=0)
+    }else if(sr.climbing_time>=180 && achievement_map["登山"]<=0)
     {
         achievement_map["登山"]=1;
         qu.enqueue("登山");

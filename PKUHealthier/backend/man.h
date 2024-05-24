@@ -33,7 +33,16 @@ public:
     double weight_vector[9]={1,1,1,0,0,0,0,1,2};//默认权重向量
     class SportRecord{
     public:
-        SportRecord(){};
+        static const double badminton_cal;
+        static const double pingpong_cal;
+        static const double tennis_cal;
+        static const double basketball_cal;
+        static const double volleyball_cal;
+        static const double football_cal;
+        static const double Running_cal;
+        static const double Riding_cal;
+        static const double climbing_cal;
+        static const double swimming_cal;
         //累计时长/里程
         double badminton_time=0;      //羽毛球爱好者->羽毛球大师
         double pingpong_time=0;       //乒乓球爱好者->乒乓球大师
@@ -41,9 +50,9 @@ public:
         double basketball_time=0;     //篮球爱好者->篮球大师
         double volleyball_time=0;     //排球爱好者->排球大师
         double football_time=0;       //足球爱好者->足球大师
-        double Running_mileage=0;     //跑步健将->跑步大师
-        double Riding_mileage=0;      //骑行健将->骑行大师
-        double climbing_mileage=0;    //登山健将->登山大师
+        double Running_time=0;     //跑步健将->跑步大师
+        double Riding_time=0;      //骑行健将->骑行大师
+        double climbing_time=0;    //登山健将->登山大师
         double swimming_time=0;       //游泳健将->游泳大师
                                     //全一级:六边形战士 -> 全二级:满级人类
         //本周时长/里程
@@ -53,13 +62,15 @@ public:
         double week_basketball_time=0;
         double week_volleyball_time=0;
         double week_football_time=0;
-        double week_Running_mileage=0;
-        double week_Riding_mileage=0;
-        double week_climbing_mileage=0;
+        double week_Running_time=0;
+        double week_Riding_time=0;
+        double week_climbing_time=0;
         void reset(); //每周更新
         QString get_str() const;
         static SportRecord load(QTextStream& input);
     }sptRec;
+
+
     //内部类，存储饮食记录
     class FoodRecord{
     public:
@@ -115,5 +126,4 @@ public:
     bool save();
     void init();
 };
-
 #endif // MAN_H

@@ -25,7 +25,7 @@ public:
     Cafeteria & cafe;
     int staple_idx;
     combineWorker(int mode,int idx,QVector<Meal>& ans,Cafeteria & cafe)
-        :mode(mode),staple_idx(idx),ans(ans),cafe(cafe){};
+        :mode(mode),ans(ans),cafe(cafe),staple_idx(idx){};
     void run(){
         if(mode==1)
         {
@@ -173,7 +173,7 @@ public:
     const Man& man;
     Meal &my_meal;
     int rand;
-    scoreWorker(Meal &meal,const Man &man,int rand):my_meal(meal),man(man),rand(rand){};
+    scoreWorker(Meal &meal,const Man &man,int rand):man(man),my_meal(meal),rand(rand){};
     void run(){my_meal.get_value(man,rand);}
 };
 
