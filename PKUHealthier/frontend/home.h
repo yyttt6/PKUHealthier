@@ -5,7 +5,6 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLabel>
-#include <QtCharts/QtCharts>
 
 
 class Home : public QWidget

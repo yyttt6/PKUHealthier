@@ -176,13 +176,11 @@ compiler_rcc_make_all: debug/qrc_mainwindow.cpp debug/qrc_signup.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) debug\qrc_mainwindow.cpp debug\qrc_signup.cpp
 debug/qrc_mainwindow.cpp: ../../resources/mainwindow.qrc \
-		C:/Qt/6.7.0/mingw_64/bin/rcc.exe \
-		../../resources/mainwindow/icon1.png
+		C:/Qt/6.7.0/mingw_64/bin/rcc.exe
 	C:\Qt\6.7.0\mingw_64\bin\rcc.exe -name mainwindow --no-zstd ..\..\resources\mainwindow.qrc -o debug\qrc_mainwindow.cpp
 
 debug/qrc_signup.cpp: ../../resources/signup.qrc \
-		C:/Qt/6.7.0/mingw_64/bin/rcc.exe \
-		../../resources/signup/default_photo.png
+		C:/Qt/6.7.0/mingw_64/bin/rcc.exe
 	C:\Qt\6.7.0\mingw_64\bin\rcc.exe -name signup --no-zstd ..\..\resources\signup.qrc -o debug\qrc_signup.cpp
 
 compiler_moc_predefs_make_all: debug/moc_predefs.h
@@ -821,6 +819,10 @@ debug/moc_mainwindow.cpp: ../../frontend/mainwindow.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QLabel \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlabel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qpicture.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextdocument.h \
 		../../frontend/recommend.h \
 		../../frontend/menu.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QGridLayout \
@@ -1030,6 +1032,11 @@ debug/moc_home.cpp: ../../frontend/home.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QLabel \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlabel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qpicture.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextdocument.h \
 		debug/moc_predefs.h \
 		C:/Qt/6.7.0/mingw_64/bin/moc.exe
 	C:\Qt\6.7.0\mingw_64\bin\moc.exe $(DEFINES) --include E:/A_dyq/code/QT/clone_file/PKUHealthier/PKUHealthier/build/Desktop_Qt_6_7_0_MinGW_64_bit-Debug/debug/moc_predefs.h -IC:/Qt/6.7.0/mingw_64/mkspecs/win32-g++ -IE:/A_dyq/code/QT/clone_file/PKUHealthier/PKUHealthier -IC:/Qt/6.7.0/mingw_64/include -IC:/Qt/6.7.0/mingw_64/include/QtWidgets -IC:/Qt/6.7.0/mingw_64/include/QtGui -IC:/Qt/6.7.0/mingw_64/include/QtCore -I. -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -IC:/Qt/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -IC:/Qt/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\frontend\home.h -o debug\moc_home.cpp
@@ -3432,6 +3439,10 @@ debug/mainwindow.o: ../../frontend/mainwindow.cpp ../../frontend/mainwindow.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QLabel \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlabel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qpicture.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextdocument.h \
 		../../frontend/recommend.h \
 		../../frontend/menu.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QGridLayout \
@@ -3638,7 +3649,12 @@ debug/home.o: ../../frontend/home.cpp ../../frontend/home.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qgridlayout.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qpushbutton.h \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractbutton.h
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QLabel \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlabel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qpicture.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qtextdocument.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\home.o ..\..\frontend\home.cpp
 
 debug/menu.o: ../../frontend/menu.cpp ../../frontend/menu.h \
@@ -5101,6 +5117,9 @@ debug/main.o: ../../main.cpp C:/Qt/6.7.0/mingw_64/include/QtWidgets/QApplication
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QStackedWidget \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qstackedwidget.h \
 		../../frontend/home.h \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QLabel \
+		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlabel.h \
+		C:/Qt/6.7.0/mingw_64/include/QtGui/qpicture.h \
 		../../frontend/recommend.h \
 		../../frontend/menu.h \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QGridLayout \
@@ -5112,9 +5131,6 @@ debug/main.o: ../../main.cpp C:/Qt/6.7.0/mingw_64/include/QtWidgets/QApplication
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QLayout \
 		../../frontend/profile.h \
 		../../frontend/signup.h \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QLabel \
-		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.7.0/mingw_64/include/QtGui/qpicture.h \
 		C:/Qt/6.7.0/mingw_64/include/QtCore/QString \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QFileDialog \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qfiledialog.h \
@@ -5135,11 +5151,9 @@ debug/main.o: ../../main.cpp C:/Qt/6.7.0/mingw_64/include/QtWidgets/QApplication
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QDoubleSpinBox \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/QComboBox \
 		C:/Qt/6.7.0/mingw_64/include/QtWidgets/qcombobox.h \
-		../../backend/cafeteria.h \
-		C:/Qt/6.7.0/mingw_64/include/QtCore/QVector \
-		C:/Qt/6.7.0/mingw_64/include/QtCore/qvector.h \
 		../../backend/man.h \
 		C:/Qt/6.7.0/mingw_64/include/QtCore/Qvector \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/qvector.h \
 		C:/Qt/6.7.0/mingw_64/include/QtCore/QQueue \
 		C:/Qt/6.7.0/mingw_64/include/QtCore/qqueue.h \
 		C:/Qt/6.7.0/mingw_64/include/QtCore/QHash \
@@ -5147,6 +5161,8 @@ debug/main.o: ../../main.cpp C:/Qt/6.7.0/mingw_64/include/QtWidgets/QApplication
 		C:/Qt/6.7.0/mingw_64/include/QtCore/QTextStream \
 		C:/Qt/6.7.0/mingw_64/include/QtCore/QThread \
 		../../frontend/achievement.h \
+		../../backend/cafeteria.h \
+		C:/Qt/6.7.0/mingw_64/include/QtCore/QVector \
 		../../backend/meal.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o ..\..\main.cpp
 
