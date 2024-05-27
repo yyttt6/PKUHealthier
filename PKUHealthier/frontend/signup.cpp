@@ -156,12 +156,15 @@ void Signup::corrected()
         return;
     }
 
-    QFile savePhoto(photoFile), targetFile("../../data/photo.png");
-    if (targetFile.exists()) targetFile.remove();
-    bool photoCheck = savePhoto.copy("../../data/photo.png");
-    if (!photoCheck) {
-        QMessageBox::critical(this, tr("提示"), tr("头像保存失败，请重试！"));
-        return;
+    if (photoFile != "../../data/photo.png") {
+        QFile savePhoto(photoFile), targetFile("../../data/photo.png");
+        QFile::setPermissions("../../data/photo.png", QFile::ReadOther | QFile::WriteOther);
+        if (targetFile.exists()) targetFile.remove();
+        bool photoCheck = savePhoto.copy("../../data/photo.png");
+        if (!photoCheck) {
+            QMessageBox::critical(this, tr("提示"), tr("头像保存失败，请重试！"));
+            return;
+        }
     }
 
     Man* User = new Man;
@@ -203,7 +206,7 @@ void Signup::changePhoto()
         QFileDialog::getOpenFileName(this, tr("选择头像文件"), "/home", tr("Image Files (*.png *.jpg *.bmp)"));
     bool changeSuccess = photo->load(fileName);
     if (!changeSuccess) {
-        QMessageBox::information(this, tr("提示"), tr("头像上传失败"));
+        QMessageBox::information(this, tr("提示"), tr("头像上传失败或未选择文件"));
         return;
     }
     usrPhoto->setPixmap(*photo);
