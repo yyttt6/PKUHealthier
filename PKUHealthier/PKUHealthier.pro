@@ -22,6 +22,7 @@ SOURCES += \
     frontend/recommend.cpp \
     frontend/records.cpp \
     frontend/signup.cpp \
+    frontend/singledish.cpp \
     frontend/sports.cpp \
     main.cpp
 
@@ -40,6 +41,7 @@ HEADERS += \
     frontend/recommend.h \
     frontend/records.h \
     frontend/signup.h \
+    frontend/singledish.h \
     frontend/sports.h
 
 FORMS +=
