@@ -2,19 +2,58 @@
 #define MENU_H
 
 #include <QWidget>
+#include <QFrame>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QGridLayout>
+#include <QPushButton>
 #include <QScrollArea>
-#include "singledish.h"
+#include "./backend/cafeteria.h"
 
 class Menu : public QWidget
 {
     Q_OBJECT
 public:
+
     explicit Menu(QWidget *parent = nullptr);
+
+    class SingleDish : public QWidget
+    {
+    public:
+        explicit SingleDish(QWidget *parent, Dish* d, Menu* mm);
+        Dish* dish=new Dish;
+        QFrame* frame=new QFrame;
+        QVBoxLayout* finalLayout=new QVBoxLayout;
+        QVBoxLayout* vLayout=new QVBoxLayout;
+        QHBoxLayout* hLayout1=new QHBoxLayout;
+        QHBoxLayout* hLayout2=new QHBoxLayout;
+        QHBoxLayout* hLayout3=new QHBoxLayout;
+        QLabel* label1=new QLabel;
+        QLabel* label2=new QLabel;
+        QLabel* label3=new QLabel;
+        QLabel* label4=new QLabel;
+        QLabel* label5=new QLabel;
+        QLabel* label6=new QLabel("高糖");
+        QLabel* label7=new QLabel("辣");
+        QLabel* label8=new QLabel("素菜");
+        QPushButton* likeButton=new QPushButton();
+        QPushButton* blockButton=new QPushButton();
+        QPushButton* chooseButton=new QPushButton("选择");
+        bool selected;
+        Menu* parentMenu;
+
+        void refresh();
+        void selected_change();
+        void selected_change_only();
+
+    };
+
     Cafeteria* cafe[12];
-    QVector<Dish*> staple;
-    QVector<Dish*> recipe;
-    QVector<Dish*> dessert;
-    QVector<Dish*> setmeal;
+    QVector<SingleDish*> stapleDishes;
+    QVector<SingleDish*> recipeDishes;
+    QVector<SingleDish*> dessertDishes;
+    QVector<SingleDish*> setmealDishes;
     QHBoxLayout* typeLayout1=new QHBoxLayout;
     QHBoxLayout* typeLayout2=new QHBoxLayout;
     QHBoxLayout* typeLayout3=new QHBoxLayout;
@@ -34,8 +73,19 @@ public:
     QWidget* scrollWidget=new QWidget;
     QVBoxLayout* vLayout=new QVBoxLayout(scrollWidget);
     QScrollArea* scrollArea=new QScrollArea;
+
+    QPushButton* recordButton=new QPushButton("记录");
+    QPushButton* cancelButton=new QPushButton("全部取消");
+    QHBoxLayout* recordLayout=new QHBoxLayout;
+
+    QVector<Dish*> selectedDishes;
+
     QVBoxLayout* finalLayout=new QVBoxLayout;
+
     void showpage(int idx);
+    void checkRecordButton();
+    void cancelAll();
+    void save();
     void refresh();
 
 public slots:
