@@ -2,7 +2,8 @@
 #include <Qvector>
 #include <QQueue>
 #include <QHash>
-#include "dish.h"
+#include <QPair>
+#include "meal.h"
 #include "../frontend/achievement.h"
 #ifndef MAN_H
 #define MAN_H
@@ -50,8 +51,8 @@ public:
         double basketball_time=0;     //篮球爱好者->篮球大师
         double volleyball_time=0;     //排球爱好者->排球大师
         double football_time=0;       //足球爱好者->足球大师
-        double Running_time=0;     //跑步健将->跑步大师
-        double Riding_time=0;      //骑行健将->骑行大师
+        double running_time=0;     //跑步健将->跑步大师
+        double riding_time=0;      //骑行健将->骑行大师
         double climbing_time=0;    //登山健将->登山大师
         double swimming_time=0;       //游泳健将->游泳大师
                                     //全一级:六边形战士 -> 全二级:满级人类
@@ -62,9 +63,22 @@ public:
         double week_basketball_time=0;
         double week_volleyball_time=0;
         double week_football_time=0;
-        double week_Running_time=0;
-        double week_Riding_time=0;
+        double week_running_time=0;
+        double week_riding_time=0;
         double week_climbing_time=0;
+        double week_swimming_time=0;
+
+        QVector<QPair<QString,int> > week_bad_vec;
+        QVector<QPair<QString,int> > week_pin_vec;
+        QVector<QPair<QString,int> > week_ten_vec;
+        QVector<QPair<QString,int> > week_bas_vec;
+        QVector<QPair<QString,int> > week_vol_vec;
+        QVector<QPair<QString,int> > week_foo_vec;
+        QVector<QPair<QString,int> > week_run_vec;
+        QVector<QPair<QString,int> > week_rid_vec;
+        QVector<QPair<QString,int> > week_cli_vec;
+        QVector<QPair<QString,int> > week_swi_vec;
+
         void reset(); //每周更新
         QString get_str() const;
         static SportRecord load(QTextStream& input);
@@ -84,7 +98,7 @@ public:
         int best_dish_score=0;
 
           //目前就想到这么多，大家想到别的可以加，但是所有的调用函数和save&load也要跟着变
-        QVector<Dish> week_record; //一周的饮食记录，每个指针指向一餐的内容
+        QVector< QPair<QString,Meal> > week_record; //一周的饮食记录，每个指针指向一餐的内容
         void reset(); //每周更新，记得delete掉week_record里面指针指向的内容，避免内存泄露
         QString get_str() const;
         static FoodRecord load(QTextStream& input);

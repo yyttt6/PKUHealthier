@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QRandomGenerator>
 #include "meal.h"
+#include "man.h"
 
 Meal::Meal() {}
 

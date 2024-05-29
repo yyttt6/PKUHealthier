@@ -108,8 +108,8 @@ void Home::sportTimeSet(QBarSet* sportTime, Man* User) {
     sportTime->append(User->sptRec.week_basketball_time);
     sportTime->append(User->sptRec.week_volleyball_time);
     sportTime->append(User->sptRec.week_football_time);
-    sportTime->append(User->sptRec.week_Running_time);
-    sportTime->append(User->sptRec.week_Riding_time);
+    sportTime->append(User->sptRec.week_running_time);
+    sportTime->append(User->sptRec.week_riding_time);
     sportTime->append(User->sptRec.week_climbing_time);
 }
 

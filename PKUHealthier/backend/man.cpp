@@ -50,8 +50,8 @@ QString Man::SportRecord::get_str() const{
     str += QString::number(basketball_time,'f',2)+',';
     str += QString::number(volleyball_time,'f',2)+',';
     str += QString::number(football_time,'f',2)+',';
-    str += QString::number(Running_time,'f',2)+',';
-    str += QString::number(Riding_time,'f',2)+',';
+    str += QString::number(running_time,'f',2)+',';
+    str += QString::number(riding_time,'f',2)+',';
     str += QString::number(climbing_time,'f',2)+',';
     str += QString::number(swimming_time,'f',2)+',';
     str += '\n';
@@ -61,9 +61,39 @@ QString Man::SportRecord::get_str() const{
     str += QString::number(week_basketball_time,'f',2)+',';
     str += QString::number(week_volleyball_time,'f',2)+',';
     str += QString::number(week_football_time,'f',2)+',';
-    str += QString::number(week_Running_time,'f',2)+',';
-    str += QString::number(week_Riding_time,'f',2)+',';
+    str += QString::number(week_running_time,'f',2)+',';
+    str += QString::number(week_riding_time,'f',2)+',';
     str += QString::number(week_climbing_time,'f',2)+',';
+    str += '\n';
+    if(week_bad_vec.size()==0) str += "NULL";
+    else for(auto pr : week_bad_vec) str += pr.first+','+QString::number(pr.second)+',';
+    str += '\n';
+    if(week_pin_vec.size()==0) str += "NULL";
+    else for(auto pr : week_pin_vec) str += pr.first+','+QString::number(pr.second)+',';
+    str += '\n';
+    if(week_ten_vec.size()==0) str += "NULL";
+    else for(auto pr : week_ten_vec) str += pr.first+','+QString::number(pr.second)+',';
+    str += '\n';
+    if(week_bas_vec.size()==0) str += "NULL";
+    else for(auto pr : week_bas_vec) str += pr.first+','+QString::number(pr.second)+',';
+    str += '\n';
+    if(week_vol_vec.size()==0) str += "NULL";
+    else for(auto pr : week_vol_vec) str += pr.first+','+QString::number(pr.second)+',';
+    str += '\n';
+    if(week_foo_vec.size()==0) str += "NULL";
+    else for(auto pr : week_foo_vec) str += pr.first+','+QString::number(pr.second)+',';
+    str += '\n';
+    if(week_run_vec.size()==0) str += "NULL";
+    else for(auto pr : week_run_vec) str += pr.first+','+QString::number(pr.second)+',';
+    str += '\n';
+    if(week_rid_vec.size()==0) str += "NULL";
+    else for(auto pr : week_rid_vec) str += pr.first+','+QString::number(pr.second)+',';
+    str += '\n';
+    if(week_cli_vec.size()==0) str += "NULL";
+    else for(auto pr : week_cli_vec) str += pr.first+','+QString::number(pr.second)+',';
+    str += '\n';
+    if(week_swi_vec.size()==0) str += "NULL";
+    else for(auto pr : week_swi_vec) str += pr.first+','+QString::number(pr.second)+',';
     str += '\n';
     return str;
 }
@@ -81,8 +111,8 @@ Man::SportRecord Man::SportRecord::load(QTextStream& input) {
     record.basketball_time = parts[3].toDouble();
     record.volleyball_time = parts[4].toDouble();
     record.football_time = parts[5].toDouble();
-    record.Running_time = parts[6].toDouble();
-    record.Riding_time = parts[7].toDouble();
+    record.running_time = parts[6].toDouble();
+    record.riding_time = parts[7].toDouble();
     record.climbing_time = parts[8].toDouble();
     record.swimming_time = parts[9].toDouble();
     input>>str;
@@ -93,10 +123,93 @@ Man::SportRecord Man::SportRecord::load(QTextStream& input) {
     record.week_basketball_time = parts[3].toDouble();
     record.week_volleyball_time = parts[4].toDouble();
     record.week_football_time = parts[5].toDouble();
-    record.week_Running_time = parts[6].toDouble();
-    record.week_Riding_time = parts[7].toDouble();
+    record.week_running_time = parts[6].toDouble();
+    record.week_riding_time = parts[7].toDouble();
     record.week_climbing_time = parts[8].toDouble();
+    input>>str;
+    if(str!="NULL")
+    {
+        parts = str.split(',');
+        for(int i=0;i<parts.size();i+=2) record.week_bad_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+    }
+    input>>str;
+    if(str!="NULL")
+    {
+        parts = str.split(',');
+        for(int i=0;i<parts.size();i+=2) record.week_pin_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+    }
+    input>>str;
+    if(str!="NULL")
+    {
+        parts = str.split(',');
+        for(int i=0;i<parts.size();i+=2) record.week_ten_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+    }
+    input>>str;
+    if(str!="NULL")
+    {
+        parts = str.split(',');
+        for(int i=0;i<parts.size();i+=2) record.week_bas_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+    }
+    input>>str;
+    if(str!="NULL")
+    {
+        parts = str.split(',');
+        for(int i=0;i<parts.size();i+=2) record.week_vol_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+    }
+    input>>str;
+    if(str!="NULL")
+    {
+        parts = str.split(',');
+        for(int i=0;i<parts.size();i+=2) record.week_foo_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+    }
+    input>>str;
+    if(str!="NULL")
+    {
+        parts = str.split(',');
+        for(int i=0;i<parts.size();i+=2) record.week_run_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+    }
+    input>>str;
+    if(str!="NULL")
+    {
+        parts = str.split(',');
+        for(int i=0;i<parts.size();i+=2) record.week_rid_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+    }
+    input>>str;
+    if(str!="NULL")
+    {
+        parts = str.split(',');
+        for(int i=0;i<parts.size();i+=2) record.week_cli_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+    }
+    input>>str;
+    if(str!="NULL")
+    {
+        parts = str.split(',');
+        for(int i=0;i<parts.size();i+=2) record.week_swi_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+    }
     return record;
+}
+
+void Man::SportRecord::reset()
+{
+    week_badminton_time = 0;
+    week_pingpong_time = 0;
+    week_tennis_time = 0;
+    week_basketball_time = 0;
+    week_volleyball_time = 0;
+    week_football_time = 0;
+    week_running_time = 0;
+    week_riding_time = 0;
+    week_climbing_time = 0;
+    week_bad_vec.clear();
+    week_pin_vec.clear();
+    week_ten_vec.clear();
+    week_bas_vec.clear();
+    week_vol_vec.clear();
+    week_foo_vec.clear();
+    week_run_vec.clear();
+    week_rid_vec.clear();
+    week_cli_vec.clear();
+    week_swi_vec.clear();
 }
 
 QString Man::FoodRecord::get_str() const{
@@ -109,8 +222,16 @@ QString Man::FoodRecord::get_str() const{
     str += best_dish+',';
     str += QString::number(best_dish_score);
     str += '\n';
-    for(auto dish : week_record)
-        str += dish.save();
+    int l = week_record.size();
+    for(int i=0;i<l;i++)
+    {
+        str += week_record[i].first+'\n';
+        for(auto pdish : week_record[i].second.elements)
+        {
+            str += pdish->save() + '\n';
+        }
+        str += "\n";
+    }
     return str;
 }
 
@@ -131,11 +252,25 @@ Man::FoodRecord Man::FoodRecord::load(QTextStream& input) {
     while(1)
     {
         input>>str;
-        if(str[0]=='%') return record;
-        parts = str.split(',');
-        Dish *pdish = new Dish(parts);
-        record.week_record.append(*pdish);
+        if(str[0]=='%') break;
+        QString time = str;
+        Meal * tmeal = new Meal();
+        while(1)
+        {
+            input>>str;
+            if(str[0]=='\n') break;
+            parts = str.split(',');
+            Dish *pdish = new Dish(parts);
+            tmeal->elements.append(pdish);
+        }
+        tmeal->init();
+        record.week_record.append(qMakePair(time,*tmeal));
     }
+}
+
+void Man::FoodRecord::reset()
+{
+    week_record.clear();
 }
 
 QString Man::AchievementRecord::get_str() const{
@@ -287,21 +422,21 @@ void Man::AchievementRecord::check_achievement(SportRecord sr,FoodRecord fr)
         qu.enqueue("足球");
     }
     flag = fmin(flag,achievement_map["足球"]);
-    if(sr.Running_time>=600 && achievement_map["跑步"]<=1)
+    if(sr.running_time>=600 && achievement_map["跑步"]<=1)
     {
         achievement_map["跑步"]=2;
         qu.enqueue("跑步");
-    }else if(sr.Running_time>=180 && achievement_map["跑步"]<=0)
+    }else if(sr.running_time>=180 && achievement_map["跑步"]<=0)
     {
         achievement_map["跑步"]=1;
         qu.enqueue("跑步");
     }
     flag = fmin(flag,achievement_map["跑步"]);
-    if(sr.Riding_time>=600 && achievement_map["骑行"]<=1)
+    if(sr.riding_time>=600 && achievement_map["骑行"]<=1)
     {
         achievement_map["骑行"]=2;
         qu.enqueue("骑行");
-    }else if(sr.Riding_time>=180 && achievement_map["骑行"]<=0)
+    }else if(sr.riding_time>=180 && achievement_map["骑行"]<=0)
     {
         achievement_map["骑行"]=1;
         qu.enqueue("骑行");
@@ -395,3 +530,4 @@ void Man::AchievementRecord::check_achievement(SportRecord sr,FoodRecord fr)
 void Man::check_achievement(){
     return achRec.check_achievement(sptRec,foodRec);
 }
+

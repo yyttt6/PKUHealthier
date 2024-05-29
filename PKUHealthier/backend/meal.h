@@ -2,9 +2,10 @@
 #include <QTextStream>
 #include <QThread>
 #include "dish.h"
-#include "man.h"
 #ifndef MEAL_H
 #define MEAL_H
+
+class Man;
 
 class Meal
 {
