@@ -1,7 +1,9 @@
 #include "menu.h"
+#include <string>
+#include <iostream>
 
-Menu::SingleDish::SingleDish(QWidget *parent,Dish* d,Menu* mm)
-    : QWidget{parent}, dish(d), parentMenu(mm)
+Menu::SingleDish::SingleDish(QWidget *parent, Dish* d, SinglePage* pp)
+    : QWidget{parent}, dish(d), parentPage(pp)
 {
     /*
     int id;         //也许会需要把每道菜编号
@@ -17,8 +19,6 @@ Menu::SingleDish::SingleDish(QWidget *parent,Dish* d,Menu* mm)
     double money;   //价格
     int scores;
     */
-
-    selected=0;
 
     label1->setText(dish->name);
     label2->setText("热量："+QString::number(dish->energy)+"千卡");
@@ -48,7 +48,6 @@ Menu::SingleDish::SingleDish(QWidget *parent,Dish* d,Menu* mm)
     vLayout->addLayout(hLayout2);
     vLayout->addLayout(hLayout3);
 
-
     frame->setLayout(vLayout);
     frame->setFixedSize(QSize(220,160));
     frame->setObjectName("frameframe");
@@ -56,42 +55,52 @@ Menu::SingleDish::SingleDish(QWidget *parent,Dish* d,Menu* mm)
 
     finalLayout->addWidget(frame);
     setLayout(finalLayout);
+
     connect(chooseButton,&QPushButton::clicked,this,&SingleDish::selected_change);
-
 }
-
 
 void Menu::SingleDish::selected_change_only(){
     selected=1-selected;
     if(selected==1){
+        parentPage->selected_count++;
         chooseButton->setText("取消");
         frame->setStyleSheet("QFrame#frameframe{border-style:solid;border-width:2px;border-color:blue;border-radius:10px;}");
     }
     else{
+        parentPage->selected_count--;
         chooseButton->setText("选择");
         frame->setStyleSheet("QFrame#frameframe{border-style:solid;border-width:2px;border-color:gray;border-radius:10px;}");
     }
-
 }
 
 void Menu::SingleDish::selected_change(){
     selected_change_only();
-    parentMenu->checkRecordButton();
+    parentPage->checkRecordButton();
 }
 
-
-void Menu::SingleDish::refresh(){
-
-}
-
-
-Menu::Menu(QWidget *parent)
+Menu::SinglePage::SinglePage(QWidget *parent, int index)
     : QWidget{parent}
 {
-    for (int i=0;i<1;i++){  //应为12
-        cafe[i]=new Cafeteria();
-        cafe[i]->load(i);
+    cafe->load(index);
+
+    switch(index){
+    case 0:imagePixmap=new QPixmap(":/menu/jia1.png");break;
+    case 1:imagePixmap=new QPixmap(":/menu/jia2.png");break;
+    case 2:imagePixmap=new QPixmap(":/menu/jia3.png");break;
+    case 3:imagePixmap=new QPixmap(":/menu/xue1.png");break;
+    case 4:imagePixmap=new QPixmap(":/menu/yan.png");break;
+    case 5:imagePixmap=new QPixmap(":/menu/song.png");break;
+    case 6:imagePixmap=new QPixmap(":/menu/shao1.png");break;
+    case 7:imagePixmap=new QPixmap(":/menu/shao2.png");break;
+    case 8:imagePixmap=new QPixmap(":/menu/xue5.png");break;
+    case 9:imagePixmap=new QPixmap(":/menu/nong1.png");break;
+    case 10:imagePixmap=new QPixmap(":/menu/nong2.png");break;
+    case 11:imagePixmap=new QPixmap(":/menu/tong.png");break;
+    default:break;
     }
+
+    imageLabel->setScaledContents(true);
+    imageLabel->setPixmap(*imagePixmap);
 
     typelabel1->setFixedWidth(40);
     typelabel2->setFixedWidth(40);
@@ -112,19 +121,8 @@ Menu::Menu(QWidget *parent)
     typeLayout4->addWidget(typelabel4);
     typeLayout4->addWidget(line4);
 
-    showpage(0);
-
-}
-
-void Menu::showpage(int idx){
-
-    stapleDishes.clear();
-    recipeDishes.clear();
-    dessertDishes.clear();
-    setmealDishes.clear();
-
-    for (int i=0;i<cafe[idx]->dishes.size();i++){
-        Dish *pdish = &(cafe[idx]->dishes[i]);
+    for (int i=0;i<cafe->dishes.size();i++){
+        Dish *pdish = &(cafe->dishes[i]);
         switch(pdish->type){
         case 0:stapleDishes.append(new SingleDish(this,pdish,this));break;
         case 1:recipeDishes.append(new SingleDish(this,pdish,this));break;
@@ -133,11 +131,6 @@ void Menu::showpage(int idx){
         default:break;
         }
     }
-
-    gLayout1=new QGridLayout;
-    gLayout2=new QGridLayout;
-    gLayout3=new QGridLayout;
-    gLayout4=new QGridLayout;
 
     for (int i=0;i<stapleDishes.size();i++)
         gLayout1->addWidget(stapleDishes[i],i/3,i%3);
@@ -153,10 +146,8 @@ void Menu::showpage(int idx){
     gLayout3->setVerticalSpacing(10);
     gLayout4->setVerticalSpacing(10);
 
-
-    scrollWidget=new QWidget;
-    vLayout=new QVBoxLayout(scrollWidget);
-
+    vLayout->addWidget(imageLabel);
+    vLayout->addSpacing(30);
     vLayout->addLayout(typeLayout1);
     vLayout->addSpacing(30);
     vLayout->addLayout(gLayout1);
@@ -177,7 +168,6 @@ void Menu::showpage(int idx){
     scrollArea->setWidget(scrollWidget);
     scrollArea->setWidgetResizable(true);
 
-    recordLayout=new QHBoxLayout;
     recordLayout->addStretch(1);
     recordLayout->addWidget(cancelButton);
     cancelButton->setVisible(false);
@@ -185,50 +175,19 @@ void Menu::showpage(int idx){
     recordLayout->addWidget(recordButton);
     recordButton->setEnabled(false);
     recordButton->setStyleSheet("color:gray;");
-    connect(cancelButton,&QPushButton::clicked,this,&Menu::cancelAll);
-    connect(recordButton,&QPushButton::clicked,this,&Menu::save);
 
-    finalLayout=new QVBoxLayout;
-    finalLayout->addWidget(scrollArea);
-    finalLayout->addSpacing(20);
-    finalLayout->addLayout(recordLayout);
-    finalLayout->addSpacing(10);
-    setLayout(finalLayout);
+    connect(cancelButton,&QPushButton::clicked,this,&SinglePage::cancelAll);
+    connect(recordButton,&QPushButton::clicked,this,&SinglePage::save);
 
-    selectedDishes.clear();
+    selectLayout->addWidget(scrollArea);
+    selectLayout->addSpacing(20);
+    selectLayout->addLayout(recordLayout);
+    selectLayout->addSpacing(10);
+    setLayout(selectLayout);
 }
 
-void Menu::refresh(){
-
-}
-
-void Menu::checkRecordButton(){
-    bool hasSelected=0;
-    if (hasSelected==0)
-        for (int i=0;i<stapleDishes.size();i++)
-            if (stapleDishes[i]->selected==1){
-                hasSelected=1;
-                break;
-            }
-    if (hasSelected==0)
-        for (int i=0;i<recipeDishes.size();i++)
-            if (recipeDishes[i]->selected==1){
-                hasSelected=1;
-                break;
-            }
-    if (hasSelected==0)
-        for (int i=0;i<dessertDishes.size();i++)
-            if (dessertDishes[i]->selected==1){
-                hasSelected=1;
-                break;
-            }
-    if (hasSelected==0)
-        for (int i=0;i<setmealDishes.size();i++)
-            if (setmealDishes[i]->selected==1){
-                hasSelected=1;
-                break;
-            }
-    if (hasSelected==0){
+void Menu::SinglePage::checkRecordButton(){
+    if (selected_count==0){
         cancelButton->setVisible(false);
         recordButton->setEnabled(false);
         recordButton->setStyleSheet("color:gray;");
@@ -238,10 +197,9 @@ void Menu::checkRecordButton(){
         recordButton->setEnabled(true);
         recordButton->setStyleSheet("color:black;");
     }
-
 }
 
-void Menu::cancelAll(){
+void Menu::SinglePage::cancelAll(){
     for (int i=0;i<stapleDishes.size();i++)
         if (stapleDishes[i]->selected==1)
             stapleDishes[i]->selected_change_only();
@@ -260,8 +218,91 @@ void Menu::cancelAll(){
     recordButton->setStyleSheet("color:gray;");
 }
 
-void Menu::save(){
+QString getTimeString(){
+    std::time_t now = std::time(nullptr);
+    std::tm* tm = std::localtime(&now);
+    std::string str(ctime(&now));
+    QString timestr= QString::number(1900+tm->tm_year)+"年"
+                      +QString::number(1+tm->tm_mon)+"月"
+                      +QString::number(tm->tm_mday)+"日 "
+                      +QString::fromStdString(str.substr(11,19));
+    return timestr;
+}
+
+void Menu::SinglePage::save(){
+
+    Meal* meal=new Meal;
+
+    for (int i=0;i<stapleDishes.size();i++)
+        if (stapleDishes[i]->selected==1)
+            meal->elements.append(stapleDishes[i]->dish);
+    for (int i=0;i<recipeDishes.size();i++)
+        if (recipeDishes[i]->selected==1)
+            meal->elements.append(recipeDishes[i]->dish);
+    for (int i=0;i<dessertDishes.size();i++)
+        if (dessertDishes[i]->selected==1)
+            meal->elements.append(dessertDishes[i]->dish);
+    for (int i=0;i<setmealDishes.size();i++)
+        if (setmealDishes[i]->selected==1)
+            meal->elements.append(setmealDishes[i]->dish);
+
     cancelAll();
+
+    meal->init();
+
+    Man* man=new Man;
+    man->load();
+    std::cout<<man->foodRec.week_record.size()<<std::endl;
+    std::cout<<"success"<<std::endl;
+    man->foodRec.week_record.append(qMakePair(getTimeString(),*meal));
+    std::cout<<"success"<<std::endl;
+    man->foodRec.number++;
+    for (int i=0;i<meal->elements.size();i++){
+        man->foodRec.veg_number += meal->elements[i]->all_veg;
+        man->foodRec.hot_number += meal->elements[i]->pepper;
+    }
+    std::cout<<"success"<<std::endl;
+    man->save();
+
 
 
 }
+
+Menu::Menu(QWidget *parent)
+    : QWidget{parent}
+{
+    Cafeteria* tmpCafe=new Cafeteria;
+    /*
+    for (int i=0;i<12;i++){
+        cafeBox->addItem(tmpCafe->names[i]);
+        stackedPage->addWidget(new SinglePage(this,i));
+    }
+    */
+
+    cafeBox->setFixedWidth(150);
+
+    cafeBox->addItem(tmpCafe->names[0]);
+    stackedPage->addWidget(new SinglePage(this,0));
+    for (int i=1;i<=10;i++){
+        cafeBox->addItem("null");
+        stackedPage->addWidget(new SinglePage(this,0));
+    }
+    cafeBox->addItem(tmpCafe->names[11]);
+    stackedPage->addWidget(new SinglePage(this,11));
+
+    connect(cafeBox,&QComboBox::currentIndexChanged,stackedPage,&QStackedWidget::setCurrentIndex);
+
+    cafeLayout->addSpacing(10);
+    cafeLayout->addWidget(cafeBox);
+    cafeLayout->addStretch(1);
+
+    finalLayout->addLayout(cafeLayout);
+    finalLayout->addWidget(stackedPage);
+    setLayout(finalLayout);
+
+}
+
+void Menu::refresh(){
+
+}
+
