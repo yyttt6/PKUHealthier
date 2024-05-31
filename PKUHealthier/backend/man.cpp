@@ -64,6 +64,7 @@ QString Man::SportRecord::get_str() const{
     str += QString::number(week_running_time,'f',2)+',';
     str += QString::number(week_riding_time,'f',2)+',';
     str += QString::number(week_climbing_time,'f',2)+',';
+    str += QString::number(week_swimming_time,'f',2)+',';
     str += '\n';
     if(week_bad_vec.size()==0) str += "NULL";
     else for(auto pr : week_bad_vec) str += pr.first+','+QString::number(pr.second)+',';
@@ -126,62 +127,63 @@ Man::SportRecord Man::SportRecord::load(QTextStream& input) {
     record.week_running_time = parts[6].toDouble();
     record.week_riding_time = parts[7].toDouble();
     record.week_climbing_time = parts[8].toDouble();
+    record.week_swimming_time = parts[9].toDouble();
     input>>str;
-    if(str!="NULL")
+    if(str[0]!='N')
     {
         parts = str.split(',');
         for(int i=0;i<parts.size();i+=2) record.week_bad_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
-    if(str!="NULL")
+    if(str[0]!='N')
     {
         parts = str.split(',');
         for(int i=0;i<parts.size();i+=2) record.week_pin_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
-    if(str!="NULL")
+    if(str[0]!='N')
     {
         parts = str.split(',');
         for(int i=0;i<parts.size();i+=2) record.week_ten_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
-    if(str!="NULL")
+    if(str[0]!='N')
     {
         parts = str.split(',');
         for(int i=0;i<parts.size();i+=2) record.week_bas_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
-    if(str!="NULL")
+    if(str[0]!='N')
     {
         parts = str.split(',');
         for(int i=0;i<parts.size();i+=2) record.week_vol_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
-    if(str!="NULL")
+    if(str[0]!='N')
     {
         parts = str.split(',');
         for(int i=0;i<parts.size();i+=2) record.week_foo_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
-    if(str!="NULL")
+    if(str[0]!='N')
     {
         parts = str.split(',');
         for(int i=0;i<parts.size();i+=2) record.week_run_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
-    if(str!="NULL")
+    if(str[0]!='N')
     {
         parts = str.split(',');
         for(int i=0;i<parts.size();i+=2) record.week_rid_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
-    if(str!="NULL")
+    if(str[0]!='N')
     {
         parts = str.split(',');
         for(int i=0;i<parts.size();i+=2) record.week_cli_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
-    if(str!="NULL")
+    if(str[0]!='N')
     {
         parts = str.split(',');
         for(int i=0;i<parts.size();i+=2) record.week_swi_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
@@ -266,6 +268,7 @@ Man::FoodRecord Man::FoodRecord::load(QTextStream& input) {
         tmeal->init();
         record.week_record.append(qMakePair(time,*tmeal));
     }
+    return record;
 }
 
 void Man::FoodRecord::reset()
@@ -281,9 +284,12 @@ QString Man::AchievementRecord::get_str() const{
         ++it;
     }
     str += "%%%\n";
-    QQueue<QString>::const_iterator qit;
-    for (qit = qu.constBegin(); qit != qu.constEnd(); ++qit) {
-        str += *qit + ',';
+    if(qu.empty()) str += "NULL";
+    else{
+        QQueue<QString>::const_iterator qit;
+        for (qit = qu.constBegin(); qit != qu.constEnd(); ++qit) {
+            str += *qit + ',';
+        }
     }
     str += '\n';
     return str;
@@ -302,10 +308,12 @@ Man::AchievementRecord Man::AchievementRecord::load(QTextStream& input) {
             record.achievement_map[achievement] = value;
         }
     }
-    while(1)
+    input>>str;
+    QStringList parts = str.split(',');
+    if(str[0]=='N'||str[0]=='%') return record;
+    for(auto tempstr : parts)
     {
-        input>>str;
-        if(str[0]=='%') break;
+        if(tempstr[0]=='N'||tempstr=="") break;
         record.qu.enqueue(str);
     }
     return record;
