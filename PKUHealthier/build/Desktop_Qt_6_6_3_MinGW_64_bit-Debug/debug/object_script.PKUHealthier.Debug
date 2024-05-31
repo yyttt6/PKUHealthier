@@ -14,6 +14,7 @@ debug/signup.o
 debug/sports.o
 debug/main.o
 debug/qrc_mainwindow.o
+debug/qrc_menu.o
 debug/qrc_signup.o
 debug/moc_achievementwall.o
 debug/moc_login.o

@@ -14,6 +14,7 @@ release/signup.o
 release/sports.o
 release/main.o
 release/qrc_mainwindow.o
+release/qrc_menu.o
 release/qrc_signup.o
 release/moc_achievementwall.o
 release/moc_login.o

@@ -132,61 +132,61 @@ Man::SportRecord Man::SportRecord::load(QTextStream& input) {
     if(str[0]!='N')
     {
         parts = str.split(',');
-        for(int i=0;i<parts.size();i+=2) record.week_bad_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_bad_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
         parts = str.split(',');
-        for(int i=0;i<parts.size();i+=2) record.week_pin_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_pin_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
         parts = str.split(',');
-        for(int i=0;i<parts.size();i+=2) record.week_ten_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_ten_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
         parts = str.split(',');
-        for(int i=0;i<parts.size();i+=2) record.week_bas_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_bas_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
         parts = str.split(',');
-        for(int i=0;i<parts.size();i+=2) record.week_vol_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_vol_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
         parts = str.split(',');
-        for(int i=0;i<parts.size();i+=2) record.week_foo_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_foo_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
         parts = str.split(',');
-        for(int i=0;i<parts.size();i+=2) record.week_run_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_run_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
         parts = str.split(',');
-        for(int i=0;i<parts.size();i+=2) record.week_rid_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_rid_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
         parts = str.split(',');
-        for(int i=0;i<parts.size();i+=2) record.week_cli_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_cli_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
         parts = str.split(',');
-        for(int i=0;i<parts.size();i+=2) record.week_swi_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_swi_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     return record;
 }
@@ -234,6 +234,7 @@ QString Man::FoodRecord::get_str() const{
         }
         str += "\n";
     }
+    str += "%%%\n";
     return str;
 }
 
@@ -260,7 +261,7 @@ Man::FoodRecord Man::FoodRecord::load(QTextStream& input) {
         while(1)
         {
             input>>str;
-            if(str[0]=='\n') break;
+            if(str[0]=='%') break;
             parts = str.split(',');
             Dish *pdish = new Dish(parts);
             tmeal->elements.append(pdish);
@@ -291,7 +292,6 @@ QString Man::AchievementRecord::get_str() const{
             str += *qit + ',';
         }
     }
-    str += '\n';
     return str;
 }
 
