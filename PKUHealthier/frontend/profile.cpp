@@ -189,6 +189,7 @@ void Profile::corrected()
     }
 
     Man* User = new Man;
+    User->load();
     User->name = usrname;
     User->password = password;
     User->weight = weightEdit->value();

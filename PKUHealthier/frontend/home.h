@@ -44,8 +44,10 @@ public:
     QBarSet* sportTime = new QBarSet("运动时间");
     QBarSet* foodSet = new QBarSet("数量");
 
-    void sportTimeSet(QBarSet* sportTime, Man* User);
-    void foodKindSet(QBarSet* foodSet, Man* User);
+    void sportTimeSet();
+    void foodKindSet();
+    void sportTimeRefresh();
+    void foodKindRefresh();
 
 signals:
 };

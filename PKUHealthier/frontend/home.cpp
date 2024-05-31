@@ -1,5 +1,6 @@
 #include "home.h"
 #include <ctime>
+#include <QDebug>
 
 QString timeString(std::tm* now_tm) {
     int hour = now_tm->tm_hour;
@@ -35,8 +36,8 @@ Home::Home(QWidget *parent)
     foodChart->setAnimationOptions(QChart::SeriesAnimations);
     foodView->setRenderHint(QPainter::Antialiasing);
 
-    sportTimeSet(sportTime, User);
-    foodKindSet(foodSet, User);
+    sportTimeSet();
+    foodKindSet();
 
     sportSerie->append(sportTime);
     foodKindSerie->append(foodSet);
@@ -74,7 +75,7 @@ Home::Home(QWidget *parent)
     sportAxisY->setTickCount(6);
     sportAxisY->setLabelFormat("%.2f");
     foodAxisY->setRange(0, 25);
-    foodAxisY->setTitleText("数量/顿");
+    foodAxisY->setTitleText("数量");
     foodAxisY->setTickCount(6);
     foodAxisY->setLabelFormat("%d");
 
@@ -98,10 +99,21 @@ Home::Home(QWidget *parent)
 }
 
 void Home::refresh(){
+    User->load();
 
+    photo->load("../../data/photo.png");
+    photoLabel->setPixmap(*photo);
+
+    std::time_t now = std::time(nullptr);
+    std::tm* now_tm = std::localtime(&now);
+    QString helloText = timeString(now_tm);
+    helloLabel->setText(helloText + " " + User->name);
+
+    sportTimeRefresh();
+    foodKindRefresh();
 }
 
-void Home::sportTimeSet(QBarSet* sportTime, Man* User) {
+void Home::sportTimeSet() {
     sportTime->append(User->sptRec.week_badminton_time);
     sportTime->append(User->sptRec.week_pingpong_time);
     sportTime->append(User->sptRec.week_tennis_time);
@@ -113,8 +125,26 @@ void Home::sportTimeSet(QBarSet* sportTime, Man* User) {
     sportTime->append(User->sptRec.week_climbing_time);
 }
 
-void Home::foodKindSet(QBarSet* foodSet, Man* User) {
+void Home::foodKindSet() {
     foodSet->append(User->foodRec.number);
     foodSet->append(User->foodRec.veg_number);
     foodSet->append(User->foodRec.hot_number);
+}
+
+void Home::sportTimeRefresh() {
+    sportTime->replace(0, User->sptRec.week_badminton_time);
+    sportTime->replace(1, User->sptRec.week_pingpong_time);
+    sportTime->replace(2, User->sptRec.week_tennis_time);
+    sportTime->replace(3, User->sptRec.week_basketball_time);
+    sportTime->replace(4, User->sptRec.week_volleyball_time);
+    sportTime->replace(5, User->sptRec.week_football_time);
+    sportTime->replace(6, User->sptRec.week_running_time);
+    sportTime->replace(7, User->sptRec.week_riding_time);
+    sportTime->replace(8, User->sptRec.week_climbing_time);
+}
+
+void Home::foodKindRefresh() {
+    foodSet->replace(0, User->foodRec.number);
+    foodSet->replace(1, User->foodRec.veg_number);
+    foodSet->replace(2, User->foodRec.hot_number);
 }
