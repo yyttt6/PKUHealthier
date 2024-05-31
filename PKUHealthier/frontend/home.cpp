@@ -3,7 +3,7 @@
 
 QString timeString(std::tm* now_tm) {
     int hour = now_tm->tm_hour;
-    if (hour >= 0 && hour <= 5) return "凌晨了，该休息了";
+    if (hour >= 0 && hour <= 5) return "凌晨了，该休息了~";
     if (hour >= 6 && hour <= 8) return "早上好！";
     if (hour >= 9 && hour <= 11) return "上午好！";
     if (hour == 12) return "中午好！";
