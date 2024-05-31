@@ -232,9 +232,8 @@ QString Man::FoodRecord::get_str() const{
         {
             str += pdish->save() + '\n';
         }
-        str += "\n";
+        str += "---\n";
     }
-    str += "%%%\n";
     return str;
 }
 
@@ -257,11 +256,15 @@ Man::FoodRecord Man::FoodRecord::load(QTextStream& input) {
         input>>str;
         if(str[0]=='%') break;
         QString time = str;
+        input>>str;
+        time += ' ' + str;
+        input>>str;
+        time += ' ' + str;
         Meal * tmeal = new Meal();
         while(1)
         {
             input>>str;
-            if(str[0]=='%') break;
+            if(str[0]=='-') break;
             parts = str.split(',');
             Dish *pdish = new Dish(parts);
             tmeal->elements.append(pdish);
