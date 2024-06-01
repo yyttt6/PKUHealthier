@@ -96,9 +96,6 @@ QString Man::SportRecord::get_str() const{
     if(week_swi_vec.size()==0) str += "NULL";
     else for(auto pr : week_swi_vec) str += pr.first+','+QString::number(pr.second)+',';
     str += '\n';
-    int l = str.size();
-    for(int i=0;i<l;i++)
-        if(str[i]==' ') str[i]='_';
     return str;
 }
 
@@ -134,112 +131,62 @@ Man::SportRecord Man::SportRecord::load(QTextStream& input) {
     input>>str;
     if(str[0]!='N')
     {
-        int l = str.size();
-        for(int i=0;i<l;i++)
-            if(str[i]=='_') str[i] = ' ';
         parts = str.split(',');
-        l=0;
-        while(parts[l]!="") l++;
-        for(int i=0;i<l;i+=2) record.week_bad_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_bad_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
-        int l = str.size();
-        for(int i=0;i<l;i++)
-            if(str[i]=='_') str[i] = ' ';
         parts = str.split(',');
-        l=0;
-        while(parts[l]!="") l++;
-        for(int i=0;i<l;i+=2) record.week_pin_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_pin_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
-        int l = str.size();
-        for(int i=0;i<l;i++)
-            if(str[i]=='_') str[i] = ' ';
         parts = str.split(',');
-        l=0;
-        while(parts[l]!="") l++;
-        for(int i=0;i<l;i+=2) record.week_ten_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_ten_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
-        int l = str.size();
-        for(int i=0;i<l;i++)
-            if(str[i]=='_') str[i] = ' ';
         parts = str.split(',');
-        l=0;
-        while(parts[l]!="") l++;
-        for(int i=0;i<l;i+=2) record.week_bas_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_bas_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
-        int l = str.size();
-        for(int i=0;i<l;i++)
-            if(str[i]=='_') str[i] = ' ';
         parts = str.split(',');
-        l=0;
-        while(parts[l]!="") l++;
-        for(int i=0;i<l;i+=2) record.week_vol_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_vol_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
-        int l = str.size();
-        for(int i=0;i<l;i++)
-            if(str[i]=='_') str[i] = ' ';
         parts = str.split(',');
-        l=0;
-        while(parts[l]!="") l++;
-        for(int i=0;i<l;i+=2) record.week_foo_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_foo_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
-        int l = str.size();
-        for(int i=0;i<l;i++)
-            if(str[i]=='_') str[i] = ' ';
         parts = str.split(',');
-        l=0;
-        while(parts[l]!="") l++;
-        for(int i=0;i<l;i+=2) record.week_run_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_run_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
-        int l = str.size();
-        for(int i=0;i<l;i++)
-            if(str[i]=='_') str[i] = ' ';
         parts = str.split(',');
-        l=0;
-        while(parts[l]!="") l++;
-        for(int i=0;i<l;i+=2) record.week_rid_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_rid_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
-        int l = str.size();
-        for(int i=0;i<l;i++)
-            if(str[i]=='_') str[i] = ' ';
         parts = str.split(',');
-        l=0;
-        while(parts[l]!="") l++;
-        for(int i=0;i<l;i+=2) record.week_cli_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_cli_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     input>>str;
     if(str[0]!='N')
     {
-        int l = str.size();
-        for(int i=0;i<l;i++)
-            if(str[i]=='_') str[i] = ' ';
         parts = str.split(',');
-        l=0;
-        while(parts[l]!="") l++;
-        for(int i=0;i<l;i+=2) record.week_swi_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
+        for(int i=0;i<parts.size()-1;i+=2) record.week_swi_vec.append(qMakePair(parts[i],parts[i+1].toInt()));
     }
     return record;
 }
@@ -287,9 +234,6 @@ QString Man::FoodRecord::get_str() const{
         }
         str += "---\n";
     }
-    l = str.size();
-    for(int i=0;i<l;i++)
-        if(str[i]==' ') str[i]='_';
     return str;
 }
 
@@ -312,9 +256,10 @@ Man::FoodRecord Man::FoodRecord::load(QTextStream& input) {
         input>>str;
         if(str[0]=='%') break;
         QString time = str;
-        int l = time.size();
-        for(int i=0;i<l;i++)
-            if(time[i]=='_') time[i]=' ';
+        input>>str;
+        time += ' ' + str;
+        input>>str;
+        time += ' ' + str;
         Meal * tmeal = new Meal();
         while(1)
         {
@@ -350,7 +295,6 @@ QString Man::AchievementRecord::get_str() const{
             str += *qit + ',';
         }
     }
-    str += '\n';
     return str;
 }
 
@@ -597,4 +541,3 @@ void Man::AchievementRecord::check_achievement(SportRecord sr,FoodRecord fr)
 void Man::check_achievement(){
     return achRec.check_achievement(sptRec,foodRec);
 }
-

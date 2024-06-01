@@ -52,4 +52,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     resources/mainwindow.qrc \
     resources/menu.qrc \
-    resources/signup.qrc
+    resources/signup.qrc \
+    resources/sports.qrc

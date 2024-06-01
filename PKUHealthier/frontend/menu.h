@@ -12,6 +12,7 @@
 #include <QComboBox>
 #include <QScrollArea>
 #include <QStackedWidget>
+#include <QDialog>
 #include "./backend/cafeteria.h"
 
 class Menu : public QWidget
@@ -28,6 +29,36 @@ public:
     public:
         explicit SingleDish(QWidget *parent, Dish* d, SinglePage* pp);
         Dish* dish=new Dish;
+        SinglePage* parentPage;
+
+        class ScoreDialog: public QWidget
+        {
+        public:
+            explicit ScoreDialog(QWidget *parent, SingleDish* sd);
+            SingleDish* parentDish;
+            QDialog* dialog=new QDialog;
+            QVBoxLayout* layout = new QVBoxLayout(dialog);
+            QLabel* dishName=new QLabel;
+            QHBoxLayout* buttonLayout=new QHBoxLayout;
+            QPushButton* scoreButton[5];
+            QIcon* kongxinStar=new QIcon(":/menu/kongxin.png");
+            QIcon* shixinStar=new QIcon(":/menu/shixin.png");
+            QLabel* currentLove=new QLabel;
+            QLabel* loveText1=new QLabel;
+            QLabel* loveText2=new QLabel;
+            QHBoxLayout* resultLayout=new QHBoxLayout;
+            QPushButton* CancelButton=new QPushButton("取消");
+            QPushButton* ConfirmButton=new QPushButton("确认");
+            int score;
+
+            void printStar0();
+            void printStar1();
+            void printStar2();
+            void printStar3();
+            void printStar4();
+            void save();
+        };
+
         QFrame* frame=new QFrame;
         QVBoxLayout* finalLayout=new QVBoxLayout;
         QVBoxLayout* vLayout=new QVBoxLayout;
@@ -40,14 +71,15 @@ public:
         QLabel* label4=new QLabel;
         QLabel* label5=new QLabel;
         QLabel* label6=new QLabel("高糖");
-        QLabel* label7=new QLabel("辣");
+        QPixmap* pepperPixmap=new QPixmap(":/menu/pepper.png");
+        QLabel* label7=new QLabel;
         QLabel* label8=new QLabel("素菜");
-        QPushButton* likeButton=new QPushButton();
-        QPushButton* blockButton=new QPushButton();
+        QPushButton* scoreButton=new QPushButton("评分");
         QPushButton* chooseButton=new QPushButton("选择");
         bool selected=0;
-        SinglePage* parentPage;
 
+
+        void score_update();
         void selected_change();
         void selected_change_only();
     };
@@ -57,6 +89,7 @@ public:
     {
     public:
         explicit SinglePage(QWidget *parent, int index);
+        int idx=0;
         Cafeteria* cafe=new Cafeteria;
         QVector<SingleDish*> stapleDishes;
         QVector<SingleDish*> recipeDishes;
@@ -73,7 +106,7 @@ public:
         QLabel* typelabel1=new QLabel("主食");
         QLabel* typelabel2=new QLabel("菜品");
         QLabel* typelabel3=new QLabel("套餐");
-        QLabel* typelabel4=new QLabel("点心");
+        QLabel* typelabel4=new QLabel("小吃");
         QFrame* line1=new QFrame;
         QFrame* line2=new QFrame;
         QFrame* line3=new QFrame;
@@ -96,6 +129,7 @@ public:
         void save();
     };
 
+    QLabel* cafeLabel=new QLabel("请选择您的食堂： ");
     QComboBox* cafeBox=new QComboBox;
     QHBoxLayout* cafeLayout=new QHBoxLayout;
 

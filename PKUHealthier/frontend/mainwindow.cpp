@@ -1,14 +1,13 @@
 #include "mainwindow.h"
 #include <string>
-#include <QDebug>
 
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget{parent}
 {
     QWidget::setAttribute(Qt::WA_Hover, true);
-    resize(900,600);
-    setMinimumSize(700,500);
+    resize(1050,650);
+    setMinimumSize(1000,600);
     setStyleSheet("background:rgb(242,243,244);");
 
     leftlist->addItem(icon0);
@@ -18,6 +17,13 @@ MainWindow::MainWindow(QWidget *parent)
     leftlist->addItem(icon4);
     leftlist->addItem(icon5);
     leftlist->addItem(icon6);
+
+    /*
+    button->setStyleSheet(
+        "QPushButton {background-color: #2196F3;color: white;border: none;padding: 10px 20px;}"
+        "QPushButton:hover {background-color: #1976D2;}"
+        "QPushButton:pressed {background-color: #0D47A1;}");
+    */
 
     leftlist->setIconSize(QSize(50, 50));
     leftlist->setFixedWidth(60);
@@ -49,14 +55,26 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::changePage(int n){
     switch(n){
-        case 0:w0->refresh();break;
-        case 1:w1->refresh();break;
-        case 2:w2->refresh();break;
-        case 3:w3->refresh();break;
-        case 4:w4->refresh();break;
-        case 5:w5->refresh();break;
-        case 6:w6->refresh();break;
-        default:break;
+    case 0:rightpage->removeWidget(w0);
+        w0=new Home(this);
+        rightpage->insertWidget(0,w0);
+        break;
+    case 1:rightpage->removeWidget(w1);
+        w1=new Recommend(this);
+        rightpage->insertWidget(1,w1);
+        break;
+    case 2:break;
+    case 3:break;
+    case 4:rightpage->removeWidget(w4);
+        w4=new Records(this);
+        rightpage->insertWidget(4,w4);
+        break;
+    case 5:rightpage->removeWidget(w5);
+        w5=new AchievementWall(this);
+        rightpage->insertWidget(5,w5);
+        break;
+    case 6:w6->refresh();break;
+    default:break;
     }
     rightpage->setCurrentIndex(n);
 }

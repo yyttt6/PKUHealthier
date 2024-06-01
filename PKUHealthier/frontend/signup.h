@@ -40,9 +40,9 @@ public:
     QLineEdit* correctPswdEdit = new QLineEdit(this);
 
     QLabel* dataText = new QLabel(tr("健康数据"));
-    QLabel* weightText = new QLabel(tr("体重"));
+    QLabel* weightText = new QLabel(tr("体重（kg）"));
     QDoubleSpinBox* weightEdit = new QDoubleSpinBox(this);
-    QLabel* heightText = new QLabel(tr("身高"));
+    QLabel* heightText = new QLabel(tr("身高（cm）"));
     QDoubleSpinBox* heightEdit = new QDoubleSpinBox(this);
     QLabel* ageText = new QLabel(tr("年龄"));
     QSpinBox* ageEdit = new QSpinBox(this);
@@ -57,9 +57,9 @@ public:
     QComboBox* pepperEdit = new QComboBox(this);
     QLabel* pepperText = new QLabel(tr("辣度"));
     QComboBox* exploreEdit = new QComboBox(this);
-    QLabel* exploreText = new QLabel(tr("新鲜感"));
+    QLabel* exploreText = new QLabel(tr("探索偏好"));
     QComboBox* moneyEdit = new QComboBox(this);
-    QLabel* moneyText = new QLabel(tr("经济性"));
+    QLabel* moneyText = new QLabel(tr("消费偏好"));
 
     QPushButton* correctButton = new QPushButton("确定", this);
     QPushButton* cancelButton = new QPushButton("取消", this);

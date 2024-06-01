@@ -31,7 +31,7 @@ QString Dish::save() const{
     encodedInfo += QString::number(pepper) + ",";
     encodedInfo += QString::number(all_veg) + ",";
     encodedInfo += QString::number(money,'f',2) + ",";
-    encodedInfo += QString::number(scores);
+    encodedInfo += QString::number(scores)+"\n";
     return encodedInfo;
 }
 

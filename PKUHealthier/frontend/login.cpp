@@ -8,7 +8,7 @@ Login::Login(QWidget *parent)
     : QWidget{parent}
 {
     resize(400,200);
-    setMinimumSize(200,100);
+    setMinimumSize(350,180);
     setStyleSheet("background:rgb(242,243,244);");
 
     editerLayout->setSpacing(20);

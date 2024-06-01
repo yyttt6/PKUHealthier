@@ -6,7 +6,7 @@ Signup::Signup(QWidget *parent)
     : QWidget{parent}
 {
     resize(800,600);
-    setMinimumSize(500,300);
+    setMinimumSize(600,500);
     setStyleSheet("background:rgb(242,243,244);");
 
     usrPhoto->setFrameStyle(QFrame::Box|QFrame::Sunken);
@@ -70,7 +70,7 @@ Signup::Signup(QWidget *parent)
     genderEdit->setMinimumSize(QSize(100, 30));
     genderEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     goalEdit->addItem(tr("减重"));
-    goalEdit->addItem(tr("仅平衡膳食"));
+    goalEdit->addItem(tr("平衡膳食"));
     goalEdit->addItem(tr("适度健身"));
     goalEdit->addItem(tr("增肌"));
     goalEdit->addItem(tr("高强度增肌"));
@@ -87,13 +87,13 @@ Signup::Signup(QWidget *parent)
     pepperEdit->addItem(tr("多辣"));
     pepperEdit->setMinimumSize(QSize(100, 30));
     pepperEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    exploreEdit->addItem(tr("默认"));
-    exploreEdit->addItem(tr("保守"));
-    exploreEdit->addItem(tr("探索"));
+    exploreEdit->addItem(tr("适中"));
+    exploreEdit->addItem(tr("忠于热爱"));
+    exploreEdit->addItem(tr("乐于尝试"));
     exploreEdit->setMinimumSize(QSize(100, 30));
     exploreEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    moneyEdit->addItem(tr("正常"));
-    moneyEdit->addItem(tr("经济"));
+    moneyEdit->addItem(tr("适中"));
+    moneyEdit->addItem(tr("减少消费"));
     moneyEdit->setMinimumSize(QSize(100, 30));
     moneyEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 

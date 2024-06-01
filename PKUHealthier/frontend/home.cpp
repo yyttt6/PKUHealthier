@@ -105,6 +105,7 @@ Home::Home(QWidget *parent)
     foodChart->legend()->setVisible(true);
     foodChart->legend()->setAlignment(Qt::AlignBottom);
 
+    helloLayout->addSpacing(10);
     helloLayout->addWidget(photoLabel);
     helloLayout->addWidget(helloLabel);
 

@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>sports/basketball.gif</file>
+        <file>sports/running.gif</file>
+        <file>sports/football.gif</file>
+        <file>sports/badminton.png</file>
+        <file>sports/climbing.gif</file>
+        <file>sports/pingpong.png</file>
+        <file>sports/riding.gif</file>
+        <file>sports/swimming.gif</file>
+        <file>sports/tennis.png</file>
+        <file>sports/volleyball.png</file>
+    </qresource>
+</RCC>

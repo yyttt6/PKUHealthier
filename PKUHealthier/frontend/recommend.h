@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include "./backend/cafeteria.h"
 
 class Recommend : public QWidget
 {
