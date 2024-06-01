@@ -420,16 +420,20 @@ Menu::Menu(QWidget *parent)
     cafeBox->setFixedWidth(150);
 
 
-    for (int i=0;i<=8;i++){
-        cafeBox->addItem("null");
-        stackedPage->addWidget(new QLabel("空"));
+    cafeBox->addItem(tmpCafe->names[0]);
+    stackedPage->addWidget(new SinglePage(this,1));
+    cafeBox->addItem(tmpCafe->names[1]);
+    stackedPage->addWidget(new SinglePage(this,1));
+    cafeBox->addItem(tmpCafe->names[2]);
+    stackedPage->addWidget(new SinglePage(this,2));
+    for (int i=3;i<=8;i++){
+        cafeBox->addItem(tmpCafe->names[i]);
+        stackedPage->addWidget(new QLabel("null"));
     }
     cafeBox->addItem(tmpCafe->names[9]);
     stackedPage->addWidget(new SinglePage(this,9));
-    for (int i=10;i<=10;i++){
-        cafeBox->addItem("null");
-        stackedPage->addWidget(new QLabel("空"));
-    }
+    cafeBox->addItem(tmpCafe->names[10]);
+    stackedPage->addWidget(new SinglePage(this,9));
     cafeBox->addItem(tmpCafe->names[11]);
     stackedPage->addWidget(new SinglePage(this,11));
 
