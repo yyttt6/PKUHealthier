@@ -50,6 +50,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
+    resources/achievement.qrc \
     resources/mainwindow.qrc \
     resources/menu.qrc \
     resources/signup.qrc \
