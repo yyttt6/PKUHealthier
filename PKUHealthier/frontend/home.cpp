@@ -1,5 +1,6 @@
 #include "home.h"
 #include <ctime>
+#include <QDebug>
 
 QString timeString(std::tm* now_tm) {
     int hour = now_tm->tm_hour;
@@ -31,22 +32,30 @@ Home::Home(QWidget *parent)
     sportChart->setAnimationOptions(QChart::SeriesAnimations);
     sportView->setRenderHint(QPainter::Antialiasing);
 
-    foodChart->setTitle("本周饮食");
+    foodChart->setTitle("最近五餐摄入");
     foodChart->setAnimationOptions(QChart::SeriesAnimations);
     foodView->setRenderHint(QPainter::Antialiasing);
 
-    sportTimeSet(sportTime, User);
-    foodKindSet(foodSet, User);
+    sportTimeSet();
+    foodLineSet();
+
+    QPen engPen = engLine->pen();
+    QPen protPen = protLine->pen();
+    QPen fatPen = fatLine->pen();
+    engPen.setColor(Qt::red);
+    protPen.setColor(Qt::blue);
+    fatPen.setColor(Qt::green);
 
     sportSerie->append(sportTime);
-    foodKindSerie->append(foodSet);
 
     sportChart->removeAllSeries();
     sportChart->addSeries(sportSerie);
     foodChart->removeAllSeries();
-    foodChart->addSeries(foodKindSerie);
+    foodChart->addSeries(engLine);
+    foodChart->addSeries(protLine);
+    foodChart->addSeries(fatLine);
 
-    QStringList sportAxisText, foodAxisText;
+    QStringList sportAxisText;
     sportAxisText << "羽毛球";
     sportAxisText << "乒乓球";
     sportAxisText << "网球";
@@ -56,30 +65,40 @@ Home::Home(QWidget *parent)
     sportAxisText << "跑步";
     sportAxisText << "骑行";
     sportAxisText << "爬山";
-    foodAxisText << "按时吃饭";
-    foodAxisText << "素食";
-    foodAxisText << "吃辣";
 
     sportAxisX->append(sportAxisText);
-    foodKindAxisX->append(foodAxisText);
+    sportChart->addAxis(sportAxisX, Qt::AlignBottom);
+    foodChart->addAxis(foodAxisX, Qt::AlignBottom);
 
-    sportChart->setAxisX(sportAxisX, sportSerie);
-    foodChart->setAxisX(foodKindAxisX, foodKindSerie);
+    sportSerie->attachAxis(sportAxisX);
+    engLine->attachAxis(foodAxisX);
+    protLine->attachAxis(foodAxisX);
+    fatLine->attachAxis(foodAxisX);
 
     sportAxisX->setRange(sportAxisText.at(0), sportAxisText.at(sportAxisText.count() - 1));
-    foodKindAxisX->setRange(foodAxisText.at(0), foodAxisText.at(foodAxisText.count() - 1));
+    foodAxisX->setRange(1, 5);
+    foodAxisX->setTickCount(5);
+    foodAxisX->setLabelFormat("%d");
 
     sportAxisY->setRange(0, 10);
     sportAxisY->setTitleText("时间/小时");
     sportAxisY->setTickCount(6);
     sportAxisY->setLabelFormat("%.2f");
-    foodAxisY->setRange(0, 25);
-    foodAxisY->setTitleText("数量/顿");
-    foodAxisY->setTickCount(6);
-    foodAxisY->setLabelFormat("%d");
+    engAxisY->setRange(0, 1000);
+    engAxisY->setTitleText("能量/大卡");
+    engAxisY->setTickCount(6);
+    otherAxisY->setRange(0, 100);
+    otherAxisY->setTitleText("质量/克");
+    otherAxisY->setTickCount(6);
 
-    sportChart->setAxisY(sportAxisY, sportSerie);
-    foodChart->setAxisY(foodAxisY, foodKindSerie);
+    sportChart->addAxis(sportAxisY, Qt::AlignLeft);
+    foodChart->addAxis(engAxisY, Qt::AlignLeft);
+    foodChart->addAxis(otherAxisY, Qt::AlignRight);
+
+    sportSerie->attachAxis(sportAxisY);
+    engLine->attachAxis(engAxisY);
+    protLine->attachAxis(otherAxisY);
+    fatLine->attachAxis(otherAxisY);
 
     sportChart->legend()->setVisible(true);
     sportChart->legend()->setAlignment(Qt::AlignBottom);
@@ -98,10 +117,21 @@ Home::Home(QWidget *parent)
 }
 
 void Home::refresh(){
+    User->load();
 
+    photo->load("../../data/photo.png");
+    photoLabel->setPixmap(*photo);
+
+    std::time_t now = std::time(nullptr);
+    std::tm* now_tm = std::localtime(&now);
+    QString helloText = timeString(now_tm);
+    helloLabel->setText(helloText + " " + User->name);
+
+    sportTimeRefresh();
+    foodLineSet();
 }
 
-void Home::sportTimeSet(QBarSet* sportTime, Man* User) {
+void Home::sportTimeSet() {
     sportTime->append(User->sptRec.week_badminton_time);
     sportTime->append(User->sptRec.week_pingpong_time);
     sportTime->append(User->sptRec.week_tennis_time);
@@ -113,8 +143,34 @@ void Home::sportTimeSet(QBarSet* sportTime, Man* User) {
     sportTime->append(User->sptRec.week_climbing_time);
 }
 
-void Home::foodKindSet(QBarSet* foodSet, Man* User) {
-    foodSet->append(User->foodRec.number);
-    foodSet->append(User->foodRec.veg_number);
-    foodSet->append(User->foodRec.hot_number);
+void Home::sportTimeRefresh() {
+    sportTime->replace(0, User->sptRec.week_badminton_time);
+    sportTime->replace(1, User->sptRec.week_pingpong_time);
+    sportTime->replace(2, User->sptRec.week_tennis_time);
+    sportTime->replace(3, User->sptRec.week_basketball_time);
+    sportTime->replace(4, User->sptRec.week_volleyball_time);
+    sportTime->replace(5, User->sptRec.week_football_time);
+    sportTime->replace(6, User->sptRec.week_running_time);
+    sportTime->replace(7, User->sptRec.week_riding_time);
+    sportTime->replace(8, User->sptRec.week_climbing_time);
+}
+
+void Home::foodLineSet() {
+    engLine->clear(); engLine->setName("能量");
+    protLine->clear();  protLine->setName("蛋白质");
+    fatLine->clear();   fatLine->setName("脂肪");
+    int begin = User->foodRec.week_record.size() - 5, cnt = 1;
+    if (begin < 0) begin = 0;
+    for (int i = begin; i < User->foodRec.week_record.size(); ++i) {
+        engLine->append(cnt, User->foodRec.week_record[i].second.energy);
+        protLine->append(cnt, User->foodRec.week_record[i].second.protein);
+        fatLine->append(cnt, User->foodRec.week_record[i].second.fat);
+        ++cnt;
+    }
+    while (cnt <= 5) {
+        engLine->append(cnt, 0);
+        protLine->append(cnt, 0);
+        fatLine->append(cnt, 0);
+        ++cnt;
+    }
 }
