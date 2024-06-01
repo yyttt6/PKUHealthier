@@ -8,5 +8,7 @@ int main(int argc, char *argv[])
 
     loginpage->show();
     return a.exec();
-    return 0;
+    // Man *pm = new Man();
+    // pm->load();
+    // pm->save();
 }
