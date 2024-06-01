@@ -281,7 +281,7 @@ bool Cafeteria::save(int id)
     }
     int l = dishes.size();
     QVector<QString> infos(l+1);
-    infos[0]="id,name,type,energy,protein,fat,sugar,pepper,all_veg,money,scores\n";
+    infos[0]="id,name,type,energy,protein,fat,sugar,pepper,all_veg,money,scores";
     QThreadPool pool;
     for(int i=0;i<l;i++)
     {
