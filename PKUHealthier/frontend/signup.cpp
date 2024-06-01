@@ -8,6 +8,9 @@ Signup::Signup(QWidget *parent)
     resize(800,600);
     setMinimumSize(600,500);
     setStyleSheet("background:rgb(242,243,244);");
+    setWindowTitle("PKUHealthier-注册");
+    setWindowIcon(*pkuIcon);
+
 
     usrPhoto->setFrameStyle(QFrame::Box|QFrame::Sunken);
     usrPhoto->setPixmap(*photo);

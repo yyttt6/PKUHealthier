@@ -65,6 +65,8 @@ public:
     QPushButton* cancelButton = new QPushButton("取消", this);
     QPushButton* changePhotoButton = new QPushButton("更换头像", this);
 
+    QIcon* pkuIcon = new QIcon(":/mainwindow/pku.png");
+
 public slots:
     void corrected();
     void cancelled();

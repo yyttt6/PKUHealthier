@@ -8,6 +8,7 @@
 #include <QMargins>
 #include <QSize>
 #include <QSizePolicy>
+#include <QIcon>
 
 class Login : public QWidget
 {
@@ -21,6 +22,8 @@ public:
     QPushButton* signupButton = new QPushButton("注册", this);
     QLineEdit* usrNameEdit = new QLineEdit(this);
     QLineEdit* pswdEdit = new QLineEdit(this);
+
+    QIcon* pkuIcon = new QIcon(":/mainwindow/pku.png");
 
 public slots:
     void loginsuccess();

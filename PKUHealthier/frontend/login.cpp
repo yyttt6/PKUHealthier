@@ -10,6 +10,8 @@ Login::Login(QWidget *parent)
     resize(400,200);
     setMinimumSize(350,180);
     setStyleSheet("background:rgb(242,243,244);");
+    setWindowTitle("PKUHealthier-登录");
+    setWindowIcon(*pkuIcon);
 
     editerLayout->setSpacing(20);
     usrNameEdit->setMaximumHeight(35);

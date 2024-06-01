@@ -6,6 +6,7 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QStackedWidget>
+#include <QIcon>
 
 #include "home.h"
 #include "recommend.h"
@@ -39,6 +40,8 @@ public:
     Records* w4=new Records(this);  // 查看记录
     AchievementWall* w5=new AchievementWall(this);  // 成就墙
     Profile* w6=new Profile(this);  // 档案设置
+
+    QIcon* pkuIcon = new QIcon(":/mainwindow/pku.png");
 
 public slots:
     void changePage(int);

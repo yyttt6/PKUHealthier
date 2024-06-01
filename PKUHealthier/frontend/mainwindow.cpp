@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
     resize(1050,650);
     setMinimumSize(1000,600);
     setStyleSheet("background:rgb(242,243,244);");
+    setWindowTitle("PKUHealthier-首页");
+    setWindowIcon(*pkuIcon);
 
     leftlist->addItem(icon0);
     leftlist->addItem(icon1);
@@ -58,22 +60,33 @@ void MainWindow::changePage(int n){
     case 0:rightpage->removeWidget(w0);
         w0=new Home(this);
         rightpage->insertWidget(0,w0);
+        setWindowTitle("PKUHealthier-首页");
         break;
     case 1:rightpage->removeWidget(w1);
         w1=new Recommend(this);
         rightpage->insertWidget(1,w1);
+        setWindowTitle("PKUHealthier-食谱推荐");
         break;
-    case 2:break;
-    case 3:break;
+    case 2:
+        setWindowTitle("PKUHealthier-饮食记录和评价");
+        break;
+    case 3:
+        setWindowTitle("PKUHealthier-运动打卡");
+        break;
     case 4:rightpage->removeWidget(w4);
         w4=new Records(this);
         rightpage->insertWidget(4,w4);
+        setWindowTitle("PKUHealthier-饮食和运动记录");
         break;
     case 5:rightpage->removeWidget(w5);
         w5=new AchievementWall(this);
         rightpage->insertWidget(5,w5);
+        setWindowTitle("PKUHealthier-成就");
         break;
-    case 6:w6->refresh();break;
+    case 6:
+        w6->refresh();
+        setWindowTitle("PKUHealthier-个人信息");
+        break;
     default:break;
     }
     rightpage->setCurrentIndex(n);
