@@ -256,10 +256,6 @@ Man::FoodRecord Man::FoodRecord::load(QTextStream& input) {
         input>>str;
         if(str[0]=='%') break;
         QString time = str;
-        input>>str;
-        time += ' ' + str;
-        input>>str;
-        time += ' ' + str;
         Meal * tmeal = new Meal();
         while(1)
         {
@@ -295,6 +291,7 @@ QString Man::AchievementRecord::get_str() const{
             str += *qit + ',';
         }
     }
+    str += '\n';
     return str;
 }
 
