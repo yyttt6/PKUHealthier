@@ -7,5 +7,6 @@
         <file>mainwindow/sport_icon.png</file>
         <file>mainwindow/achive_icon.png</file>
         <file>mainwindow/home_icon.png</file>
+        <file>mainwindow/pku.png</file>
     </qresource>
 </RCC>
