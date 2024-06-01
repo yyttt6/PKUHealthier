@@ -290,7 +290,7 @@ bool Cafeteria::save(int id)
     }
     pool.waitForDone();
     QTextStream output(&file);
-    for(auto str : infos) output<<str;
+    for(auto str : infos) output<<str<<'\n';
     file.close();
     return true;
 }

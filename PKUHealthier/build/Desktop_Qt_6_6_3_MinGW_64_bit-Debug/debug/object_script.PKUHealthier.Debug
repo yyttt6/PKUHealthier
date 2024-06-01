@@ -16,6 +16,7 @@ debug/main.o
 debug/qrc_mainwindow.o
 debug/qrc_menu.o
 debug/qrc_signup.o
+debug/qrc_sports.o
 debug/moc_achievementwall.o
 debug/moc_login.o
 debug/moc_mainwindow.o
