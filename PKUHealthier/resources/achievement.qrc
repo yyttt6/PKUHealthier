@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/">
+        <file>achievement/bad1.png</file>
+        <file>achievement/bad2.png</file>
+        <file>achievement/cmt1.png</file>
+        <file>achievement/cool1.png</file>
+        <file>achievement/cool2.png</file>
+        <file>achievement/eat1.png</file>
+        <file>achievement/eat2.png</file>
+        <file>achievement/eat3.png</file>
+        <file>achievement/fot1.png</file>
+        <file>achievement/fot2.png</file>
+        <file>achievement/mountain1.png</file>
+        <file>achievement/mountain2.png</file>
+        <file>achievement/NBA1.png</file>
+        <file>achievement/NBA2.png</file>
+        <file>achievement/pepper1.png</file>
+        <file>achievement/pepper2.png</file>
+        <file>achievement/pin1.png</file>
+        <file>achievement/pin2.png</file>
+        <file>achievement/ride1.png</file>
+        <file>achievement/ride2.png</file>
+        <file>achievement/run1.png</file>
+        <file>achievement/run2.png</file>
+        <file>achievement/selct1.png</file>
+        <file>achievement/ten1.png</file>
+        <file>achievement/ten2.png</file>
+        <file>achievement/veg1.png</file>
+        <file>achievement/veg2.png</file>
+        <file>achievement/veg3.png</file>
+        <file>achievement/vol1.png</file>
+        <file>achievement/vol2.png</file>
+        <file>achievement/close.png</file>
+        <file>achievement/swim1.png</file>
+        <file>achievement/swim2.png</file>
+    </qresource>
+</RCC>
