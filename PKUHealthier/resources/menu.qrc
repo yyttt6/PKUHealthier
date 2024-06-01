@@ -2,5 +2,8 @@
     <qresource prefix="/">
         <file>menu/jia1.png</file>
         <file>menu/tong.png</file>
+        <file>menu/kongxin.png</file>
+        <file>menu/pepper.png</file>
+        <file>menu/shixin.png</file>
     </qresource>
 </RCC>
