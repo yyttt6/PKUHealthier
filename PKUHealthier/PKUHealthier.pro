@@ -53,5 +53,6 @@ RESOURCES += \
     resources/achievement.qrc \
     resources/mainwindow.qrc \
     resources/menu.qrc \
+    resources/recommend.qrc \
     resources/signup.qrc \
     resources/sports.qrc

@@ -83,7 +83,7 @@ Menu::SingleDish::ScoreDialog::ScoreDialog(QWidget *parent, SingleDish* sd)
 
     dishName->setText(sd->parentPage->cafe->names[sd->parentPage->idx]+" "+sd->dish->name+"：");
     dishName->setStyleSheet("QLabel{font-size:18px;font-family:楷体;font-weight:bold;}");
-    currentLove->setText("目前您对这道菜品的好感度为"+QString::number(sd->parentPage->cafe->dishes[sd->dish->id].scores)+"~");
+    currentLove->setText("目前您对这道菜品的好感度为"+QString::number(sd->parentPage->cafe->dishes[sd->dish->id-1].scores)+"~");
     currentLove->setStyleSheet("QLabel{font-size:15px;font-weight:bold;}");
     loveText1->setText("注：每次评分影响好感度，吃一次该菜品增加好感度；");
     loveText2->setText("       好感度为0则列入黑名单不再推荐，好感度最高为10。");
@@ -172,7 +172,7 @@ void Menu::SingleDish::ScoreDialog::printStar4(){
 }
 
 void Menu::SingleDish::ScoreDialog::save(){
-    parentDish->parentPage->cafe->dishes[parentDish->dish->id].update(score);
+    parentDish->parentPage->cafe->dishes[parentDish->dish->id-1].update(score);
     parentDish->parentPage->cafe->save(parentDish->parentPage->idx);
     dialog->close();
 }
@@ -369,8 +369,8 @@ void Menu::SinglePage::save(){
     man->save();
 
     for (int i=0;i<meal->elements.size();i++){
-        cafe->dishes[meal->elements[i]->id].scores
-            =std::min(cafe->dishes[meal->elements[i]->id].scores+1,10);
+        cafe->dishes[meal->elements[i]->id-1].scores
+            =std::min(cafe->dishes[meal->elements[i]->id-1].scores+1,10);
     }
     cafe->save(idx);
 
@@ -422,13 +422,13 @@ Menu::Menu(QWidget *parent)
 
     for (int i=0;i<=8;i++){
         cafeBox->addItem("null");
-        stackedPage->addWidget(new SinglePage(this,9));
+        stackedPage->addWidget(new QLabel("空"));
     }
     cafeBox->addItem(tmpCafe->names[9]);
     stackedPage->addWidget(new SinglePage(this,9));
     for (int i=10;i<=10;i++){
         cafeBox->addItem("null");
-        stackedPage->addWidget(new SinglePage(this,9));
+        stackedPage->addWidget(new QLabel("空"));
     }
     cafeBox->addItem(tmpCafe->names[11]);
     stackedPage->addWidget(new SinglePage(this,11));
