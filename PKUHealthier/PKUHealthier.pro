@@ -50,9 +50,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resources/achievement.qrc \
-    resources/mainwindow.qrc \
-    resources/menu.qrc \
-    resources/recommend.qrc \
-    resources/signup.qrc \
-    resources/sports.qrc
+    resources/resources.qrc
+
+RC_ICONS = icon.ico

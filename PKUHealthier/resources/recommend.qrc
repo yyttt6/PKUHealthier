@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>recommend/background.jpg</file>
-        <file>recommend/comment.jpg</file>
-        <file>recommend/star.jpg</file>
-    </qresource>
-</RCC>
