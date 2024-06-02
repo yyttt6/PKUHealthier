@@ -410,32 +410,43 @@ Menu::Menu(QWidget *parent)
     : QWidget{parent}
 {
     Cafeteria* tmpCafe=new Cafeteria;
-    /*
-    for (int i=0;i<12;i++){
-        cafeBox->addItem(tmpCafe->names[i]);
-        stackedPage->addWidget(new SinglePage(this,i));
-    }
-    */
 
     cafeBox->setFixedWidth(150);
+    cafeBox->setFocusPolicy(Qt::NoFocus);
 
+    //********************
 
     cafeBox->addItem(tmpCafe->names[0]);
-    stackedPage->addWidget(new SinglePage(this,1));
+    page[0]=new SinglePage(this,1);
+    stackedPage->addWidget(page[0]);
+
     cafeBox->addItem(tmpCafe->names[1]);
-    stackedPage->addWidget(new SinglePage(this,1));
+    page[1]=new SinglePage(this,1);
+    stackedPage->addWidget(page[1]);
+
     cafeBox->addItem(tmpCafe->names[2]);
-    stackedPage->addWidget(new SinglePage(this,2));
+    page[2]=new SinglePage(this,2);
+    stackedPage->addWidget(page[2]);
+
     for (int i=3;i<=8;i++){
         cafeBox->addItem(tmpCafe->names[i]);
-        stackedPage->addWidget(new QLabel("null"));
+        page[i]=new SinglePage(this,2);
+        stackedPage->addWidget(page[i]);
     }
+
     cafeBox->addItem(tmpCafe->names[9]);
-    stackedPage->addWidget(new SinglePage(this,9));
+    page[9]=new SinglePage(this,9);
+    stackedPage->addWidget(page[9]);
+
     cafeBox->addItem(tmpCafe->names[10]);
-    stackedPage->addWidget(new SinglePage(this,9));
+    page[10]=new SinglePage(this,2);
+    stackedPage->addWidget(page[10]);
+
     cafeBox->addItem(tmpCafe->names[11]);
-    stackedPage->addWidget(new SinglePage(this,11));
+    page[11]=new SinglePage(this,11);
+    stackedPage->addWidget(page[11]);
+
+    //********************
 
     connect(cafeBox,&QComboBox::currentIndexChanged,stackedPage,&QStackedWidget::setCurrentIndex);
 

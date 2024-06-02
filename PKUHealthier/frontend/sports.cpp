@@ -115,7 +115,6 @@ void Sports::SingleSport::save(){
     Man* man=new Man;
     man->load();
     int t=spinBox->value();
-    double h=(double)t/60.0;
 
     switch(idx){
     case 0:man->sptRec.week_run_vec.append(qMakePair(_getTimeString(),t));break;
@@ -132,30 +131,30 @@ void Sports::SingleSport::save(){
     }
 
     switch(idx){
-    case 0:man->sptRec.week_running_time+=h;break;
-    case 1:man->sptRec.week_riding_time+=h;break;
-    case 2:man->sptRec.week_swimming_time+=h;break;
-    case 3:man->sptRec.week_climbing_time+=h;break;
-    case 4:man->sptRec.week_basketball_time+=h;break;
-    case 5:man->sptRec.week_football_time+=h;break;
-    case 6:man->sptRec.week_volleyball_time+=h;break;
-    case 7:man->sptRec.week_pingpong_time+=h;break;
-    case 8:man->sptRec.week_badminton_time+=h;break;
-    case 9:man->sptRec.week_tennis_time+=h;break;
+    case 0:man->sptRec.week_running_time+=t;break;
+    case 1:man->sptRec.week_riding_time+=t;break;
+    case 2:man->sptRec.week_swimming_time+=t;break;
+    case 3:man->sptRec.week_climbing_time+=t;break;
+    case 4:man->sptRec.week_basketball_time+=t;break;
+    case 5:man->sptRec.week_football_time+=t;break;
+    case 6:man->sptRec.week_volleyball_time+=t;break;
+    case 7:man->sptRec.week_pingpong_time+=t;break;
+    case 8:man->sptRec.week_badminton_time+=t;break;
+    case 9:man->sptRec.week_tennis_time+=t;break;
     default:break;
     }
 
     switch(idx){
-    case 0:man->sptRec.running_time+=h;break;
-    case 1:man->sptRec.riding_time+=h;break;
-    case 2:man->sptRec.swimming_time+=h;break;
-    case 3:man->sptRec.climbing_time+=h;break;
-    case 4:man->sptRec.basketball_time+=h;break;
-    case 5:man->sptRec.football_time+=h;break;
-    case 6:man->sptRec.volleyball_time+=h;break;
-    case 7:man->sptRec.pingpong_time+=h;break;
-    case 8:man->sptRec.badminton_time+=h;break;
-    case 9:man->sptRec.tennis_time+=h;break;
+    case 0:man->sptRec.running_time+=t;break;
+    case 1:man->sptRec.riding_time+=t;break;
+    case 2:man->sptRec.swimming_time+=t;break;
+    case 3:man->sptRec.climbing_time+=t;break;
+    case 4:man->sptRec.basketball_time+=t;break;
+    case 5:man->sptRec.football_time+=t;break;
+    case 6:man->sptRec.volleyball_time+=t;break;
+    case 7:man->sptRec.pingpong_time+=t;break;
+    case 8:man->sptRec.badminton_time+=t;break;
+    case 9:man->sptRec.tennis_time+=t;break;
     default:break;
     }
 

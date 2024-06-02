@@ -133,6 +133,7 @@ public:
     QComboBox* cafeBox=new QComboBox;
     QHBoxLayout* cafeLayout=new QHBoxLayout;
 
+    SinglePage* page[12];
     QStackedWidget* stackedPage=new QStackedWidget;
     QVBoxLayout* finalLayout=new QVBoxLayout;
 

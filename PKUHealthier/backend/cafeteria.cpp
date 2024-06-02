@@ -185,9 +185,9 @@ QVector<Meal> Cafeteria::recommend(const Man &m,int seed,int *pint)
     QRandomGenerator prng(seed);
     do{
         int idx = prng.generate()%12;
-        #ifdef DEBUG
-            idx = 0;
-        #endif
+        if (seed < 12)
+            idx = seed;
+        qDebug()<<idx;
         bool load_flag = load(idx);
         if(load_flag == 0) return ans;
         for(int i=0;i<dishes.size();i++)

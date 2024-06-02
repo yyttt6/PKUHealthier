@@ -1,13 +1,12 @@
 #include "mainwindow.h"
 #include <string>
 
-
 MainWindow::MainWindow(QWidget *parent)
     : QWidget{parent}
 {
     QWidget::setAttribute(Qt::WA_Hover, true);
     resize(1050,650);
-    setMinimumSize(1000,600);
+    setMinimumSize(1000,620);
     setStyleSheet("background:rgb(242,243,244);");
     setWindowTitle("PKUHealthier-首页");
     setWindowIcon(*pkuIcon);
@@ -36,8 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
     std::string stylestr = R"(
         QListWidget{background:rgb(242,243,244);}
         QListWidget::item{border-radius:7px;height:60px;padding-left:2;}
-        QListWidget::item:hover{border-radius:7px;background:rgb(241, 148, 138);}
-        QListWidget::item:selected{border-radius:7px;background:rgb(192, 57, 43);color:rgb(0,0,0);}
+        QListWidget::item:hover{border-radius:7px;background:rgb(241,148,138);}
+        QListWidget::item:selected{border-radius:7px;background:rgb(192,57,43);color:rgb(0,0,0);}
     )";
     leftlist->setStyleSheet(QString::fromStdString(stylestr));
     finalLayout->addWidget(leftlist);
@@ -53,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     finalLayout->addWidget(rightpage);
     connect(leftlist,SIGNAL(currentRowChanged(int)),this,SLOT(changePage(int)));
     setLayout(finalLayout);
+
 }
 
 void MainWindow::changePage(int n){
@@ -65,6 +65,7 @@ void MainWindow::changePage(int n){
     case 1:rightpage->removeWidget(w1);
         w1=new Recommend(this);
         rightpage->insertWidget(1,w1);
+        connect(w1->acceptButton,&QPushButton::clicked,this,&MainWindow::jump);
         setWindowTitle("PKUHealthier-食谱推荐");
         break;
     case 2:
@@ -90,4 +91,55 @@ void MainWindow::changePage(int n){
     default:break;
     }
     rightpage->setCurrentIndex(n);
+    if(n==1)
+        w1->pku1();
+}
+
+void MainWindow::jump(){
+    int idx=w1->index%100;
+    QVector<int> chosen=w1->chosenId;
+
+    leftlist->setCurrentRow(2);
+    w2->cafeBox->setCurrentIndex(idx);
+
+    Menu::SinglePage* pp=w2->page[idx];
+    pp->cancelAll();
+
+    for (int i=0;i<chosen.size();i++){
+        switch(pp->cafe->dishes[chosen[i]-1].type){
+        case 0:
+            for (int j=0;j<pp->stapleDishes.size();j++){
+                if (pp->stapleDishes[j]->dish->id==chosen[i]){
+                    pp->stapleDishes[j]->selected_change();
+                    break;
+                }
+            }
+            break;
+        case 1:
+            for (int j=0;j<pp->recipeDishes.size();j++){
+                if (pp->recipeDishes[j]->dish->id==chosen[i]){
+                    pp->recipeDishes[j]->selected_change();
+                    break;
+                }
+            }
+            break;
+        case 2:
+            for (int j=0;j<pp->dessertDishes.size();j++){
+                if (pp->dessertDishes[j]->dish->id==chosen[i]){
+                    pp->dessertDishes[j]->selected_change();
+                    break;
+                }
+            }
+            break;
+        case 3:
+            for (int j=0;j<pp->setmealDishes.size();j++){
+                if (pp->setmealDishes[j]->dish->id==chosen[i]){
+                    pp->setmealDishes[j]->selected_change();
+                    break;
+                }
+            }
+            break;
+        default:break;
+        }
+    }
 }

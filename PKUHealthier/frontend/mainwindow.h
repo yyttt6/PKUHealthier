@@ -45,6 +45,7 @@ public:
 
 public slots:
     void changePage(int);
+    void jump();
 
 signals:
 };
