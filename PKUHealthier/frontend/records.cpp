@@ -52,7 +52,7 @@ Records::SingleSportRecord::SingleSportRecord(QWidget *parent, QPair<QString,int
         case 0: sport += "跑步 "; break;
         case 1: sport += "骑行 "; break;
         case 2: sport += "游泳 "; break;
-        case 3: sport += "爬山 "; break;
+        case 3: sport += "登山 "; break;
         case 4: sport += "打篮球 "; break;
         case 5: sport += "踢足球 "; break;
         case 6: sport += "打排球 "; break;

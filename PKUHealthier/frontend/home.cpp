@@ -64,7 +64,7 @@ Home::Home(QWidget *parent)
     sportAxisText << "足球";
     sportAxisText << "跑步";
     sportAxisText << "骑行";
-    sportAxisText << "爬山";
+    sportAxisText << "登山";
 
     sportAxisX->append(sportAxisText);
     sportChart->addAxis(sportAxisX, Qt::AlignBottom);
@@ -80,16 +80,16 @@ Home::Home(QWidget *parent)
     foodAxisX->setTickCount(5);
     foodAxisX->setLabelFormat("%d");
 
-    sportAxisY->setRange(0, 10);
-    sportAxisY->setTitleText("时间/小时");
+    sportAxisY->setRange(0, 600);
+    sportAxisY->setTitleText("时间/分钟");
     sportAxisY->setTickCount(6);
     sportAxisY->setLabelFormat("%.2f");
-    engAxisY->setRange(0, 1000);
+    engAxisY->setRange(0, 1200);
     engAxisY->setTitleText("能量/大卡");
-    engAxisY->setTickCount(6);
-    otherAxisY->setRange(0, 100);
+    engAxisY->setTickCount(7);
+    otherAxisY->setRange(0, 120);
     otherAxisY->setTitleText("质量/克");
-    otherAxisY->setTickCount(6);
+    otherAxisY->setTickCount(7);
 
     sportChart->addAxis(sportAxisY, Qt::AlignLeft);
     foodChart->addAxis(engAxisY, Qt::AlignLeft);

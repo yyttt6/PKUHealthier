@@ -25,7 +25,7 @@ Sports::SingleSport::SingleSport(QWidget *parent, int index)
     case 0:nameLabel->setText("跑步");break;
     case 1:nameLabel->setText("骑行");break;
     case 2:nameLabel->setText("游泳");break;
-    case 3:nameLabel->setText("攀岩");break;
+    case 3:nameLabel->setText("登山");break;
     case 4:nameLabel->setText("篮球");break;
     case 5:nameLabel->setText("足球");break;
     case 6:nameLabel->setText("排球");break;
