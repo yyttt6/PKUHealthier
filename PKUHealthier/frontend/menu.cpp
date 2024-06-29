@@ -5,22 +5,37 @@ Menu::SingleDish::SingleDish(QWidget *parent, Dish* d, SinglePage* pp)
     : QWidget{parent}, dish(d), parentPage(pp)
 {
     label1->setText(dish->name);
-    label1->setStyleSheet("QLabel{font-size:15px;font-family:楷体;font-weight:bold;}");
+    label1->setStyleSheet("QLabel{font-size:15px;font-family:微软雅黑;font-weight:bold;letter-spacing:1px;}");
+
     label2->setText("热量："+QString::number(dish->energy)+" 千卡");
     label3->setText("蛋白质："+QString::number(dish->protein)+" 克");
     label4->setText("脂肪："+QString::number(dish->fat)+" 克");
-    label5->setText("¥"+QString::number(dish->money));
-    label6->setStyleSheet("QLabel{border-style:solid;border-width:1px;border-radius:4px;border-color:rgb(212,172,13);background:rgb(249,231,159);}");
-    label7->setFixedWidth(22);
-    label7->setScaledContents(true);
-    label7->setPixmap(*pepperPixmap);
-    label7->setMargin(2);
+
+    label5->setText("¥ "+QString::number(dish->money));
+    label5->setStyleSheet("QLabel{font-size:13px;}");
+
+    label6->setStyleSheet("QLabel{border-style:solid;border-width:1px;border-radius:4px;border-color:rgb(183,149,11);background:rgb(249,231,159);}");
+    label6->setFixedHeight(22);
+
     label7->setStyleSheet("QLabel{border-style:solid;border-width:1px;border-radius:4px;border-color:rgb(203,67,53);background:rgb(245,183,177);}");
+    label7->setScaledContents(true);
+    label7->setPixmap(QPixmap(":/menu/pepper.png"));
+    label7->setFixedSize(QSize(22,22));
+    label7->setMargin(2);
+
     label8->setStyleSheet("QLabel{border-style:solid;border-width:1px;border-radius:4px;border-color:rgb(34,153,84);background:rgb(171,235,198);}");
+    label8->setFixedHeight(22);
+
+    scoreButton->setStyleSheet("QPushButton{font-size:13px;}");
+    scoreButton->setFixedWidth(55);
+
+    chooseButton->setStyleSheet("QPushButton{font-size:13px;}");
+    chooseButton->setFixedWidth(55);
 
     hLayout1->addWidget(label1);
     hLayout1->addStretch(1);
     hLayout1->addWidget(scoreButton);
+
     if(dish->sugar>0)
         hLayout2->addWidget(label6);
     if(dish->pepper>0)
@@ -28,6 +43,7 @@ Menu::SingleDish::SingleDish(QWidget *parent, Dish* d, SinglePage* pp)
     if(dish->all_veg>0)
         hLayout2->addWidget(label8);
     hLayout2->addStretch(1);
+
     hLayout3->addStretch(1);
     hLayout3->addWidget(label5);
     hLayout3->addSpacing(10);
@@ -38,14 +54,20 @@ Menu::SingleDish::SingleDish(QWidget *parent, Dish* d, SinglePage* pp)
     vLayout->addWidget(label3);
     vLayout->addWidget(label4);
     vLayout->addLayout(hLayout2);
+    vLayout->addStretch(1);
     vLayout->addLayout(hLayout3);
+    vLayout->setSpacing(8);
+    vLayout->setContentsMargins(12,12,12,12);
 
     frame->setLayout(vLayout);
-    frame->setFixedSize(QSize(240,170));
+    frame->setFixedSize(QSize(240,180));
     frame->setObjectName("frameframe");
     frame->setStyleSheet("QFrame#frameframe{border-style:dashed;border-width:2px;border-color:gray;border-radius:10px;}");
 
+    finalLayout->addStretch(1);
     finalLayout->addWidget(frame);
+    finalLayout->addStretch(1);
+
     setLayout(finalLayout);
 
     connect(scoreButton,&QPushButton::clicked,this,&SingleDish::score_update);
@@ -57,7 +79,8 @@ void Menu::SingleDish::selected_change_only(){
     if(selected==1){
         parentPage->selected_count++;
         chooseButton->setText("取消");
-        frame->setStyleSheet("QFrame#frameframe{border-style:solid;border-width:2.5px;border-color:rgb(52,152,219);border-radius:10px;}");
+        frame->setStyleSheet("QFrame{background-color:rgb(232,241,247);}"
+                             "QFrame#frameframe{border-style:solid;border-width:2px;border-color:rgb(52,152,219);border-radius:10px;}");
     }
     else{
         parentPage->selected_count--;
@@ -82,11 +105,16 @@ Menu::SingleDish::ScoreDialog::ScoreDialog(QWidget *parent, SingleDish* sd)
     dialog->setStyleSheet("background:rgb(242,243,244);");
 
     dishName->setText(sd->parentPage->cafe->names[sd->parentPage->idx]+" "+sd->dish->name+"：");
-    dishName->setStyleSheet("QLabel{font-size:18px;font-family:楷体;font-weight:bold;}");
-    currentLove->setText("目前您对这道菜品的好感度为"+QString::number(sd->parentPage->cafe->dishes[sd->dish->id-1].scores)+"~");
-    currentLove->setStyleSheet("QLabel{font-size:15px;font-weight:bold;}");
-    loveText1->setText("注：每次评分影响好感度，吃一次该菜品增加好感度；");
-    loveText2->setText("       好感度为0则列入黑名单不再推荐，好感度最高为10。");
+    dishName->setStyleSheet("QLabel{font-size:18px;font-family:微软雅黑;font-weight:bold;letter-spacing:1px;}");
+
+    currentLove->setText("当前您对这道菜品的好感度为"+QString::number(sd->parentPage->cafe->dishes[sd->dish->id-1].scores)+"~");
+    currentLove->setStyleSheet("QLabel{font-size:15px;font-weight:bold;letter-spacing:1px;}");
+
+    loveText1->setText("注：好感度影响菜品推荐，最低为0，最高为10；");
+    loveText1->setStyleSheet("QLabel{font-size:14px;}");
+
+    loveText2->setText("吃一次该菜品自动增加好感度，也可以通过评分改变好感度。");
+    loveText2->setStyleSheet("QLabel{font-size:14px;padding-left:25px;}");
 
     buttonLayout->addStretch(1);
     for (int i=0;i<5;i++){
@@ -106,11 +134,15 @@ Menu::SingleDish::ScoreDialog::ScoreDialog(QWidget *parent, SingleDish* sd)
     connect(scoreButton[3],&QPushButton::clicked,this,&ScoreDialog::printStar3);
     connect(scoreButton[4],&QPushButton::clicked,this,&ScoreDialog::printStar4);
 
+    CancelButton->setStyleSheet("QPushButton{font-size:13px;}");
+    ConfirmButton->setStyleSheet("QPushButton{font-size:13px;}");
+
     resultLayout->addSpacing(300);
     resultLayout->addWidget(CancelButton);
     resultLayout->addSpacing(10);
     resultLayout->addWidget(ConfirmButton);
     connect(CancelButton,&QPushButton::clicked,dialog,&QDialog::close);
+    connect(ConfirmButton,&QPushButton::clicked,dialog,&QDialog::close);
     connect(ConfirmButton,&QPushButton::clicked,this,&ScoreDialog::save);
 
 
@@ -174,38 +206,24 @@ void Menu::SingleDish::ScoreDialog::printStar4(){
 void Menu::SingleDish::ScoreDialog::save(){
     parentDish->parentPage->cafe->dishes[parentDish->dish->id-1].update(score);
     parentDish->parentPage->cafe->save(parentDish->parentPage->idx);
-    dialog->close();
+    Man* man=new Man;
+    man->load();
+    man->foodRec.comment_number++;
+    QVector<QString> newach=man->check_achievement();
+    man->save();
+    if(!newach.empty())
+        emit parentDish->parentPage->parentMenu->hasnewach(newach);
 }
 
-Menu::SinglePage::SinglePage(QWidget *parent, int index)
-    : QWidget{parent}, idx(index)
+Menu::SinglePage::SinglePage(QWidget *parent, int index, Menu* pm)
+    : QWidget{parent}, parentMenu(pm), idx(index)
 {
     cafe->load(index);
-    /*
-    switch(index){
-    case 0:imagePixmap=new QPixmap(":/menu/jia1.png");break;
-    case 1:imagePixmap=new QPixmap(":/menu/jia2.png");break;
-    case 2:imagePixmap=new QPixmap(":/menu/jia3.png");break;
-    case 3:imagePixmap=new QPixmap(":/menu/xue1.png");break;
-    case 4:imagePixmap=new QPixmap(":/menu/yan.png");break;
-    case 5:imagePixmap=new QPixmap(":/menu/song.png");break;
-    case 6:imagePixmap=new QPixmap(":/menu/shao1.png");break;
-    case 7:imagePixmap=new QPixmap(":/menu/shao2.png");break;
-    case 8:imagePixmap=new QPixmap(":/menu/xue5.png");break;
-    case 9:imagePixmap=new QPixmap(":/menu/nong1.png");break;
-    case 10:imagePixmap=new QPixmap(":/menu/nong2.png");break;
-    case 11:imagePixmap=new QPixmap(":/menu/tong.png");break;
-    default:break;
-    }
 
-    imageLabel->setScaledContents(true);
-    imageLabel->setPixmap(*imagePixmap);
-    */
-
-    typelabel1->setStyleSheet("QLabel{font-size:20px;font-family:等线;font-weight:bold;}");
-    typelabel2->setStyleSheet("QLabel{font-size:20px;font-family:等线;font-weight:bold;}");
-    typelabel3->setStyleSheet("QLabel{font-size:20px;font-family:等线;font-weight:bold;}");
-    typelabel4->setStyleSheet("QLabel{font-size:20px;font-family:等线;font-weight:bold;}");
+    typelabel1->setStyleSheet("QLabel{font-size:20px;font-family:华文中宋;font-weight:bold;}");
+    typelabel2->setStyleSheet("QLabel{font-size:20px;font-family:华文中宋;font-weight:bold;}");
+    typelabel3->setStyleSheet("QLabel{font-size:20px;font-family:华文中宋;font-weight:bold;}");
+    typelabel4->setStyleSheet("QLabel{font-size:20px;font-family:华文中宋;font-weight:bold;}");
 
     line1->setFrameShape(QFrame::HLine);
     line1->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -254,8 +272,7 @@ Menu::SinglePage::SinglePage(QWidget *parent, int index)
     gLayout3->setVerticalSpacing(15);
     gLayout4->setVerticalSpacing(15);
 
-    //vLayout->addWidget(imageLabel);
-    vLayout->addSpacing(30);
+    vLayout->addSpacing(10);
     vLayout->addLayout(typeLayout1);
     vLayout->addSpacing(20);
     vLayout->addLayout(gLayout1);
@@ -279,10 +296,12 @@ Menu::SinglePage::SinglePage(QWidget *parent, int index)
     recordLayout->addStretch(1);
     recordLayout->addWidget(cancelButton);
     cancelButton->setVisible(false);
+    cancelButton->setStyleSheet("QPushButton{font-size:14px;}");
+
     recordLayout->addSpacing(20);
     recordLayout->addWidget(recordButton);
     recordButton->setEnabled(false);
-    recordButton->setStyleSheet("color:gray;");
+    recordButton->setStyleSheet("QPushButton{font-size:14px;color:gray;}");
 
     connect(cancelButton,&QPushButton::clicked,this,&SinglePage::cancelAll);
     connect(recordButton,&QPushButton::clicked,this,&SinglePage::save);
@@ -298,12 +317,12 @@ void Menu::SinglePage::checkRecordButton(){
     if (selected_count==0){
         cancelButton->setVisible(false);
         recordButton->setEnabled(false);
-        recordButton->setStyleSheet("color:gray;");
+        recordButton->setStyleSheet("QPushButton{font-size:14px;color:gray;}");
     }
     else{
         cancelButton->setVisible(true);
         recordButton->setEnabled(true);
-        recordButton->setStyleSheet("color:black;");
+        recordButton->setStyleSheet("QPushButton{font-size:14px;color:black;}");
     }
 }
 
@@ -358,14 +377,18 @@ void Menu::SinglePage::save(){
 
     meal->init();
 
+    Meal fakeMeal=*meal;
+    fakeMeal.elements[0]->sugar=idx; //暗度陈仓，这样record里可以知道是哪个食堂
+
     Man* man=new Man;
     man->load();
-    man->foodRec.week_record.append(qMakePair(getTimeString(),*meal));
+    man->foodRec.week_record.append(qMakePair(getTimeString(),fakeMeal));
     man->foodRec.number++;
     for (int i=0;i<meal->elements.size();i++){
         man->foodRec.veg_number += meal->elements[i]->all_veg;
         man->foodRec.hot_number += meal->elements[i]->pepper;
     }
+    QVector<QString> newach=man->check_achievement();
     man->save();
 
     for (int i=0;i<meal->elements.size();i++){
@@ -379,7 +402,6 @@ void Menu::SinglePage::save(){
     dialog->setWindowTitle("吃饭记录成功！");
     dialog->setStyleSheet("background:rgb(242,243,244);");
 
-
     layout->addWidget(new QLabel("吃饭记录成功！"));
     layout->addWidget(new QLabel("本次您在"+cafe->names[idx]+"吃了："));
     for (int i=0;i<meal->elements.size();i++)
@@ -389,61 +411,75 @@ void Menu::SinglePage::save(){
     layout->addWidget(new QLabel("        蛋白质 "+QString::number(meal->protein)+" 克"));
     layout->addWidget(new QLabel("        脂肪 "+QString::number(meal->fat)+" 克"));
     layout->addWidget(new QLabel("总共消费 "+QString::number(meal->money)+" 元"));
-    layout->addSpacing(50);
+
+    for (int i=0;i<layout->count();i++) {
+        QLayoutItem* item=layout->itemAt(i);
+        if(auto label = qobject_cast<QLabel*>(item->widget()))
+            label->setStyleSheet("QLabel{font-size:13px;}");
+    }
 
     QPushButton* Button=new QPushButton("确认");
+    Button->setStyleSheet("QPushButton{font-size:13px;}");
     connect(Button,&QPushButton::clicked,dialog,&QDialog::close);
+
     QHBoxLayout* hhLayout=new QHBoxLayout;
+    hhLayout->addStretch(1);
     hhLayout->addSpacing(300);
     hhLayout->addWidget(Button);
+
+    layout->addSpacing(50);
+    layout->addStretch(1);
     layout->addLayout(hhLayout);
 
     layout->setSpacing(10);
-    dialog->setStyleSheet("QLabel{font-size:16px;}");
     layout->setContentsMargins(20,20,20,20);
 
     dialog->exec();
 
+    if(!newach.empty())
+        emit parentMenu->hasnewach(newach);
 }
 
 Menu::Menu(QWidget *parent)
     : QWidget{parent}
 {
-    Cafeteria* tmpCafe=new Cafeteria;
-
-    cafeBox->setFixedWidth(150);
+    cafeLabel->setStyleSheet("QLabel{font-size:14px;}");
+    cafeBox->setStyleSheet("QComboBox{font-size:14px;}");
+    cafeBox->setFixedSize(QSize(150,25));
     cafeBox->setFocusPolicy(Qt::NoFocus);
+
+    Cafeteria* tmpCafe=new Cafeteria;
 
     //********************
 
     cafeBox->addItem(tmpCafe->names[0]);
-    page[0]=new SinglePage(this,1);
+    page[0]=new SinglePage(this,1,this);
     stackedPage->addWidget(page[0]);
 
     cafeBox->addItem(tmpCafe->names[1]);
-    page[1]=new SinglePage(this,1);
+    page[1]=new SinglePage(this,1,this);
     stackedPage->addWidget(page[1]);
 
     cafeBox->addItem(tmpCafe->names[2]);
-    page[2]=new SinglePage(this,2);
+    page[2]=new SinglePage(this,2,this);
     stackedPage->addWidget(page[2]);
 
     for (int i=3;i<=8;i++){
         cafeBox->addItem(tmpCafe->names[i]);
-        page[i]=new SinglePage(this,2);
+        page[i]=new SinglePage(this,2,this);
         stackedPage->addWidget(page[i]);
     }
 
     cafeBox->addItem(tmpCafe->names[9]);
-    page[9]=new SinglePage(this,9);
+    page[9]=new SinglePage(this,9,this);
     stackedPage->addWidget(page[9]);
 
     cafeBox->addItem(tmpCafe->names[10]);
-    page[10]=new SinglePage(this,2);
+    page[10]=new SinglePage(this,2,this);
     stackedPage->addWidget(page[10]);
 
     cafeBox->addItem(tmpCafe->names[11]);
-    page[11]=new SinglePage(this,11);
+    page[11]=new SinglePage(this,11,this);
     stackedPage->addWidget(page[11]);
 
     //********************
@@ -455,14 +491,10 @@ Menu::Menu(QWidget *parent)
     cafeLayout->addWidget(cafeBox);
     cafeLayout->addStretch(1);
 
+    finalLayout->addSpacing(5);
     finalLayout->addLayout(cafeLayout);
     finalLayout->addSpacing(5);
     finalLayout->addWidget(stackedPage);
     setLayout(finalLayout);
 
 }
-
-void Menu::refresh(){
-
-}
-

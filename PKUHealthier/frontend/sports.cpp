@@ -4,8 +4,8 @@
 
 double params[10]={12.25, 9.8, 8.6, 9.8, 7.35, 9.8, 4.9, 4.9, 6.126, 9.8};
 
-Sports::SingleSport::SingleSport(QWidget *parent, int index)
-    : QWidget{parent}, idx(index)
+Sports::SingleSport::SingleSport(QWidget *parent, int index, Sports* sp)
+    : QWidget{parent}, parentSports(sp), idx(index)
 {
     switch(idx){
     case 0:movie=new QMovie(":/sports/running.gif");break;
@@ -35,7 +35,7 @@ Sports::SingleSport::SingleSport(QWidget *parent, int index)
     default:break;
     }
 
-    nameLabel->setStyleSheet("QLabel{font-size:18px;font-family:楷体;font-weight:bold;}");
+    nameLabel->setStyleSheet("QLabel{font-size:18px;font-family:微软雅黑;font-weight:bold;letter-spacing:1px;}");
 
     param=params[idx];
 
@@ -46,11 +46,18 @@ Sports::SingleSport::SingleSport(QWidget *parent, int index)
         movieLabel->setFixedSize(QSize(100,100));
     movieLabel->setScaledContents(true);
 
+    textLabel->setStyleSheet("QLabel{font-size:13px;}");
+
     spinBox->setRange(0, 600);
     spinBox->setFixedSize(QSize(100,30));
+    spinBox->setStyleSheet("QSpinBox{font-size:13px;}");
 
     hhLayout->addWidget(textLabel);
     hhLayout->addWidget(spinBox);
+
+    autoCalc->setStyleSheet("QLabel{font-size:13px;}");
+
+    recordButton->setStyleSheet("QPushButton{font-size:13px;}");
 
     recordLayout->addStretch(1);
     recordLayout->addWidget(recordButton);
@@ -70,19 +77,22 @@ Sports::SingleSport::SingleSport(QWidget *parent, int index)
         hLayout->setContentsMargins(25,20,20,20);
 
     frame->setLayout(hLayout);
-    frame->setFixedSize(QSize(400,160));
+    frame->setFixedSize(QSize(400,170));
     frame->setObjectName("frameframe");
-    frame->setStyleSheet("QFrame#frameframe{border-style:solid;border-width:2px;border-color:rgb(52,152,219);border-radius:10px;}");
+    frame->setStyleSheet("QFrame#frameframe{border-style:solid;border-width:2px;border-color:rgb(40,180,99);border-radius:10px;}");
 
+    finalLayout->addStretch(1+(idx+1)%2);
     finalLayout->addWidget(frame);
+    finalLayout->addStretch(1+idx%2);
+
     setLayout(finalLayout);
 
     movie->start();
     movie->stop();
 
     connect(spinBox,&QSpinBox::valueChanged,this,&SingleSport::refresh);
-    connect(recordButton,&QPushButton::clicked,this,&SingleSport::save);
-    connect(movie,&QMovie::finished,this,&SingleSport::notice);
+    connect(recordButton,&QPushButton::clicked,movie,&QMovie::start);
+    connect(movie,&QMovie::finished,this,&SingleSport::save);
 
     refresh();
 }
@@ -91,11 +101,11 @@ void Sports::SingleSport::refresh(){
     autoCalc->setText("（约消耗 "+QString::number(param*spinBox->value())+" 千卡能量）");
     if (spinBox->value()==0){
         recordButton->setEnabled(false);
-        recordButton->setStyleSheet("color:gray;");
+        recordButton->setStyleSheet("QPushButton{font-size:13px;color:gray;}");
     }
     else{
         recordButton->setEnabled(true);
-        recordButton->setStyleSheet("color:black;");
+        recordButton->setStyleSheet("QPushButton{font-size:13px;color:black;}");
     }
 }
 
@@ -111,9 +121,10 @@ QString _getTimeString(){
 }
 
 void Sports::SingleSport::save(){
-    movie->start();
+
     Man* man=new Man;
     man->load();
+
     int t=spinBox->value();
 
     switch(idx){
@@ -158,11 +169,8 @@ void Sports::SingleSport::save(){
     default:break;
     }
 
+    QVector<QString> newach=man->check_achievement();
     man->save();
-
-}
-
-void Sports::SingleSport::notice(){
 
     QDialog* dialog=new QDialog;
     QVBoxLayout* layout = new QVBoxLayout(dialog);
@@ -170,41 +178,50 @@ void Sports::SingleSport::notice(){
     dialog->setStyleSheet("background:rgb(242,243,244);");
 
     layout->addWidget(new QLabel("运动记录成功！"));
-    layout->addWidget(new QLabel("本次您进行运动 “"+nameLabel->text()+"” "+QString::number(spinBox->value())+" 分钟，"));
-    layout->addWidget(new QLabel("约消耗 "+QString::number(param*spinBox->value())+" 千卡能量~"));
+    layout->addWidget(new QLabel("本次您进行运动 “"+nameLabel->text()+"” "+QString::number(t)+" 分钟，"));
+    layout->addWidget(new QLabel("约消耗 "+QString::number(param*t)+" 千卡能量~"));
 
-    layout->addSpacing(40);
+    for (int i=0;i<layout->count();i++) {
+        QLayoutItem* item=layout->itemAt(i);
+        if(auto label = qobject_cast<QLabel*>(item->widget()))
+            label->setStyleSheet("QLabel{font-size:14px;}");
+    }
 
     QPushButton* Button=new QPushButton("确认");
+    Button->setStyleSheet("QPushButton{font-size:14px;}");
     connect(Button,&QPushButton::clicked,dialog,&QDialog::close);
+
     QHBoxLayout* hhLayout=new QHBoxLayout;
-    hhLayout->addSpacing(200);
+    hhLayout->addStretch(1);
+    hhLayout->addSpacing(250);
     hhLayout->addWidget(Button);
+
+    layout->addSpacing(40);
+    layout->addStretch(1);
     layout->addLayout(hhLayout);
 
     layout->setSpacing(10);
-    dialog->setStyleSheet("QLabel{font-size:16px;}");
     layout->setContentsMargins(20,20,20,20);
 
     dialog->exec();
 
     spinBox->setValue(0);
     refresh();
+
+    if(!newach.empty())
+        emit parentSports->hasnewach(newach);
 }
 
 Sports::Sports(QWidget *parent)
     : QWidget{parent}
 {
     for(int i=0;i<10;i++)
-        gLayout->addWidget(new SingleSport(this,i),i/2,i%2);
+        gLayout->addWidget(new SingleSport(this,i,this),i/2,i%2);
     gLayout->setVerticalSpacing(20);
     gLayout->setContentsMargins(0,0,10,20);
     scrollArea->setWidget(scrollWidget);
     scrollArea->setWidgetResizable(true);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     finalLayout->addWidget(scrollArea);
     finalLayout->setContentsMargins(25,20,15,20);
-}
-
-void Sports::refresh(){
-
 }

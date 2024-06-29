@@ -65,6 +65,8 @@ public:
     QPushButton* changePhotoButton = new QPushButton("更换头像", this);
 
     void refresh();
+
+public slots:
     void corrected();
     void changePhoto();
 };

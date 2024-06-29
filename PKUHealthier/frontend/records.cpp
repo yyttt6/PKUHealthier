@@ -1,97 +1,42 @@
 #include <algorithm>
 #include "records.h"
 
-double cost[10]={12.25, 9.8, 8.6, 9.8, 7.35, 9.8, 4.9, 4.9, 6.126, 9.8};
+double sportenergy[10]={12.25, 9.8, 8.6, 9.8, 7.35, 9.8, 4.9, 4.9, 6.126, 9.8};
 
-Records::SingleFoodRecord::SingleFoodRecord(QWidget *parent, QPair<QString,Meal> mealPair)
+Records::SingleRecord::SingleRecord(QWidget *parent, bool type, QString s1, QString s2, QString s3)
     : QWidget{parent}
 {
-    //tempLayout->addWidget(new QLabel(mealPair.first)); （这个QString是时间）
-    //可能若干个 tempLayout->addWidget(new QLabel(mealPair.second.elements[i]->name));
-    //然后总共摄入多少蛋白质脂肪等等
-    //可以直接参考Menu::SinglePage::save()的Dialog部分
+    label1->setText(s1);
+    if(!type)
+        label1->setStyleSheet("QLabel{font-size:16px;color:rgb(40,116,166);font-weight:bold;background-color:transparent;}");
+    else
+        label1->setStyleSheet("QLabel{font-size:16px;color:rgb(30,132,73);font-weight:bold;background-color:transparent;}");
 
-    QString dishName = "菜品： ";
-    for (auto x : mealPair.second.elements)
-        dishName += x->name + " ";
-    dishLabel->setText(dishName);
-    dishLabel->setStyleSheet("QLabel{font-size:15px;font-family:楷体;font-weight:bold;}");
+    label2->setText(s2);
+    label2->setStyleSheet("QLabel{font-size:16px;background-color:transparent;}");
 
-    QString intake = "总摄入： ";
-    intake += "能量" + QString::number(mealPair.second.energy) + "千卡 ";
-    intake += "蛋白质" + QString::number(mealPair.second.protein) + "克 ";
-    intake += "脂肪" + QString::number(mealPair.second.fat) + "克 ";
-    intakeLabel->setText(intake);
-    intakeLabel->setStyleSheet("QLabel{font-size:15px;font-family:楷体;font-weight:bold;}");
+    label3->setText(s3);
+    label3->setStyleSheet("QLabel{font-size:16px;background-color:transparent;}");
 
-    timeLabel->setText(mealPair.first);
-
-    tempLayout->addWidget(nameLabel);
-    tempLayout->addWidget(dishLabel);
-    tempLayout->addWidget(intakeLabel);
-    tempLayout->addWidget(timeLabel);
+    tempLayout->addWidget(label1);
+    tempLayout->addWidget(label2);
+    tempLayout->addWidget(label3);
+    tempLayout->setContentsMargins(70,10,70,20);
 
     frame->setLayout(tempLayout);
-
-    frame->setFixedSize(QSize(400,160));
+    frame->setFixedSize(QSize(800,140));
     frame->setObjectName("frameframe");
-    frame->setStyleSheet("QFrame#frameframe{border-style:solid;border-width:2px;border-color:rgb(255,204,68);border-radius:10px;}");
+    frame->setStyleSheet("QFrame#frameframe{border-image:url(:/records/body.png) 4 4 4 4 stretch stretch;}"
+                         "QFrame{border-bottom:1px solid #784212;padding-bottom:5px;}");
 
     finalLayout->addWidget(frame);
-    setLayout(finalLayout);
-}
-
-Records::SingleSportRecord::SingleSportRecord(QWidget *parent, QPair<QString,int> sportPair, int sportType)
-    : QWidget{parent}
-{
-    //同上，这里主要是要switch(sportType){......}来确定是哪个运动
-    //然后QLabel展示记录时间、运动名称、运动时长
-
-    QString sport;
-    switch(sportType) {
-        case 0: sport += "跑步 "; break;
-        case 1: sport += "骑行 "; break;
-        case 2: sport += "游泳 "; break;
-        case 3: sport += "登山 "; break;
-        case 4: sport += "打篮球 "; break;
-        case 5: sport += "踢足球 "; break;
-        case 6: sport += "打排球 "; break;
-        case 7: sport += "打乒乓球 "; break;
-        case 8: sport += "打羽毛球 "; break;
-        case 9: sport += "打网球 ";
-    }
-    sport += QString::number(sportPair.second);
-    sport += "分钟   消耗 ";
-    sport += QString::number(cost[sportType] * sportPair.second);
-    sport += "千卡";
-    sportLabel->setText(sport);
-    sportLabel->setStyleSheet("QLabel{font-size:15px;font-family:楷体;font-weight:bold;}");
-
-    timeLabel->setText(sportPair.first);
-
-    tempLayout->addWidget(nameLabel);
-    tempLayout->addWidget(sportLabel);
-    tempLayout->addWidget(timeLabel);
-
-    frame->setLayout(tempLayout);
-
-    frame->setFixedSize(QSize(400,160));
-    frame->setObjectName("frameframe");
-    frame->setStyleSheet("QFrame#frameframe{border-style:solid;border-width:2px;border-color:rgb(52,152,219);border-radius:10px;}");
-
-    finalLayout->addWidget(frame);
+    finalLayout->setContentsMargins(0,0,0,0);
     setLayout(finalLayout);
 }
 
 Records::Records(QWidget *parent)
     : QWidget{parent}
 {
-
-    //man load 对 man->foodRec.week_record 和 man->sptRec里的所有week_***_vec 里的记录按时间从后到前排序
-    //这个可能很麻烦qaq
-    //然后依次vLayout->addWidget(new SingleFoodRecord(this,?))
-    //或vLayout->addWidget(new SingleSportRecord(this,?,type))
-
     QVector<RecordItem> recVec;
     Man* User = new Man;
     User->load();
@@ -118,25 +63,65 @@ Records::Records(QWidget *parent)
     for (auto &x : User->sptRec.week_ten_vec)
         recVec.append(RecordItem(x, 9));
     std::sort(recVec.begin(), recVec.end());
-    int cnt = 0;
+
+    headframe->setFixedSize(QSize(800,100));
+    headframe->setStyleSheet("QFrame{border-image:url(:/records/head.png) 4 4 4 4 stretch stretch;}");
+    itemLayout->addWidget(headframe);
+
     for (auto &x : recVec) {
-        if (!x.type)
-            itemLayout->addWidget(new SingleFoodRecord(this, std::make_pair(x.time, x.mealItem)), cnt / 2, cnt % 2);
-        else
-            itemLayout->addWidget(new SingleSportRecord(this, std::make_pair(x.time, x.sportItem), x.sportType), cnt / 2, cnt % 2);
-        ++cnt;
+        x.time.replace("日","日 ");
+        if (!x.type){
+            Cafeteria* cafe=new Cafeteria;
+            int idx=x.mealItem.elements[0]->sugar;
+            QString s1=x.time+"    饮食记录";
+            QString s2="在"+cafe->names[idx]+"吃了"+x.mealItem.elements[0]->name;
+            for (int i=1;i<x.mealItem.elements.size();i++)
+                s2=s2+"、"+x.mealItem.elements[i]->name;
+            s2+="，";
+            if(s2.length()>41){
+                QString tempstr=s2.mid(0,39);
+                int tempindex=tempstr.lastIndexOf("、");
+                s2=s2.mid(0,tempindex)+"……";
+            }
+            QString s3="共计摄入热量 "+QString::number(x.mealItem.energy)+" 千卡，蛋白质 "
+                        +QString::number(x.mealItem.protein)+" 克，脂肪 "
+                        +QString::number(x.mealItem.fat)+" 克，消费 "
+                        +QString::number(x.mealItem.money)+" 元。";
+            itemLayout->addWidget(new SingleRecord(this,0,s1,s2,s3));
+        }
+        else{
+            QString s1=x.time+"    运动记录";
+            QString s2;
+            switch(x.sportType) {
+            case 0: s2 = "跑步 "; break;
+            case 1: s2 = "骑行 "; break;
+            case 2: s2 = "游泳 "; break;
+            case 3: s2 = "登山 "; break;
+            case 4: s2 = "打篮球 "; break;
+            case 5: s2 = "踢足球 "; break;
+            case 6: s2 = "打排球 "; break;
+            case 7: s2 = "打乒乓球 "; break;
+            case 8: s2 = "打羽毛球 "; break;
+            case 9: s2 = "打网球 ";break;
+            default:break;
+            }
+            s2=s2+QString::number(x.sportItem)+" 分钟，";
+            QString s3="约消耗 "+QString::number(sportenergy[x.sportType]*x.sportItem)+" 千卡能量。";
+            itemLayout->addWidget(new SingleRecord(this,1,s1,s2,s3));
+        }
     }
 
-    itemLayout->setSpacing(20);
-    itemLayout->setContentsMargins(0,0,10,20);
+    tailframe->setFixedSize(QSize(800,100));
+    tailframe->setStyleSheet("QFrame{border-image:url(:/records/tail.png) 4 4 4 4 stretch stretch;}");
+    itemLayout->addWidget(tailframe);
+
+    itemLayout->setAlignment(Qt::AlignHCenter|Qt::AlignTop);
+    itemLayout->setSpacing(0);
+    itemLayout->setContentsMargins(0,5,10,20);
     scrollArea->setWidget(scrollWidget);
     scrollArea->setWidgetResizable(true);
     finalLayout->addWidget(scrollArea);
-    finalLayout->setContentsMargins(25,20,15,20);
+    finalLayout->setContentsMargins(10,20,15,20);
 
     setLayout(finalLayout);
-}
-
-void Records::refresh(){
-
 }

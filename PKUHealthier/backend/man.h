@@ -4,7 +4,6 @@
 #include <QHash>
 #include <QPair>
 #include "meal.h"
-#include "../frontend/achievement.h"
 #ifndef MAN_H
 #define MAN_H
 
@@ -113,7 +112,7 @@ public:
         QQueue<QString> qu;
         QString get_str() const;
         static AchievementRecord load(QTextStream& input);
-        void check_achievement(SportRecord sr,FoodRecord fr);
+        QVector<QString> check_achievement(SportRecord sr,FoodRecord fr);
         AchievementRecord()
         {
             achievement_map.insert("干饭",0);
@@ -135,9 +134,10 @@ public:
         }
     }achRec;
     //检查有没有触发新的成就
-    void check_achievement();
+    QVector<QString> check_achievement();
     bool load();
     bool save();
     void init();
+    void reset();
 };
 #endif // MAN_H

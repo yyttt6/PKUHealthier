@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QFrame>
 #include <QLabel>
-#include <QPixmap>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
@@ -56,11 +55,11 @@ public:
             void printStar2();
             void printStar3();
             void printStar4();
-            void save();
+            void save();  //在这里检查是否触发打分成就
         };
 
         QFrame* frame=new QFrame;
-        QVBoxLayout* finalLayout=new QVBoxLayout;
+        QHBoxLayout* finalLayout=new QHBoxLayout;
         QVBoxLayout* vLayout=new QVBoxLayout;
         QHBoxLayout* hLayout1=new QHBoxLayout;
         QHBoxLayout* hLayout2=new QHBoxLayout;
@@ -71,24 +70,24 @@ public:
         QLabel* label4=new QLabel;
         QLabel* label5=new QLabel;
         QLabel* label6=new QLabel("高糖");
-        QPixmap* pepperPixmap=new QPixmap(":/menu/pepper.png");
         QLabel* label7=new QLabel;
         QLabel* label8=new QLabel("素菜");
         QPushButton* scoreButton=new QPushButton("评分");
         QPushButton* chooseButton=new QPushButton("选择");
         bool selected=0;
 
-
-        void score_update();
-        void selected_change();
         void selected_change_only();
+        void selected_change();
+        void score_update();
     };
 
 
     class SinglePage : public QWidget
     {
     public:
-        explicit SinglePage(QWidget *parent, int index);
+        explicit SinglePage(QWidget *parent, int index , Menu* pm);
+        Menu* parentMenu;
+
         int idx=0;
         Cafeteria* cafe=new Cafeteria;
         QVector<SingleDish*> stapleDishes;
@@ -97,8 +96,6 @@ public:
         QVector<SingleDish*> setmealDishes;
         int selected_count=0;
 
-        QLabel* imageLabel=new QLabel;
-        QPixmap* imagePixmap=new QPixmap;
         QHBoxLayout* typeLayout1=new QHBoxLayout;
         QHBoxLayout* typeLayout2=new QHBoxLayout;
         QHBoxLayout* typeLayout3=new QHBoxLayout;
@@ -126,7 +123,7 @@ public:
 
         void checkRecordButton();
         void cancelAll();
-        void save();
+        void save(); //在这里检查是否触发吃饭成就
     };
 
     QLabel* cafeLabel=new QLabel("请选择您的食堂： ");
@@ -137,11 +134,9 @@ public:
     QStackedWidget* stackedPage=new QStackedWidget;
     QVBoxLayout* finalLayout=new QVBoxLayout;
 
-    void refresh();
-
-public slots:
-
 signals:
+    void hasnewach(QVector<QString>);
+
 };
 
 #endif // MENU_H

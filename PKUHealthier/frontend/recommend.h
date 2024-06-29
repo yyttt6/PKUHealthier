@@ -17,7 +17,7 @@ class Recommend : public QWidget
 public:
     explicit Recommend(QWidget *parent = nullptr);
 
-    //********************
+    //******************** dz1
 
     QLabel* numberLabel1=new QLabel("#6114514");
     QLabel* timeLabel1=new QLabel;
@@ -34,7 +34,13 @@ public:
     QFrame* frame1=new QFrame;
     QVBoxLayout* finalLayout1=new QVBoxLayout;
 
-    //********************
+    //******************** start
+
+    QPushButton* startButton=new QPushButton(QIcon(":/recommend/start.png")," 点击开始对话 ");
+
+    QHBoxLayout* startLayout=new QHBoxLayout;
+
+    //******************** pku1
 
     QLabel* numberLabel2=new QLabel("#28571428");
     QLabel* timeLabel2=new QLabel;
@@ -45,7 +51,7 @@ public:
     QFrame* frame2=new QFrame;
     QVBoxLayout* finalLayout2=new QVBoxLayout;
 
-    //********************
+    //******************** cafechoose
 
     QLabel* label11=new QLabel("仅限 ");
     QComboBox* cafeChoose=new QComboBox;
@@ -60,7 +66,7 @@ public:
     QFrame* chooseFrame=new QFrame;
     QHBoxLayout* chooseLayout=new QHBoxLayout;
 
-    //********************
+    //******************** dz2
 
     QLabel* numberLabel3=new QLabel("#28571429");
     QLabel* timeLabel3=new QLabel;
@@ -71,7 +77,7 @@ public:
     QFrame* frame3=new QFrame;
     QVBoxLayout* finalLayout3=new QVBoxLayout;
 
-    //********************
+    //******************** pku2
 
     QLabel* numberLabel4=new QLabel("#28571430");
     QLabel* timeLabel4=new QLabel;
@@ -82,7 +88,7 @@ public:
     QFrame* frame4=new QFrame;
     QVBoxLayout* finalLayout4=new QVBoxLayout;
 
-    //********************
+    //******************** pku3
 
     QLabel* numberLabel5=new QLabel("#28571431");
     QLabel* timeLabel5=new QLabel;
@@ -97,10 +103,11 @@ public:
     QFrame* frame5=new QFrame;
     QVBoxLayout* finalLayout5=new QVBoxLayout;
 
-    //********************
+    //******************** result
 
     QPushButton* acceptButton=new QPushButton(" Accepted ");
-    QPushButton* denyButton=new QPushButton(" 给你一次重新组织语言的机会 ");
+    QPushButton* denyButton=new QPushButton(QIcon(":/recommend/deny.png")," 重新推荐食谱 ");
+    QPushButton* restartButton=new QPushButton(QIcon(":/recommend/restart.png")," 重新开始对话 ");
 
     QHBoxLayout* hhhLayout=new QHBoxLayout;
     QFrame* resultFrame=new QFrame;
@@ -112,17 +119,22 @@ public:
     QFrame* frame=new QFrame;
     QVBoxLayout* finalLayout=new QVBoxLayout;
 
-    int index=0;
+    int index=-1;
     QVector<int> chosenId;
 
-    void refresh();
-    void pku1();
+    void chooseresult();
+    void recommendresult();  //在这里检查是否触发deny成就
+
+public slots:
+    void start();
     void choose1();
     void choose2();
-    void result();
     void deny();
+    void restart();
 
 signals:
+    void hasnewach(QVector<QString>);
+
 };
 
 #endif // RECOMMEND_H

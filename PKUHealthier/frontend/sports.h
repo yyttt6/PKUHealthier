@@ -22,7 +22,9 @@ public:
     class SingleSport : public QWidget
     {
     public:
-        explicit SingleSport(QWidget *parent, int index);
+        explicit SingleSport(QWidget *parent, int index, Sports* sp);
+        Sports* parentSports;
+
         int idx;
         double param=0;
         QMovie* movie=new QMovie;
@@ -37,11 +39,10 @@ public:
         QVBoxLayout* calcLayout=new QVBoxLayout;
         QHBoxLayout* hLayout=new QHBoxLayout;
         QFrame* frame=new QFrame(this);
-        QVBoxLayout* finalLayout=new QVBoxLayout;
+        QHBoxLayout* finalLayout=new QHBoxLayout;
 
         void refresh();
-        void save();
-        void notice();
+        void save();  //在这里检查是否触发运动成就
     };
 
     QWidget* scrollWidget=new QWidget;
@@ -49,9 +50,9 @@ public:
     QScrollArea* scrollArea=new QScrollArea;
     QVBoxLayout* finalLayout=new QVBoxLayout(this);
 
-    void refresh();
-
 signals:
+    void hasnewach(QVector<QString>);
+
 };
 
 #endif // SPORTS_H

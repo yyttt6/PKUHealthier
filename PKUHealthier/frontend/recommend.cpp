@@ -3,33 +3,51 @@
 #include "qrandom.h"
 #include "qtimer.h"
 
-QString timeString(){
-    std::time_t now = std::time(nullptr);
-    std::tm* tm = std::localtime(&now);
-    std::string str(ctime(&now));
-    QString monthstr;
-    if(tm->tm_mon<=8)
-        monthstr="0"+QString::number(1+tm->tm_mon);
-    else
-        monthstr=QString::number(1+tm->tm_mon);
-    QString timestr="刚刚 "+monthstr+"-"+QString::fromStdString(str.substr(8,2))
-                      +" "+QString::fromStdString(str.substr(11,5));
-    return timestr;
+void refreshTime(QLabel* label,bool newlyCreated=false){ //是否强制初始化（新对话）
+    QString s=label->text();
+    if(s.length()==0 || newlyCreated){
+        std::time_t now = std::time(nullptr);
+        std::tm* tm = std::localtime(&now);
+        std::string str(ctime(&now));
+        QString monthstr=QString::number(1+tm->tm_mon);
+        if(monthstr.length()<=1)
+            monthstr="0"+monthstr;
+        QString timestr="刚刚 "+monthstr+"-"+QString::fromStdString(str.substr(8,2))
+                          +" "+QString::fromStdString(str.substr(11,5));
+        label->setText(timestr);
+    }
+    else{
+        std::time_t now = std::time(nullptr);
+        std::tm* tm = std::localtime(&now);
+        QString thattime=s.mid(s.length()-12,12);
+        QString thatmin_str=s.mid(s.length()-2,2);
+        int thatmin=thatmin_str.toInt();
+        int thismin=tm->tm_min;
+        if(thismin<thatmin)
+            thismin+=60;
+        if(thismin>thatmin){
+            QString finalstr=QString::number(thismin-thatmin)+"分钟前"+thattime;
+            label->setText(finalstr);
+        }
+    }
 }
 
+void wait(int ms){
+    QEventLoop eventloop;
+    QTimer::singleShot(ms, &eventloop, SLOT(quit()));
+    eventloop.exec();
+}
 
 Recommend::Recommend(QWidget *parent)
     : QWidget{parent}
 {
+    //先设置所有格式
+
+    //******************** dz1
+
     numberLabel1->setStyleSheet("QLabel{font-family:Consolas;font-size:12px;color:gray;background-color:#f7f7f7;}");
-
-    timeLabel1->setText(timeString());
     timeLabel1->setStyleSheet("QLabel{font-family:微软雅黑;font-size:12px;background-color:#f7f7f7;}");
-
-    commentNumber->setText("1");
     commentNumber->setStyleSheet("QLabel{font-family:微软雅黑;font-size:12px;background-color:#f7f7f7;}");
-
-    starNumber->setText("1");
     starNumber->setStyleSheet("QLabel{font-family:微软雅黑;font-size:12px;background-color:#f7f7f7;}");
 
     commentImage->setPixmap(*commentPixmap);
@@ -43,6 +61,7 @@ Recommend::Recommend(QWidget *parent)
     starImage->setStyleSheet("QLabel{background-color:#f7f7f7;}");
 
     hLayout1->addWidget(numberLabel1);
+    hLayout1->addSpacing(2);
     hLayout1->addWidget(timeLabel1);
     hLayout1->addStretch(1);
     hLayout1->addWidget(commentNumber);
@@ -50,27 +69,21 @@ Recommend::Recommend(QWidget *parent)
     hLayout1->addSpacing(5);
     hLayout1->addWidget(starNumber);
     hLayout1->addWidget(starImage);
-
-    commentNumber->setVisible(false);
-    commentImage->setVisible(false);
+    hLayout1->setSpacing(4);
 
     dzText1->setStyleSheet("QLabel{font-family:微软雅黑;font-size:15px;}");
 
     vLayout1->addLayout(hLayout1);
     vLayout1->addWidget(dzText1);
-    vLayout1->setStretch(0,3);
-    vLayout1->setStretch(1,5);
+    vLayout1->setStretch(0,2);
+    vLayout1->setStretch(1,3);
+    vLayout1->addSpacing(3);
 
     frame1->setLayout(vLayout1);
     frame1->setFixedHeight(70);
     frame1->setStyleSheet("QFrame{border-color:#f7f7f7;border-radius:10px;background-color:#f7f7f7;}");
 
     finalLayout1->addWidget(frame1);
-
-    vLayout->addLayout(finalLayout1);
-    vLayout->addStretch(1);
-    vLayout->setContentsMargins(15,15,15,15);
-    vLayout->setSpacing(15);
 
     frame->setLayout(vLayout);
     frame->setObjectName("ff");
@@ -79,23 +92,25 @@ Recommend::Recommend(QWidget *parent)
     finalLayout->addWidget(frame);
     finalLayout->setContentsMargins(20,10,15,15);
     setLayout(finalLayout);
-}
 
-void Recommend::pku1(){  //在mainwindow中调用
+    //******************** start
 
-    QEventLoop eventloop;
-    QTimer::singleShot(3000, &eventloop, SLOT(quit()));
-    eventloop.exec();  //等候3秒
+    startButton->setStyleSheet("QPushButton{font-family:微软雅黑;font-size:15px;background-color:#e7e7e7;border-radius:10px;padding-left:5px;}"
+                               "QPushButton:hover{text-decoration:underline;background-color:#fafafa;}");
+    startButton->setIconSize(QSize(23,23));
+    startButton->setFixedSize(QSize(150,35));
+
+    startLayout->addStretch(1);
+    startLayout->addWidget(startButton);
+    startLayout->addStretch(1);
+    startLayout->setContentsMargins(0,5,0,0);
+
+    connect(startButton,&QPushButton::clicked,this,&Recommend::start);
+
+    //******************** pku1
 
     numberLabel2->setStyleSheet("QLabel{font-family:Consolas;font-size:12px;color:gray;background-color:rgb(171,235,198);}");
-
-    timeLabel2->setText(timeString());
     timeLabel2->setStyleSheet("QLabel{font-family:微软雅黑;font-size:12px;background-color:rgb(171,235,198);}");
-
-    commentNumber->setVisible(true);
-    commentImage->setVisible(true);
-
-    starNumber->setText("2");
 
     hLayout2->addWidget(numberLabel2);
     hLayout2->addWidget(timeLabel2);
@@ -105,8 +120,9 @@ void Recommend::pku1(){  //在mainwindow中调用
 
     vLayout2->addLayout(hLayout2);
     vLayout2->addWidget(pkuText1);
-    vLayout2->setStretch(0,3);
-    vLayout2->setStretch(1,5);
+    vLayout2->setStretch(0,2);
+    vLayout2->setStretch(1,3);
+    vLayout2->addSpacing(3);
 
     frame2->setLayout(vLayout2);
     frame2->setFixedHeight(70);
@@ -114,23 +130,21 @@ void Recommend::pku1(){  //在mainwindow中调用
 
     finalLayout2->addWidget(frame2);
 
-    vLayout->insertLayout(1,finalLayout2);
+    //******************** cafechoose
 
-    //********************
-
-    QTimer::singleShot(1000, &eventloop, SLOT(quit()));
-    eventloop.exec();
-
-    label11->setStyleSheet("QLabel{font-family:微软雅黑;font-size:14px;background-color:rgb(249,231,159);}");
-    label22->setStyleSheet("QLabel{font-family:微软雅黑;font-size:14px;background-color:rgb(249,231,159);}");
+    label11->setStyleSheet("QLabel{font-family:微软雅黑;font-size:15px;background-color:rgb(249,231,159);}");
+    label22->setStyleSheet("QLabel{font-family:微软雅黑;font-size:15px;background-color:rgb(249,231,159);}");
 
     Cafeteria* cafe=new Cafeteria;
     for (int i=0;i<=12;i++)
         cafeChoose->addItem(cafe->names[i]);
 
-    cafeChoose->setStyleSheet("QComboBox{font-family:微软雅黑;font-size:14px;}");
-    cafeChoose->setFixedSize(QSize(140,20));
+    cafeChoose->setStyleSheet("QComboBox{font-family:微软雅黑;font-size:15px;}");
+    cafeChoose->setFixedSize(QSize(140,25));
     cafeChoose->setFocusPolicy(Qt::NoFocus);
+
+    chooseButton1->setStyleSheet("QPushButton{font-size:14px;}");
+    chooseButton2->setStyleSheet("QPushButton{font-size:14px;}");
 
     hhLayout1->addStretch(1);
     hhLayout1->addWidget(label11);
@@ -146,7 +160,7 @@ void Recommend::pku1(){  //在mainwindow中调用
     hhLayout2->addSpacing(10);
 
     line->setFrameShape(QFrame::HLine);
-    line->setFixedWidth(315);
+    line->setFixedWidth(310);
     line->setStyleSheet("QFrame{background-color:rgb(212,172,13);}");
 
     vvLayout->addLayout(hhLayout1);
@@ -162,50 +176,25 @@ void Recommend::pku1(){  //在mainwindow中调用
 
     chooseLayout->addWidget(chooseFrame);
 
-    vLayout->insertLayout(2,chooseLayout);
-
     connect(chooseButton1,&QPushButton::clicked,this,&Recommend::choose1);
     connect(chooseButton2,&QPushButton::clicked,this,&Recommend::choose2);
 
-}
-
-void Recommend::choose1(){
-    index=cafeChoose->currentIndex();
-    result();
-}
-
-void Recommend::choose2(){
-    index=100;
-    result();
-}
-
-void Recommend::result(){
-    vLayout->removeItem(chooseLayout);
-
-    //********************
+    //******************** dz2
 
     numberLabel3->setStyleSheet("QLabel{font-family:Consolas;font-size:12px;color:gray;background-color:#f7f7f7;}");
-
-    timeLabel3->setText(timeString());
     timeLabel3->setStyleSheet("QLabel{font-family:微软雅黑;font-size:12px;background-color:#f7f7f7;}");
-
-    commentNumber->setText("2");
 
     hLayout3->addWidget(numberLabel3);
     hLayout3->addWidget(timeLabel3);
     hLayout3->addStretch(1);
 
-    Cafeteria* cafe=new Cafeteria;
-    if (index<50)
-        dzText2->setText("[洞主] 那就"+cafe->names[index]+"吧~");
-    else
-        dzText2->setText("[洞主] 哪个食堂都行~");
     dzText2->setStyleSheet("QLabel{font-family:微软雅黑;font-size:15px;background-color:#f7f7f7;}");
 
     vLayout3->addLayout(hLayout3);
     vLayout3->addWidget(dzText2);
-    vLayout3->setStretch(0,3);
-    vLayout3->setStretch(1,5);
+    vLayout3->setStretch(0,2);
+    vLayout3->setStretch(1,3);
+    vLayout3->addSpacing(3);
 
     frame3->setLayout(vLayout3);
     frame3->setFixedHeight(70);
@@ -213,22 +202,10 @@ void Recommend::result(){
 
     finalLayout3->addWidget(frame3);
 
-    vLayout->removeItem(chooseLayout);
-    chooseFrame->setVisible(false);
-    vLayout->insertLayout(2,finalLayout3);
-
-    //********************
-
-    QEventLoop eventloop;
-    QTimer::singleShot(2000, &eventloop, SLOT(quit()));
-    eventloop.exec();
+    //******************** pku2
 
     numberLabel4->setStyleSheet("QLabel{font-family:Consolas;font-size:12px;color:gray;background-color:rgb(171,235,198);}");
-
-    timeLabel4->setText(timeString());
     timeLabel4->setStyleSheet("QLabel{font-family:微软雅黑;font-size:12px;background-color:rgb(171,235,198);}");
-
-    commentNumber->setText("3");
 
     hLayout4->addWidget(numberLabel4);
     hLayout4->addWidget(timeLabel4);
@@ -247,8 +224,9 @@ void Recommend::result(){
 
     vLayout4->addLayout(hLayout4);
     vLayout4->addWidget(pkuText2);
-    vLayout4->setStretch(0,3);
-    vLayout4->setStretch(1,5);
+    vLayout4->setStretch(0,2);
+    vLayout4->setStretch(1,3);
+    vLayout4->addSpacing(3);
 
     frame4->setLayout(vLayout4);
     frame4->setFixedHeight(70);
@@ -256,65 +234,17 @@ void Recommend::result(){
 
     finalLayout4->addWidget(frame4);
 
-    vLayout->insertLayout(3,finalLayout4);
-
-    //********************
-
-    QTimer::singleShot(500, &eventloop, SLOT(quit()));
-    eventloop.exec();
+    //******************** pku3
 
     numberLabel5->setStyleSheet("QLabel{font-family:Consolas;font-size:12px;color:gray;background-color:rgb(171,235,198);}");
-
-    timeLabel5->setText(timeString());
     timeLabel5->setStyleSheet("QLabel{font-family:微软雅黑;font-size:12px;background-color:rgb(171,235,198);}");
-
-    commentNumber->setText("4");
 
     hLayout5->addWidget(numberLabel5);
     hLayout5->addWidget(timeLabel5);
     hLayout5->addStretch(1);
 
     pkuText3->setStyleSheet("QLabel{font-family:微软雅黑;font-size:15px;background-color:rgb(171,235,198);}");
-
-    QVector<Meal> ans;
-    if(index<50){
-        int seed=index;
-        ans=cafe->recommend(*man,seed,&index);
-    }
-    else{
-        std::time_t now = std::time(nullptr);
-        std::tm* tm = std::localtime(&now);
-        int seed=167+tm->tm_sec;
-        QRandomGenerator prng(seed);
-        do{
-            int newseed = 123+prng.generate()%119;
-            ans=cafe->recommend(*man,newseed,&index);
-        }
-        while(ans.empty());
-        index+=100;
-    }
-
-    chosenId.clear();
-    for (int i=0;i<ans[0].elements.size();i++){
-        chosenId.append(ans[0].elements[i]->id);
-    }
-
-    cafe->load(index%100);
-    dishstr="去"+cafe->names[index%100]+"吃——"+cafe->dishes[chosenId[0]-1].name;
-    for (int i=1;i<chosenId.size();i++){
-        dishstr+="、";
-        dishstr+=cafe->dishes[chosenId[i]-1].name;
-    }
-    dishstr+="！";
-    resultstr="预计摄入热量 "+QString::number(ans[0].energy)+" 千卡，"
-                +"蛋白质 "+QString::number(ans[0].protein)+" 克，"
-                +"脂肪 "+QString::number(ans[0].fat)+" 克，"
-                +"共消费 "+QString::number(ans[0].money)+" 元~";
-
-    dishText->setText(dishstr);
     dishText->setStyleSheet("QLabel{font-family:微软雅黑;font-size:15px;font-weight:bold;background-color:rgb(171,235,198);}");
-
-    resultText->setText(resultstr);
     resultText->setStyleSheet("QLabel{font-family:微软雅黑;font-size:15px;font-weight:bold;background-color:rgb(171,235,198);}");
 
     vLayout5->addLayout(hLayout5);
@@ -333,43 +263,159 @@ void Recommend::result(){
 
     finalLayout5->addWidget(frame5);
 
-    vLayout->insertLayout(4,finalLayout5);
+    //******************** result
 
-    //********************
+    acceptButton->setStyleSheet("QPushButton{font-family:Verdana;color:#0000ff;font-size:15px;}"
+                                "QPushButton:hover{text-decoration:underline;}");
+    denyButton->setStyleSheet("QPushButton{font-family:微软雅黑;color:#595959;font-size:15px;padding-left:5px;padding-right:1px;}"
+                              "QPushButton:hover{text-decoration:underline;}");
+    restartButton->setStyleSheet("QPushButton{font-family:微软雅黑;color:#595959;font-size:15px;padding-left:5px;padding-right:1px;}"
+                                 "QPushButton:hover{text-decoration:underline;}");
 
-    QTimer::singleShot(1000, &eventloop, SLOT(quit()));
-    eventloop.exec();
-
-    acceptButton->setStyleSheet("QPushButton{font-family:Verdana;color:#0000ff;font-size:15px;}");
-    denyButton->setStyleSheet("QPushButton{font-family:微软雅黑;font-size:15px;}");
+    acceptButton->setFixedHeight(30);
+    denyButton->setFixedHeight(30);
+    restartButton->setFixedHeight(30);
 
     hhhLayout->addStretch(1);
     hhhLayout->addWidget(acceptButton);
     hhhLayout->addSpacing(7);
     hhhLayout->addWidget(denyButton);
+    hhhLayout->addSpacing(7);
+    hhhLayout->addWidget(restartButton);
     hhhLayout->addStretch(1);
     hhhLayout->setContentsMargins(10,10,10,10);
 
     resultFrame->setLayout(hhhLayout);
-    resultFrame->setFixedSize(QSize(340,55));
+    resultFrame->setFixedWidth(390);
     resultFrame->setStyleSheet("QFrame{border-radius:10px;background-color:rgb(249,231,159);}");
 
     resultLayout->addWidget(resultFrame);
 
-    vLayout->insertLayout(5,resultLayout);
-
+    //acceptButton在mainwindow里连接jumpmenu
     connect(denyButton,&QPushButton::clicked,this,&Recommend::deny);
+    connect(restartButton,&QPushButton::clicked,this,&Recommend::restart);
+
+
+    //******************** final
+
+    vLayout->addStretch(1);
+    vLayout->setContentsMargins(15,15,15,15);
+    vLayout->setSpacing(15);
+
+    vLayout->insertLayout(0,finalLayout1);
+    frame1->setVisible(false);
+    //startLayout
+    vLayout->insertLayout(1,finalLayout2);
+    frame2->setVisible(false);
+    //chooseLayout
+    vLayout->insertLayout(2,finalLayout3);
+    frame3->setVisible(false);
+    vLayout->insertLayout(3,finalLayout4);
+    frame4->setVisible(false);
+    vLayout->insertLayout(4,finalLayout5);
+    frame5->setVisible(false);
+    vLayout->insertLayout(5,resultLayout);
+    resultFrame->setVisible(false);
+
+    //******************** dz1
+
+    refreshTime(timeLabel1,true);
+    starNumber->setText("1");
+    commentNumber->setVisible(false);
+    commentImage->setVisible(false);
+    frame1->setVisible(true);
+
+    vLayout->insertLayout(1,startLayout);
+
 }
 
-void Recommend::deny(){
+void Recommend::start(){
 
-    resultFrame->setVisible(false);
-    frame5->setVisible(false);
+    startButton->setVisible(false);
+    if(index==-1)
+        vLayout->removeItem(startLayout);
+
+    //******************** pku1
+
+    wait(3000);
+
+    refreshTime(timeLabel1);
+    refreshTime(timeLabel2,true);
+    starNumber->setText("2");
+    commentNumber->setText("1");
+    commentNumber->setVisible(true);
+    commentImage->setVisible(true);
+    frame2->setVisible(true);
+
+    //******************** cafechoose
+
+    wait(1000);
+
+    if(index==-1)
+        vLayout->insertLayout(2,chooseLayout);
+    chooseFrame->setVisible(true);
+
+}
+
+void Recommend::choose1(){
+    index=cafeChoose->currentIndex();
+    chooseresult();
+}
+
+void Recommend::choose2(){
+    index=100;
+    chooseresult();
+}
+
+void Recommend::chooseresult(){
+
+    chooseFrame->setVisible(false);
+    if(index==-1)
+        vLayout->removeItem(chooseLayout);
+
+    //******************** dz2
+
+    refreshTime(timeLabel1);
+    refreshTime(timeLabel2);
+    refreshTime(timeLabel3,true);
+    commentNumber->setText("2");
+
+    if (index<50){
+        Cafeteria* cafe=new Cafeteria;
+        dzText2->setText("[洞主] 那就"+cafe->names[index]+"吧~");
+    }
+    else
+        dzText2->setText("[洞主] 暂时没有想好明确的食堂！");
+
+    frame3->setVisible(true);
+
+    //******************** pku2
+
+    wait(2000);
+
+    refreshTime(timeLabel1);
+    refreshTime(timeLabel2);
+    refreshTime(timeLabel3);
+    refreshTime(timeLabel4,true);
     commentNumber->setText("3");
 
-    QEventLoop eventloop;
-    QTimer::singleShot(2000, &eventloop, SLOT(quit()));
-    eventloop.exec();
+    frame4->setVisible(true);
+
+    recommendresult();
+}
+
+void Recommend::recommendresult(){
+
+    //******************** pku3
+
+    wait(500);
+
+    refreshTime(timeLabel1);
+    refreshTime(timeLabel2);
+    refreshTime(timeLabel3);
+    refreshTime(timeLabel4);
+    refreshTime(timeLabel5,true);
+    commentNumber->setText("4");
 
     Cafeteria* cafe=new Cafeteria;
     Man* man=new Man;
@@ -399,34 +445,61 @@ void Recommend::deny(){
     }
 
     cafe->load(index%100);
+
     dishstr="去"+cafe->names[index%100]+"吃——"+cafe->dishes[chosenId[0]-1].name;
     for (int i=1;i<chosenId.size();i++){
         dishstr+="、";
         dishstr+=cafe->dishes[chosenId[i]-1].name;
     }
     dishstr+="！";
+    dishText->setText(dishstr);
+
     resultstr="预计摄入热量 "+QString::number(ans[0].energy)+" 千卡，"
                 +"蛋白质 "+QString::number(ans[0].protein)+" 克，"
                 +"脂肪 "+QString::number(ans[0].fat)+" 克，"
                 +"共消费 "+QString::number(ans[0].money)+" 元~";
-
-    dishText->setText(dishstr);
     resultText->setText(resultstr);
 
     frame5->setVisible(true);
-    commentNumber->setText("4");
 
-    QTimer::singleShot(1000, &eventloop, SLOT(quit()));
-    eventloop.exec();
+    //******************** result
+
+    wait(1000);
+
     resultFrame->setVisible(true);
 
-}
-
-
-
-
-
-
-void Recommend::refresh(){
+    QVector<QString> newach=man->check_achievement();
+    man->save();
+    if(!newach.empty())
+        emit hasnewach(newach);
 
 }
+
+void Recommend::deny(){
+    Man* man=new Man;
+    man->load();
+    man->foodRec.reject_number++;
+    man->save();
+
+    frame5->setVisible(false);
+    resultFrame->setVisible(false);
+
+    commentNumber->setText("3");
+
+    recommendresult();
+}
+
+void Recommend::restart(){
+    refreshTime(timeLabel1,true);
+    frame2->setVisible(false);
+    frame3->setVisible(false);
+    frame4->setVisible(false);
+    frame5->setVisible(false);
+    resultFrame->setVisible(false);
+
+    starNumber->setText("1");
+    commentNumber->setVisible(false);
+    commentImage->setVisible(false);
+    startButton->setVisible(true);
+}
+

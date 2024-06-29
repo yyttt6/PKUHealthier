@@ -57,14 +57,14 @@ Signup::Signup(QWidget *parent)
     buttonLayout->addWidget(cancelButton);
 
     weightEdit->setDecimals(2);
-    weightEdit->setRange(0.0, 300.0);
+    weightEdit->setRange(1.0, 300.0);
     weightEdit->setMinimumSize(QSize(100, 30));
     weightEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     heightEdit->setDecimals(2);
-    heightEdit->setRange(0.0, 300.0);
+    heightEdit->setRange(1.0, 300.0);
     heightEdit->setMinimumSize(QSize(100, 30));
     heightEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    ageEdit->setRange(0, 200);
+    ageEdit->setRange(1, 200);
     ageEdit->setMinimumSize(QSize(100, 30));
     ageEdit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     genderEdit->addItem(tr("女"));

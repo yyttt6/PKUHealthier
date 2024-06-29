@@ -20,7 +20,7 @@ public:
     int pepper;     //0-1是否狠辣（微辣0）
     int all_veg;    //是不是全素
     double money;   //价格
-    int scores;     //0永不推送，100满分
+    int scores;     //0永不推送，10满分
     QString save() const;
     void update(int user_score);//用户评分1-5颗星，更新scores
 };

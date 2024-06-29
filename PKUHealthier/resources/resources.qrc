@@ -41,11 +41,9 @@
         <file>mainwindow/recommend_icon.png</file>
         <file>mainwindow/record_icon.png</file>
         <file>mainwindow/sport_icon.png</file>
-        <file>menu/jia1.png</file>
         <file>menu/kongxin.png</file>
         <file>menu/pepper.png</file>
         <file>menu/shixin.png</file>
-        <file>menu/tong.png</file>
         <file>recommend/background.jpg</file>
         <file>recommend/comment.jpg</file>
         <file>recommend/star.jpg</file>
@@ -60,5 +58,15 @@
         <file>sports/swimming.gif</file>
         <file>sports/tennis.png</file>
         <file>sports/volleyball.png</file>
+        <file>recommend/start.png</file>
+        <file>recommend/deny.png</file>
+        <file>recommend/restart.png</file>
+        <file>records/body.png</file>
+        <file>records/head.png</file>
+        <file>records/tail.png</file>
+        <file>achievement/wall.jpg</file>
+        <file>achievement/nohint.png</file>
+        <file>achievement/hint.png</file>
+        <file>achievement/board.png</file>
     </qresource>
 </RCC>

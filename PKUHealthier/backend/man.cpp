@@ -202,6 +202,7 @@ void Man::SportRecord::reset()
     week_running_time = 0;
     week_riding_time = 0;
     week_climbing_time = 0;
+    week_swimming_time = 0;
     week_bad_vec.clear();
     week_pin_vec.clear();
     week_ten_vec.clear();
@@ -313,8 +314,8 @@ Man::AchievementRecord Man::AchievementRecord::load(QTextStream& input) {
     if(str[0]=='N'||str[0]=='%') return record;
     for(auto tempstr : parts)
     {
-        if(tempstr[0]=='N'||tempstr=="") break;
-        record.qu.enqueue(str);
+        if(tempstr==""||tempstr[0]=='N') break;
+        record.qu.enqueue(tempstr);
     }
     return record;
 }
@@ -367,174 +368,227 @@ bool Man::load()
     return 1;
 }
 
-void Man::AchievementRecord::check_achievement(SportRecord sr,FoodRecord fr)
+QVector<QString> Man::AchievementRecord::check_achievement(SportRecord sr,FoodRecord fr)
 {
-    int flag=2;
+    int originalsize=qu.size();
+    int flag=3;
+
     if(sr.badminton_time>=600 && achievement_map["羽毛球"]<=1)
     {
-        achievement_map["羽毛球"]=2;
-        qu.enqueue("羽毛球");
+        achievement_map["羽毛球"]=3;
+        qu.enqueue("羽神");
     }else if(sr.badminton_time>=180 && achievement_map["羽毛球"]<=0)
     {
         achievement_map["羽毛球"]=1;
-        qu.enqueue("羽毛球");
+        qu.enqueue("羽坛小将");
     }
     flag = fmin(flag,achievement_map["羽毛球"]);
     if(sr.pingpong_time>=600 && achievement_map["乒乓球"]<=1)
     {
-        achievement_map["乒乓球"]=2;
-        qu.enqueue("乒乓球");
+        achievement_map["乒乓球"]=3;
+        qu.enqueue("乒神");
     }else if(sr.pingpong_time>=180 && achievement_map["乒乓球"]<=0)
     {
         achievement_map["乒乓球"]=1;
-        qu.enqueue("乒乓球");
+        qu.enqueue("乒坛小将");
     }
     flag = fmin(flag,achievement_map["乒乓球"]);
     if(sr.tennis_time>=600 && achievement_map["网球"]<=1)
     {
-        achievement_map["网球"]=2;
-        qu.enqueue("网球");
+        achievement_map["网球"]=3;
+        qu.enqueue("网球大师");
     }else if(sr.tennis_time>=180 && achievement_map["网球"]<=0)
     {
         achievement_map["网球"]=1;
-        qu.enqueue("网球");
+        qu.enqueue("网球小将");
     }
     flag = fmin(flag,achievement_map["网球"]);
     if(sr.basketball_time>=600 && achievement_map["篮球"]<=1)
     {
-        achievement_map["篮球"]=2;
-        qu.enqueue("篮球");
+        achievement_map["篮球"]=3;
+        qu.enqueue("想你了，牢大！");
     }else if(sr.basketball_time>=180 && achievement_map["篮球"]<=0)
     {
         achievement_map["篮球"]=1;
-        qu.enqueue("篮球");
+        qu.enqueue("篮球新秀");
     }
     flag = fmin(flag,achievement_map["篮球"]);
     if(sr.volleyball_time>=600 && achievement_map["排球"]<=1)
     {
-        achievement_map["排球"]=2;
-        qu.enqueue("排球");
+        achievement_map["排球"]=3;
+        qu.enqueue("排球大师");
     }else if(sr.volleyball_time>=180 && achievement_map["排球"]<=0)
     {
         achievement_map["排球"]=1;
-        qu.enqueue("排球");
+        qu.enqueue("排球新秀");
     }
     flag = fmin(flag,achievement_map["排球"]);
     if(sr.football_time>=600 && achievement_map["足球"]<=1)
     {
-        achievement_map["足球"]=2;
-        qu.enqueue("足球");
+        achievement_map["足球"]=3;
+        qu.enqueue("足球大师");
     }else if(sr.football_time>=180 && achievement_map["足球"]<=0)
     {
         achievement_map["足球"]=1;
-        qu.enqueue("足球");
+        qu.enqueue("足球新秀");
     }
     flag = fmin(flag,achievement_map["足球"]);
     if(sr.running_time>=600 && achievement_map["跑步"]<=1)
     {
-        achievement_map["跑步"]=2;
-        qu.enqueue("跑步");
+        achievement_map["跑步"]=3;
+        qu.enqueue("人生是一场马拉松~");
     }else if(sr.running_time>=180 && achievement_map["跑步"]<=0)
     {
         achievement_map["跑步"]=1;
-        qu.enqueue("跑步");
+        qu.enqueue("初级跑者");
     }
     flag = fmin(flag,achievement_map["跑步"]);
     if(sr.riding_time>=600 && achievement_map["骑行"]<=1)
     {
-        achievement_map["骑行"]=2;
-        qu.enqueue("骑行");
+        achievement_map["骑行"]=3;
+        qu.enqueue("人车合一！");
     }else if(sr.riding_time>=180 && achievement_map["骑行"]<=0)
     {
         achievement_map["骑行"]=1;
-        qu.enqueue("骑行");
+        qu.enqueue("初级骑手");
     }
     flag = fmin(flag,achievement_map["骑行"]);
     if(sr.climbing_time>=600 && achievement_map["登山"]<=1)
     {
-        achievement_map["登山"]=2;
-        qu.enqueue("登山");
+        achievement_map["登山"]=3;
+        qu.enqueue("山顶洞人");
     }else if(sr.climbing_time>=180 && achievement_map["登山"]<=0)
     {
         achievement_map["登山"]=1;
-        qu.enqueue("登山");
+        qu.enqueue("驴友");
     }
     flag = fmin(flag,achievement_map["登山"]);
     if(sr.swimming_time>=600 && achievement_map["游泳"]<=1)
     {
-        achievement_map["游泳"]=2;
-        qu.enqueue("游泳");
+        achievement_map["游泳"]=3;
+        qu.enqueue("弄潮儿");
     }else if(sr.swimming_time>=180 && achievement_map["游泳"]<=0)
     {
         achievement_map["游泳"]=1;
-        qu.enqueue("游泳");
+        qu.enqueue("狗刨式");
     }
     flag = fmin(flag,achievement_map["游泳"]);
-    if(flag==2 && achievement_map["六边形"]<=1){
-        achievement_map["六边形"]=2;
-        qu.enqueue("六边形");
+    if(flag==3 && achievement_map["六边形"]<=2){
+        achievement_map["六边形"]=3;
+        qu.enqueue("古希腊无所不能的神");
     }else if(flag==1 && achievement_map["六边形"]<=0)
     {
-        achievement_map["六边形"]=1;
-        qu.enqueue("六边形");
+        achievement_map["六边形"]=2;
+        qu.enqueue("六边形战士");
     }
-    if(fr.number>1000 && achievement_map["干饭"]<=2)
+    if(fr.number>=1000 && achievement_map["干饭"]<=2)
     {
         achievement_map["干饭"]=3;
-        qu.enqueue("干饭");
-    }else if(fr.number>100 && achievement_map["干饭"]<=1)
+        qu.enqueue("古希腊掌管干饭的神");
+    }else if(fr.number>=100 && achievement_map["干饭"]<=1)
     {
         achievement_map["干饭"]=2;
-        qu.enqueue("干饭");
-    }else if(fr.number>10 && achievement_map["干饭"]<=0)
+        qu.enqueue("干饭大师");
+    }else if(fr.number>=10 && achievement_map["干饭"]<=0)
     {
         achievement_map["干饭"]=1;
-        qu.enqueue("干饭");
+        qu.enqueue("干饭小将");
     }
-    if(fr.veg_number>100 && achievement_map["素食"]<=2)
+    if(fr.veg_number>=100 && achievement_map["素食"]<=2)
     {
         achievement_map["素食"]=3;
-        qu.enqueue("素食");
-    }else if(fr.veg_number>50 && achievement_map["素食"]<=1)
+        qu.enqueue("牛马");
+    }else if(fr.veg_number>=50 && achievement_map["素食"]<=1)
     {
         achievement_map["素食"]=2;
-        qu.enqueue("素食");
-    }else if(fr.veg_number>20 && achievement_map["素食"]<=0)
+        qu.enqueue("极端素食主义者");
+    }else if(fr.veg_number>=20 && achievement_map["素食"]<=0)
     {
         achievement_map["素食"]=1;
-        qu.enqueue("素食");
+        qu.enqueue("素食主义者");
     }
-    if(fr.hot_number>50 && achievement_map["吃辣"]<=1)
+    if(fr.hot_number>=50 && achievement_map["吃辣"]<=1)
     {
-        achievement_map["吃辣"]=2;
-        qu.enqueue("吃辣");
-    }else if(fr.hot_number>20 && achievement_map["吃辣"]<=0)
+        achievement_map["吃辣"]=3;
+        qu.enqueue("吃辣大师");
+    }else if(fr.hot_number>=20 && achievement_map["吃辣"]<=0)
     {
         achievement_map["吃辣"]=1;
-        qu.enqueue("吃辣");
+        qu.enqueue("吃辣小将");
     }
-    if(fr.reject_number>50 && achievement_map["挑选"]<=1)
+    if(fr.reject_number>=20 && achievement_map["挑选"]<=0)
     {
-        achievement_map["挑选"]=2;
-        qu.enqueue("挑选");
-    }else if(fr.reject_number>20 && achievement_map["挑选"]<=0)
-    {
-        achievement_map["挑选"]=1;
-        qu.enqueue("挑选");
+        achievement_map["挑选"]=3;
+        qu.enqueue("精挑细选");
     }
-    if(fr.comment_number>50 && achievement_map["评论"]<=1)
+    if(fr.comment_number>=20 && achievement_map["评论"]<=0)
     {
-        achievement_map["评论"]=2;
-        qu.enqueue("评论");
-    }else if(fr.comment_number>20 && achievement_map["评论"]<=0)
-    {
-        achievement_map["评论"]=1;
-        qu.enqueue("评论");
+        achievement_map["评论"]=3;
+        qu.enqueue("美食评论家");
     }
-    while(qu.size()>5) qu.dequeue();
-    return;
+
+    QVector<QString> newach;  //qu是最近达成的五个成就，newach是这次发现新完成的成就
+    if (qu.size()>originalsize){
+        for (int i=originalsize;i<qu.size();i++)
+            newach.append(qu[i]);
+    }
+    while(qu.size()>5)
+        qu.dequeue();
+    return newach;
 }
 
-void Man::check_achievement(){
+QVector<QString> Man::check_achievement(){
     return achRec.check_achievement(sptRec,foodRec);
+}
+
+time_t trans(QString str){
+    int index_m=str.indexOf("月");
+    int index_d=str.indexOf("日");
+    QString year_str=str.mid(0,4);
+    int year=year_str.toInt();
+    QString mon_str=str.mid(5,index_m-5);
+    int mon=mon_str.toInt();
+    QString day_str=str.mid(index_m+1,index_d-index_m-1);
+    int day=day_str.toInt();
+    tm t1={0,0,0,day,mon-1,year-1900,0,0,0};
+    return mktime(&t1);
+}
+
+void Man::reset(){
+    bool shouldReset=false;
+    time_t now = time(nullptr);
+    tm* nowtm = localtime(&now);
+    tm t2={0,0,0,nowtm->tm_mday,nowtm->tm_mon,nowtm->tm_year,0,0,0};
+    time_t _t2=mktime(&t2);
+    _t2-=((nowtm->tm_wday+6)%7)*86400;
+
+    if(!shouldReset && !foodRec.week_record.empty() && trans(foodRec.week_record[0].first)<_t2)
+        shouldReset=true;
+    if(!shouldReset && !sptRec.week_bad_vec.empty() && trans(sptRec.week_bad_vec[0].first)<_t2)
+        shouldReset=true;
+    if(!shouldReset && !sptRec.week_pin_vec.empty() && trans(sptRec.week_pin_vec[0].first)<_t2)
+        shouldReset=true;
+    if(!shouldReset && !sptRec.week_ten_vec.empty() && trans(sptRec.week_ten_vec[0].first)<_t2)
+        shouldReset=true;
+    if(!shouldReset && !sptRec.week_bas_vec.empty() && trans(sptRec.week_bas_vec[0].first)<_t2)
+        shouldReset=true;
+    if(!shouldReset && !sptRec.week_vol_vec.empty() && trans(sptRec.week_vol_vec[0].first)<_t2)
+        shouldReset=true;
+    if(!shouldReset && !sptRec.week_foo_vec.empty() && trans(sptRec.week_foo_vec[0].first)<_t2)
+        shouldReset=true;
+    if(!shouldReset && !sptRec.week_run_vec.empty() && trans(sptRec.week_run_vec[0].first)<_t2)
+        shouldReset=true;
+    if(!shouldReset && !sptRec.week_rid_vec.empty() && trans(sptRec.week_rid_vec[0].first)<_t2)
+        shouldReset=true;
+    if(!shouldReset && !sptRec.week_cli_vec.empty() && trans(sptRec.week_cli_vec[0].first)<_t2)
+        shouldReset=true;
+    if(!shouldReset && !sptRec.week_swi_vec.empty() && trans(sptRec.week_swi_vec[0].first)<_t2)
+        shouldReset=true;
+
+    if(shouldReset){
+        foodRec.reset();
+        sptRec.reset();
+        save();
+    }
+
 }
