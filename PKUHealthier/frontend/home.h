@@ -14,6 +14,7 @@
 #include <QBarCategoryAxis>
 #include <QValueAxis>
 #include <QPen>
+#include <QFrame>
 
 #include "backend/man.h"
 
@@ -23,11 +24,17 @@ class Home : public QWidget
 public:
     explicit Home(QWidget *parent = nullptr);
     QGridLayout* mainLayout = new QGridLayout(this);
-    QVBoxLayout* chartsLayout=new QVBoxLayout();
     QHBoxLayout* helloLayout = new QHBoxLayout();
     QPixmap* photo = new QPixmap("../../data/photo.png");
     QLabel* helloLabel = new QLabel();
     QLabel* photoLabel = new QLabel();
+    QFrame* foodFrame = new QFrame(this);
+    QFrame* sportFrame = new QFrame(this);
+    QVBoxLayout *foodPrefer = new QVBoxLayout();
+    QVBoxLayout *sportPrefer = new QVBoxLayout();
+    QLabel *fdPrfText = new QLabel();
+    QLabel *sptPrfText = new QLabel();
+    QStringList sportAxisText;
     void refresh();
 
     QCHART_H
@@ -38,6 +45,7 @@ public:
     QChartView* sportView = new QChartView(sportChart, this);
     QChartView* foodView = new QChartView(foodChart, this);
     QBarSeries* sportSerie = new QBarSeries();
+    QBarSeries* costSerie = new QBarSeries();
     QLineSeries* engLine = new QLineSeries();
     QLineSeries* protLine = new QLineSeries();
     QLineSeries* fatLine = new QLineSeries();
@@ -46,13 +54,15 @@ public:
     QValueAxis* sportAxisY = new QValueAxis();
     QValueAxis* engAxisY = new QValueAxis();
     QValueAxis* otherAxisY = new QValueAxis();
+    QValueAxis* costAxisY = new QValueAxis();
     QBarSet* sportTime = new QBarSet("运动时间");
-    QBarSet* foodSet = new QBarSet("数量");
+    QBarSet* energyCost = new QBarSet("能量消耗");
 
     void sportTimeSet();
     void foodLineSet();
     void sportTimeRefresh();
     void foodKindRefresh();
+    void setBestDish();
 
 signals:
 };
