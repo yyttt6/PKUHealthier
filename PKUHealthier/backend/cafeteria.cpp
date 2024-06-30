@@ -249,7 +249,7 @@ bool Cafeteria::load(int id)
     dishes.clear();
     QFile file("../../data/"+filenames[id]);
     if(!file.open(QIODevice::ReadOnly|QIODevice::Text)){
-        qDebug()<<"食堂文件打开失败";
+       // qDebug()<<"食堂文件打开失败";
         return 0;
     }
     QTextStream input(&file);
@@ -276,7 +276,7 @@ bool Cafeteria::save(int id)
 {
     QFile file("../../data/"+filenames[id]);
     if(!file.open(QIODevice::WriteOnly|QIODevice::Text)){
-        qDebug()<<"文件打开失败";
+      //  qDebug()<<"文件打开失败";
         return 0;
     }
     int l = dishes.size();
