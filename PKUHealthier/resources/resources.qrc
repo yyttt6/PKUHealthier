@@ -68,7 +68,6 @@
         <file>achievement/nohint.png</file>
         <file>achievement/hint.png</file>
         <file>achievement/board.png</file>
-        <file>home/prefer.png</file>
-        <file>home/sport_prefer.jpg</file>
+        <file>home/label.png</file>
     </qresource>
 </RCC>

@@ -23,19 +23,38 @@ class Home : public QWidget
     Q_OBJECT
 public:
     explicit Home(QWidget *parent = nullptr);
-    QGridLayout* mainLayout = new QGridLayout(this);
-    QHBoxLayout* helloLayout = new QHBoxLayout();
+
     QPixmap* photo = new QPixmap("../../data/photo.png");
-    QLabel* helloLabel = new QLabel();
-    QLabel* photoLabel = new QLabel();
-    QFrame* foodFrame = new QFrame(this);
-    QFrame* sportFrame = new QFrame(this);
-    QVBoxLayout *foodPrefer = new QVBoxLayout();
-    QVBoxLayout *sportPrefer = new QVBoxLayout();
-    QLabel *fdPrfText = new QLabel();
-    QLabel *sptPrfText = new QLabel();
+    QLabel* helloLabel = new QLabel;
+    QLabel* photoLabel = new QLabel;
+    QHBoxLayout* helloLayout = new QHBoxLayout;
+
+    QLabel *fdPrfText1 = new QLabel;
+    QLabel *fdPrfText2 = new QLabel;
+    QLabel *cafePrfText1 = new QLabel;
+    QLabel *cafePrfText2 = new QLabel;
+    QVBoxLayout *foodPrefer = new QVBoxLayout;
+    QFrame* foodFrame = new QFrame;
+    QVBoxLayout* foodLayout = new QVBoxLayout;
+
+    QLabel *sptPrfText1 = new QLabel;
+    QLabel *sptPrfText2 = new QLabel;
+    QLabel *sptPrfText3 = new QLabel;
+    QLabel *sptPrfText4 = new QLabel;
+    QVBoxLayout *sportPrefer = new QVBoxLayout;
+    QFrame* sportFrame = new QFrame;
+    QVBoxLayout* sportLayout = new QVBoxLayout;
+
+    QLabel *achText = new QLabel;
+    QVBoxLayout *achLayout = new QVBoxLayout;
+    QFrame* achFrame = new QFrame;
+    QVBoxLayout* achLayout2 = new QVBoxLayout;
+
     QStringList sportAxisText;
-    void refresh();
+
+    QHBoxLayout* hLayout1=new QHBoxLayout;
+    QHBoxLayout* hLayout2=new QHBoxLayout;
+    QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
     QCHART_H
 public:
@@ -60,11 +79,8 @@ public:
 
     void sportTimeSet();
     void foodLineSet();
-    void sportTimeRefresh();
-    void foodKindRefresh();
     void setBestDish();
 
-signals:
 };
 
 #endif // HOME_H

@@ -12,7 +12,6 @@ SOURCES += \
     backend/dish.cpp \
     backend/man.cpp \
     backend/meal.cpp \
-    frontend/achievement.cpp \
     frontend/achievementwall.cpp \
     frontend/login.cpp \
     frontend/mainwindow.cpp \
@@ -30,7 +29,6 @@ HEADERS += \
     backend/dish.h \
     backend/man.h \
     backend/meal.h \
-    frontend/achievement.h \
     frontend/achievementwall.h \
     frontend/login.h \
     frontend/mainwindow.h \
@@ -50,9 +48,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resources/achievement.qrc \
-    resources/mainwindow.qrc \
-    resources/menu.qrc \
-    resources/recommend.qrc \
-    resources/signup.qrc \
-    resources/sports.qrc
+    resources/resources.qrc
+
+RC_ICONS = icon.ico

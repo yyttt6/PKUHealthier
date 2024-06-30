@@ -39,9 +39,10 @@ Home::Home(QWidget *parent)
     std::time_t now = std::time(nullptr);
     std::tm* now_tm = std::localtime(&now);
     QString helloText = timeString(now_tm);
-    helloLabel->setText(helloText + " " + User->name);
+    helloLabel->setText(helloText + User->name);
+    helloLabel->setStyleSheet("font-size:14px;");
 
-    sportChart->setTitle("本周运动时长前三");
+    sportChart->setTitle("本周时长前三的运动");
     sportChart->setAnimationOptions(QChart::SeriesAnimations);
     sportView->setRenderHint(QPainter::Antialiasing);
 
@@ -84,17 +85,15 @@ Home::Home(QWidget *parent)
     foodAxisX->setTickCount(5);
     foodAxisX->setLabelFormat("%d");
 
-    sportAxisY->setRange(0, 600);
     sportAxisY->setTitleText("时间/分钟");
     sportAxisY->setTickCount(7);
-    sportAxisY->setLabelFormat("%.2f");
-    costAxisY->setRange(0, 1200);
-    costAxisY->setTitleText("能量/大卡");
+    sportAxisY->setLabelFormat("%d");
+    costAxisY->setTitleText("能量/千卡");
     costAxisY->setTickCount(7);
     engAxisY->setRange(0, 1200);
-    engAxisY->setTitleText("能量/大卡");
+    engAxisY->setTitleText("热量/千卡");
     engAxisY->setTickCount(7);
-    otherAxisY->setRange(0, 120);
+    otherAxisY->setRange(0, 90);
     otherAxisY->setTitleText("质量/克");
     otherAxisY->setTickCount(7);
 
@@ -116,46 +115,109 @@ Home::Home(QWidget *parent)
 
     helloLayout->addSpacing(10);
     helloLayout->addWidget(photoLabel);
+    helloLayout->addSpacing(2);
     helloLayout->addWidget(helloLabel);
 
-    fdPrfText->setStyleSheet("font-family:华文新魏;font-size:24px;color:#FFFFFF");
-    sptPrfText->setStyleSheet("font-family:华文中宋;font-size:24px;");
-
     setBestDish();
-    fdPrfText->setAlignment(Qt::AlignCenter);
-    foodPrefer->addWidget(fdPrfText);
+    fdPrfText1->setAlignment(Qt::AlignHCenter);
+    fdPrfText1->setStyleSheet("font-size:20px;background:transparent;");
+    fdPrfText2->setAlignment(Qt::AlignHCenter);
+    fdPrfText2->setStyleSheet("font-size:20px;font-weight:bold;background:transparent;");
+    cafePrfText1->setAlignment(Qt::AlignHCenter);
+    cafePrfText1->setStyleSheet("font-size:20px;background:transparent;");
+    cafePrfText2->setAlignment(Qt::AlignHCenter);
+    cafePrfText2->setStyleSheet("font-size:20px;font-weight:bold;background:transparent;");
+
+    foodPrefer->addStretch(5);
+    foodPrefer->addWidget(fdPrfText1);
+    foodPrefer->addStretch(1);
+    foodPrefer->addWidget(fdPrfText2);
+    foodPrefer->addStretch(2);
+    foodPrefer->addWidget(cafePrfText1);
+    foodPrefer->addStretch(1);
+    foodPrefer->addWidget(cafePrfText2);
+    foodPrefer->addStretch(5);
+
     foodFrame->setLayout(foodPrefer);
+    foodFrame->setObjectName("ff");
+    foodFrame->setStyleSheet("QFrame#ff{border:2px solid rgb(52,152,219);border-radius:10px;background-color:#D6EAF8;}");
 
-    sptPrfText->setAlignment(Qt::AlignCenter);
-    sportPrefer->addWidget(sptPrfText);
+    foodLayout->addWidget(foodFrame);
+    foodLayout->setContentsMargins(10,10,10,10);
+
+    sptPrfText1->setAlignment(Qt::AlignHCenter);
+    sptPrfText1->setStyleSheet("font-size:20px;background:transparent;");
+    sptPrfText2->setAlignment(Qt::AlignHCenter);
+    sptPrfText2->setStyleSheet("font-size:20px;font-weight:bold;background:transparent;");
+    sptPrfText3->setAlignment(Qt::AlignHCenter);
+    sptPrfText3->setStyleSheet("font-size:20px;background:transparent;");
+    sptPrfText4->setAlignment(Qt::AlignHCenter);
+    sptPrfText4->setStyleSheet("font-size:20px;font-weight:bold;background:transparent;");
+
+    sportPrefer->addStretch(5);
+    sportPrefer->addWidget(sptPrfText1);
+    sportPrefer->addStretch(1);
+    sportPrefer->addWidget(sptPrfText2);
+    sportPrefer->addStretch(2);
+    sportPrefer->addWidget(sptPrfText3);
+    sportPrefer->addStretch(1);
+    sportPrefer->addWidget(sptPrfText4);
+    sportPrefer->addStretch(5);
+
     sportFrame->setLayout(sportPrefer);
+    sportFrame->setObjectName("ff");
+    sportFrame->setStyleSheet("QFrame#ff{border:2px solid rgb(40,180,99);border-radius:10px;background-color:#d5f5e3;}");
 
-    foodFrame->setStyleSheet("border-image:url(:/home/prefer.png) 4 4 4 4 stretch stretch;");
-    sportFrame->setStyleSheet("border-image:url(:/home/sport_prefer.jpg) 2 2 4 4 stretch stretch;");
+    sportLayout->addWidget(sportFrame);
+    sportLayout->setContentsMargins(10,10,10,10);
 
-    mainLayout->addLayout(helloLayout, 0, 0);
-    mainLayout->addWidget(foodFrame, 1, 0);
-    mainLayout->addWidget(foodView, 1, 1);
-    mainLayout->addWidget(sportView, 2, 0);
-    mainLayout->addWidget(sportFrame, 2, 1);
+    achText->setText(" 最近完成成就：");
+    achText->setAlignment(Qt::AlignHCenter);
+    achText->setStyleSheet("font-family:华文中宋;font-size:20px;background:transparent;");
+    achLayout->addWidget(achText);
+    achLayout->addSpacing(5);
+
+    for (int i=User->achRec.qu.length()-1;i>=0;i--){
+        QLabel* label=new QLabel(User->achRec.qu[i]);
+        label->setStyleSheet("font-family:华文中宋;font-size:20px;background:transparent;");
+        achLayout->addWidget(label);
+    }
+
+    achLayout->addStretch(1);
+    achLayout->setSpacing(10);
+    achLayout->setContentsMargins(20,15,0,0);
+
+    achFrame->setLayout(achLayout);
+    achFrame->setObjectName("ff");
+    achFrame->setStyleSheet("QFrame#ff{border-image:url(:/home/label.png) 4 4 4 4 stretch stretch;}");
+
+    achLayout2->addWidget(achFrame);
+    achLayout2->setContentsMargins(10,10,10,5);
+
+    foodFrame->setMaximumWidth(380);
+    hLayout1->addLayout(foodLayout);
+    hLayout1->addWidget(foodView);
+    hLayout1->setStretch(0,2);
+    hLayout1->setStretch(1,3);
+    hLayout1->setSpacing(10);
+
+    sportView->setMinimumWidth(400);
+    sportFrame->setMinimumWidth(190);
+    hLayout2->addWidget(sportView);
+    hLayout2->addLayout(sportLayout);
+    hLayout2->addLayout(achLayout2);
+    hLayout2->setStretch(0,3);
+    hLayout2->setStretch(1,2);
+    hLayout2->setStretch(2,2);
+    hLayout2->setSpacing(10);
+
+    mainLayout->addLayout(helloLayout);
+    mainLayout->addLayout(hLayout1);
+    mainLayout->addLayout(hLayout2);
+    mainLayout->setSpacing(10);
+    mainLayout->setContentsMargins(20,10,10,10);
+
     setLayout(mainLayout);
-}
-
-void Home::refresh(){
-    User->load();
-
-    photo->load("../../data/photo.png");
-    photoLabel->setPixmap(*photo);
-
-    std::time_t now = std::time(nullptr);
-    std::tm* now_tm = std::localtime(&now);
-    QString helloText = timeString(now_tm);
-    helloLabel->setText(helloText + " " + User->name);
-
-    sportTimeRefresh();
-    foodLineSet();
-
-    setBestDish();
 }
 
 bool cmp(const WeekSpt & a, const WeekSpt & b) {
@@ -164,16 +226,17 @@ bool cmp(const WeekSpt & a, const WeekSpt & b) {
 
 void Home::sportTimeSet() {
     QVector<WeekSpt> vec;
-    vec.append(WeekSpt("羽毛球", User->sptRec.week_badminton_time, costenergy[8]));
-    vec.append(WeekSpt("乒乓球", User->sptRec.week_pingpong_time, costenergy[7]));
-    vec.append(WeekSpt("网球", User->sptRec.week_tennis_time, costenergy[9]));
-    vec.append(WeekSpt("篮球", User->sptRec.week_basketball_time, costenergy[4]));
-    vec.append(WeekSpt("排球", User->sptRec.week_volleyball_time, costenergy[6]));
-    vec.append(WeekSpt("足球", User->sptRec.week_football_time, costenergy[5]));
     vec.append(WeekSpt("跑步", User->sptRec.week_running_time, costenergy[0]));
     vec.append(WeekSpt("骑行", User->sptRec.week_riding_time, costenergy[1]));
-    vec.append(WeekSpt("登山", User->sptRec.week_climbing_time, costenergy[3]));
     vec.append(WeekSpt("游泳", User->sptRec.week_swimming_time, costenergy[2]));
+    vec.append(WeekSpt("登山", User->sptRec.week_climbing_time, costenergy[3]));
+    vec.append(WeekSpt("篮球", User->sptRec.week_basketball_time, costenergy[4]));
+    vec.append(WeekSpt("足球", User->sptRec.week_football_time, costenergy[5]));
+    vec.append(WeekSpt("排球", User->sptRec.week_volleyball_time, costenergy[6]));
+    vec.append(WeekSpt("乒乓球", User->sptRec.week_pingpong_time, costenergy[7]));
+    vec.append(WeekSpt("羽毛球", User->sptRec.week_badminton_time, costenergy[8]));
+    vec.append(WeekSpt("网球", User->sptRec.week_tennis_time, costenergy[9]));
+
     std::sort(vec.begin(), vec.end(), cmp);
     sportAxisText.clear();
     for (int i = 0; i < 3; ++i) {
@@ -181,27 +244,25 @@ void Home::sportTimeSet() {
         energyCost->append(vec[i].cost * vec[i].time);
         sportAxisText << vec[i].name;
     }
-    double week_tot = 0, tot = 0;
-    for (auto &x : vec)
+    double week_tot = 0, week_energy=0,maxtime=0,maxenergy=0;
+    for (auto &x : vec){
         week_tot += x.time;
-    tot = User->sptRec.badminton_time + User->sptRec.pingpong_time + User->sptRec.tennis_time
-          + User->sptRec.basketball_time + User->sptRec.volleyball_time + User->sptRec.football_time
-          + User->sptRec.running_time + User->sptRec.riding_time + User->sptRec.climbing_time
-          + User->sptRec.swimming_time;
-    sptPrfText->setText("本周运动时长：" + QString::number(week_tot) + " 分钟\n\n总运动时长：" + QString::number(tot) + " 分钟");
+        week_energy += x.time * x.cost;
+        maxtime=std::max(maxtime,x.time);
+        maxenergy=std::max(maxenergy,x.time * x.cost);
+    }
 
-}
+    int timeup=ceil(maxtime/60.0)*60+60;
+    int energyup=ceil(maxenergy/300.0)*300+300;
 
-void Home::sportTimeRefresh() {
-    sportTime->replace(0, User->sptRec.week_badminton_time);
-    sportTime->replace(1, User->sptRec.week_pingpong_time);
-    sportTime->replace(2, User->sptRec.week_tennis_time);
-    sportTime->replace(3, User->sptRec.week_basketball_time);
-    sportTime->replace(4, User->sptRec.week_volleyball_time);
-    sportTime->replace(5, User->sptRec.week_football_time);
-    sportTime->replace(6, User->sptRec.week_running_time);
-    sportTime->replace(7, User->sptRec.week_riding_time);
-    sportTime->replace(8, User->sptRec.week_climbing_time);
+    sportAxisY->setRange(0, timeup);
+    costAxisY->setRange(0, energyup);
+
+    sptPrfText1->setText("本周运动时长：");
+    sptPrfText2->setText(QString::number(week_tot) + " 分钟");
+    sptPrfText3->setText("约消耗能量：");
+    sptPrfText4->setText(QString::number(week_energy) + " 千卡");
+
 }
 
 void Home::foodLineSet() {
@@ -230,11 +291,28 @@ void Home::setBestDish() {
         for (auto &y : x.second.elements)
             ++mp[y->name];
     int max_time = 0;
-    QString max_name;
+    QString max_name = "无";
     for (auto &x : mp)
         if (x.second > max_time) {
             max_time = x.second;
             max_name = x.first;
         }
-    fdPrfText->setText("本周最爱菜品：" + max_name + "\n\n选择次数：" + QString::number(max_time));
+
+    QString names[15] = {"家园食堂一层","家园食堂二层","家园食堂三层","学一食堂","燕南食堂",
+                 "松林食堂","勺园食堂一层","勺园食堂二层","学五食堂","农园食堂一层","农园食堂二层","佟园食堂"};
+    int cnt[15]={0};
+    for (auto &x : User->foodRec.week_record)
+        cnt[x.second.elements[0]->sugar]++;
+    int cafe_cnt = 0;
+    QString cafe_name = "无";
+    for (int i=0;i<15;i++)
+        if (cnt[i] > cafe_cnt) {
+            cafe_cnt = cnt[i];
+            cafe_name = names[i];
+        }
+
+    fdPrfText1->setText("本周最爱菜品：");
+    fdPrfText2->setText(max_name + "（" + QString::number(max_time) + " 次）");
+    cafePrfText1->setText("本周最爱食堂：");
+    cafePrfText2->setText(cafe_name + "（" + QString::number(cafe_cnt) +" 次）");
 }

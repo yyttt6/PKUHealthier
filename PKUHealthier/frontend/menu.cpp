@@ -452,35 +452,37 @@ Menu::Menu(QWidget *parent)
 
     //********************
 
-    cafeBox->addItem(tmpCafe->names[0]);
-    page[0]=new SinglePage(this,1,this);
-    stackedPage->addWidget(page[0]);
-
-    cafeBox->addItem(tmpCafe->names[1]);
-    page[1]=new SinglePage(this,1,this);
-    stackedPage->addWidget(page[1]);
-
-    cafeBox->addItem(tmpCafe->names[2]);
-    page[2]=new SinglePage(this,2,this);
-    stackedPage->addWidget(page[2]);
-
-    for (int i=3;i<=8;i++){
+    for (int i=0;i<=2;i++){
         cafeBox->addItem(tmpCafe->names[i]);
-        page[i]=new SinglePage(this,2,this);
+        page[i]=new SinglePage(this,i,this);
         stackedPage->addWidget(page[i]);
     }
 
-    cafeBox->addItem(tmpCafe->names[9]);
-    page[9]=new SinglePage(this,9,this);
-    stackedPage->addWidget(page[9]);
+    cafeBox->addItem(tmpCafe->names[3]);
+    page[3]=new SinglePage(this,2,this);
+    stackedPage->addWidget(page[3]);
 
-    cafeBox->addItem(tmpCafe->names[10]);
-    page[10]=new SinglePage(this,2,this);
-    stackedPage->addWidget(page[10]);
+    cafeBox->addItem(tmpCafe->names[4]);
+    page[4]=new SinglePage(this,2,this);
+    stackedPage->addWidget(page[4]);
 
-    cafeBox->addItem(tmpCafe->names[11]);
-    page[11]=new SinglePage(this,11,this);
-    stackedPage->addWidget(page[11]);
+    cafeBox->addItem(tmpCafe->names[5]);
+    page[5]=new SinglePage(this,5,this);
+    stackedPage->addWidget(page[5]);
+
+    cafeBox->addItem(tmpCafe->names[6]);
+    page[6]=new SinglePage(this,2,this);
+    stackedPage->addWidget(page[6]);
+
+    cafeBox->addItem(tmpCafe->names[7]);
+    page[7]=new SinglePage(this,2,this);
+    stackedPage->addWidget(page[7]);
+
+    for (int i=8;i<=11;i++){
+        cafeBox->addItem(tmpCafe->names[i]);
+        page[i]=new SinglePage(this,i,this);
+        stackedPage->addWidget(page[i]);
+    }
 
     //********************
 
