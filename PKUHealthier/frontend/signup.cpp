@@ -1,6 +1,7 @@
 #include "login.h"
 #include "signup.h"
 #include "backend/man.h"
+#include "backend/cafeteria.h"
 
 Signup::Signup(QWidget *parent)
     : QWidget{parent}
@@ -192,6 +193,15 @@ void Signup::corrected()
     }
     this->close();
     QMessageBox::information(this, tr("提示"), tr("注册成功！即将返回登录界面"));
+
+    Cafeteria* cafe = new Cafeteria;
+    for (int i=0;i<=11;i++){
+        cafe->load(i);
+        for (auto &x : cafe->dishes)
+            x.scores=1;
+        cafe->save(i);
+    }
+
     Login* login = new Login;
     login->show();
 }
